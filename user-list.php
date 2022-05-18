@@ -64,7 +64,7 @@
 		$resultU2= mysqli_query($conexion, $sql2);
 		$vernom = mysqli_fetch_row($resultU2);
 	?>
-	<!-- Main container -->
+	<!-- Contenedor principal -->
 	<main class="full-box main-container">
 		<!-- Nav lateral -->
 		<section class="full-box nav-lateral">
@@ -106,7 +106,7 @@
 									<a href="producto-new.php"><i class="fas fa-plus fa-fw"></i> &nbsp; AGREGAR PRODUCTO</a>
 								</li>
 								<li>
-									<a href="item-list.html"><i class="fas fa-clipboard-list fa-fw"></i> &nbsp; LISTA DE PRODUCTOS</a>
+									<a href="producto-list.php"><i class="fas fa-clipboard-list fa-fw"></i> &nbsp; LISTA DE PRODUCTOS</a>
 								</li>
 								<li>
 									<a href="item-search.html"><i class="fas fa-search fa-fw"></i> &nbsp; BUSCAR PRODUCTO</a>
@@ -185,7 +185,7 @@
 				</a>
 			</nav>
 
-			<!-- Page header -->
+			<!-- Cabecera de pagina -->
 			<div class="full-box page-header">
 				<h3 class="text-left">
 					<i class="fas fa-clipboard-list fa-fw"></i> &nbsp; LISTA DE USUARIOS
@@ -209,7 +209,7 @@
 				</ul>	
 			</div>
 			
-			<!-- Content -->
+			<!-- Contenido -->
 			<div class="container-fluid">
 				<div class="table-responsive">
 					<?php
@@ -233,7 +233,7 @@
 						</thead>
 		
 						<tbody>
-							<!-- consulta rellena datos de empleado -->
+							<!-- consulta rellena datos de usuario -->
 							<?php
 								while($ver=mysqli_fetch_row($resultU) and $ver2=mysqli_fetch_row($resultU2)):
 							?>

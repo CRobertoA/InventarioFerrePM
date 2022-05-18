@@ -102,7 +102,7 @@
 									<a href="producto-new.php"><i class="fas fa-plus fa-fw"></i> &nbsp; AGREGAR PRODUCTO</a>
 								</li>
 								<li>
-									<a href="item-list.html"><i class="fas fa-clipboard-list fa-fw"></i> &nbsp; LISTA DE PRODUCTOS</a>
+									<a href="producto-list.php"><i class="fas fa-clipboard-list fa-fw"></i> &nbsp; LISTA DE PRODUCTOS</a>
 								</li>
 								<li>
 									<a href="item-search.html"><i class="fas fa-search fa-fw"></i> &nbsp; BUSCAR PRODUCTO</a>
@@ -163,7 +163,7 @@
 			</div>
 		</section>
 
-		<!-- Page content -->
+		<!-- Contenido de pagina -->
 		<section class="full-box page-content">
 			<nav class="full-box navbar-info">
 				<a href="#" class="float-left show-nav-lateral">
@@ -180,7 +180,7 @@
 				</a>
 			</nav>
 
-			<!-- Page header -->
+			<!-- Cabecera de la pagina -->
 			<div class="full-box page-header">
 				<h3 class="text-left">
 					<i class="bi bi-person-plus-fill"></i> &nbsp; NUEVO USUARIO
@@ -204,7 +204,7 @@
 				</ul>	
 			</div>
 			
-			<!-- Content -->
+			<!-- Contenido -->
 			<div class="container-fluid">
 				<!-- formulario para ingresar datos de nuevo usuario -->
 				<form action="" class="form-neon" autocomplete="off" id="frmrusuario">

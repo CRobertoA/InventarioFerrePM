@@ -105,7 +105,7 @@
 									<a href="producto-new.php"><i class="fas fa-plus fa-fw"></i> &nbsp; AGREGAR PRODUCTO</a>
 								</li>
 								<li>
-									<a href="item-list.html"><i class="fas fa-clipboard-list fa-fw"></i> &nbsp; LISTA DE PRODUCTOS</a>
+									<a href="producto-list.php"><i class="fas fa-clipboard-list fa-fw"></i> &nbsp; LISTA DE PRODUCTOS</a>
 								</li>
 							</ul>
 						</li>
@@ -201,7 +201,7 @@
 					</div>
 				</a>-->
 
-				<a href="item-list.html" class="tile">
+				<a href="producto-list.php" class="tile">
 					<div class="tile-tittle">PRODUCTOS</div>
 					<div class="tile-icon">
 						<i class="fas fa-pallet fa-fw"></i>

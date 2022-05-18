@@ -11,7 +11,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <title>Nuevo producto</title>
+    <title>Lista de productos</title>
 
     <!-- Normalize V8.0.1 -->
     <link rel="stylesheet" href="./css/normalize.css">
@@ -42,6 +42,10 @@
 	<link rel="stylesheet" href="alertify/css/alertify.min.css" />
 	<link rel="stylesheet" href="alertify/css/themes/default.min.css" />
 
+	<!-- DataTable -->
+	<link rel="stylesheet" type="text/css" href="dataTables/datatables.min.css" />
+	<link rel="stylesheet" type="text/css" href="dataTables/DataTables-1.11.5/css/dataTables.bootstrap4.min.css" />
+
 
 </head>
 
@@ -61,7 +65,7 @@
 		$resultU2= mysqli_query($conexion, $sql2);
 		$vernom = mysqli_fetch_row($resultU2);
 	?>
-    <!-- Main container -->
+    <!-- Contenedor principal -->
     <main class="full-box main-container">
         <!-- Nav lateral -->
         <section class="full-box nav-lateral">
@@ -144,12 +148,10 @@
 						<?php
 							endif;
 						?>
-					</ul>
+                    </ul>
                 </nav>
             </div>
         </section>
-
-        <!-- Contenido de pagina -->
         <section class="full-box page-content">
             <nav class="full-box navbar-info">
                 <a href="#" class="float-left show-nav-lateral">
@@ -165,103 +167,85 @@
                     <i class="fas fa-power-off"></i>
                 </a>
             </nav>
-            <!-- Cabecera de la pagina -->
+            <!-- Cabecera de pagina -->
             <div class="full-box page-header">
                 <h3 class="text-left">
-                    <i class="fas fa-plus fa-fw"></i> &nbsp; AGREGAR PRODUCTO
+                    <i class="fas fa-clipboard-list fa-fw"></i> &nbsp; LISTA DE PRODUCTOS
                 </h3>
                 <p class="text-justify">
-                Capturar los datos del nuevo producto
+                    Productos registrados en el sistema
                 </p>
             </div>
             <div class="container-fluid">
                 <ul class="full-box list-unstyled page-nav-tabs">
                     <li>
-                        <a class="active" href="producto-new.php"><i class="fas fa-plus fa-fw"></i> &nbsp; AGREGAR PRODUCTO</a>
+                        <a href="producto-new.php"><i class="fas fa-plus fa-fw"></i> &nbsp; AGREGAR PRODUCTO</a>
                     </li>
                     <li>
-                        <a href="producto-list.php"><i class="fas fa-clipboard-list fa-fw"></i> &nbsp; LISTA DE PRODUCTOS</a>
+                        <a class="active" href="item-list.html"><i class="fas fa-clipboard-list fa-fw"></i> &nbsp; LISTA DE PRODUCTOS</a>
                     </li>
-                    <!--<li>
-                        <a href="item-search.html"><i class="fas fa-search fa-fw"></i> &nbsp; BUSCAR ITEM</a>
-                    </li>-->
                 </ul>
             </div>
             
             <!--CONTENIDO-->
-            <div class="container-fluid">
-                <!-- formulario para ingresar datos de nuevo producto -->
-				<form action="" class="form-neon" autocomplete="off" id="frmrproducto" enctype="multipart/form-data">
-					<fieldset>
-						<!--<legend><i class="far fa-plus-square"></i> &nbsp; Información del producto</legend>-->
-                        <legend><i class="bi bi-tools"></i> &nbsp; Información del producto</legend>
-						<div class="container-fluid">
-							<div class="row">
-								<div class="col-12 col-md-6">
-									<div class="form-group">
-										<label for="producto_nombre" class="bmd-label-floating">Nombre del producto</label>
-										<input type="text" pattern="[a-zA-Z0-9-]{1,45}" class="form-control" name="producto_nombre" id="producto_nombre" maxlength="45">
-									</div>
-								</div>
-								
-								<div class="col-12 col-md-6">
-									<div class="form-group">
-										<label for="producto_modelo" class="bmd-label-floating">Modelo</label>
-										<input type="text" pattern="[a-zA-záéíóúÁÉÍÓÚñÑ0-9 ]{1,140}" class="form-control" name="producto_modelo" id="producto_modelo" maxlength="45">
-									</div>
-								</div>
-								<div class="col-12 col-md-6">
-									<div class="form-group">
-										<label for="producto_descripcion" class="bmd-label-floating">Descripción</label>
-										<input type="num" pattern="[a-zA-záéíóúÁÉÍÓÚñÑ0-9()- ]{1,190}" class="form-control" name="producto_descripcion" id="producto_descripcion" maxlength="140">
-									</div>
-								</div>
-								<div class="col-12 col-md-6">
-									<div class="form-group">
-										<label for="producto_marca" class="bmd-label-floating">Marca</label>
-										<select class="form-control" name="producto_marca" id="producto_marca">
-                                            <?php
-												
-												$c= new conectar();
-            									$conexion= $c->conexion();
-												$consulta="SELECT * from marca";
-												$ejecutar=mysqli_query($conexion, $consulta);
-											?>
-											<option value="A" selected="">Seleccione una marca</option>
-                                            <?php foreach ($ejecutar as $opciones): ?>
-                                                <option value="<?php echo $opciones['idmarca'] ?>"><?php echo $opciones['nombre'] ?></option>
-                                            <?php endforeach ?>
-										</select>
-									</div>
-								</div>
-								<div class="col-12 col-md-6">
-									<div class="form-group">
-										<label for="producto_smin" class="bmd-label-floating">Stock minimo</label>
-										<input type="text" pattern="[0-9]{1,9}" class="form-control" name="producto_smin" id="producto_smin" maxlength="190">
-									</div>
-								</div>
-                                <div class="col-12 col-md-6">
-									<div class="form-group">
-										<label for="producto_smax" class="bmd-label-floating">Stock maximo</label>
-										<input type="text" pattern="[0-9]{1,9}" class="form-control" name="producto_smax" id="producto_smax" maxlength="190">
-									</div>
-								</div>
-                                <div class="col-12 col-md-6">
-									<div class="form-group">
-										<label for="producto_img" class="bmd-label-floating">Imagen del producto</label>
-										<input type="file" pattern="[a-zA-záéíóúÁÉÍÓÚñÑ0-9()- ]{1,190}" class="form-control" name="producto_img" id="producto_img" maxlength="190">
-									</div>
-								</div>
-							</div>
-						</div>
-					</fieldset>
-					<br><br>
-					<p class="text-center" style="margin-top: 40px;">
-						<button type="reset" class="btn btn-raised btn-secondary btn-sm"><i class="fas fa-paint-roller"></i> &nbsp; LIMPIAR</button>
-						&nbsp; &nbsp;
-						<span class="btn btn-raised btn-info btn-sm" id="registrop"><i class="far fa-save"></i> &nbsp; GUARDAR</span>
-					</p>
-				</form>
+           <div class="container-fluid">
+				<div class="table-responsive">
+                    <?php
+						$sql="SELECT * FROM producto";
+						$resultU= mysqli_query($conexion, $sql);
+						$sql2="SELECT M.nombre FROM marca M INNER JOIN producto P ON M.idmarca = P.idmarca order by P.codigoproduc";
+						$resultU2= mysqli_query($conexion, $sql2);
+					?>
+					<!-- tabla para listar productos registrados -->
+					<table class="table table-dark table-sm" id="tablaproducto">
+						<thead>
+							<tr class="text-center roboto-medium">
+								<th>CÓDIGO</th>
+								<th>NOMBRE</th>
+								<th>MARCA</th>
+                                <th>MODELO</th>
+                                <th>DESCRIPCIÓN</th>
+                                <th>STOCK MÍNIMO</th>
+                                <th>STOCK MÁXIMO</th>
+                                <th>IMAGEN</th>
+								<th>EDITAR</th>
+								<th>ELIMINAR</th>
+							</tr>
+						</thead>
+						<tbody>
+                            <!-- consulta rellena datos de producto -->
+                            <?php
+								while($ver=mysqli_fetch_row($resultU) and $ver2=mysqli_fetch_row($resultU2)):
+							?>
+							<tr class="text-center" >
+								<td><?php echo $ver[0] ?></td>
+								<td><?php echo $ver[3] ?></td>
+								<td><?php echo $ver2[0] ?></td>
+								<td><?php echo $ver[4] ?></td>
+                                <td><?php echo $ver[5] ?></td>
+                                <td><?php echo $ver[7] ?></td>
+                                <td><?php echo $ver[8] ?></td>
+                                <td><?php echo $ver[6] ?></td>
+								<td>
+                                    <!-- boton para actualizar producto -->
+                                    <a href="user-update.php?id=<?php echo $ver[0] ?>" class="btn btn-success">
+	  									<i class="bi bi-pen-fill"></i>	
+									</a>
+                                </td>
+                                <td>
+                                    <form action="">
+                                        <button type="button" class="btn btn-warning">
+                                            <i class="bi bi-trash3-fill"></i>
+                                        </button>
+                                    </form>
+                                </td>
+							</tr>
+							<?php
+								endwhile;
+							?>
+						</tbody>
+					</table>
+				</div>
 			</div>
         </section>
 
@@ -293,37 +277,36 @@
 	<script src="./js/main.js" ></script>
     <script src="./js/funciones.js" ></script>
 
-    <!-- Alertify -->
+	<!-- Alertify -->
 	<script src="alertify/alertify.min.js"></script>
 
-	<script type="text/javascript">
-		$(document).ready(function(){
-			$('#registrop').click(function(){
+	<!-- DataTables -->
+	<script type="text/javascript" src="dataTables/datatables.min.js" ></script>
 
-				vacios=validarFormVacio('frmrproducto');
-				if(vacios > 0){
-					alertify.alert("Advertencia","Debes llenar todos los campos");
-					return false;
-				}
-				datos=$('#frmrproducto').serialize();
-				$.ajax({
-					type:"POST",
-					data:datos,
-					url:"procesos/productos/registrarProducto.php",
-					success:function(r){
-						//alert(r);
-						if(r==1){
-							//limpia el formulario una vez agregado
-							$('#frmrproducto')[0].reset();
-							alertify.success("Producto agregado con éxito");
-						}else{
-							alertify.error("Error al agregar");
-						}
-					}
-				});
-			});
-		});
-	</script>
+    <!-- Funcion para DataTables -->
+	<script> 
+          //$('#tablaempleado').DataTable();  
+          $(document).ready(function() {     
+              $('#tablaproducto').DataTable({ 
+             //para cambiar el lenguaje a español 
+                 "language": { 
+                         "lengthMenu": "Mostrar _MENU_ registros", 
+                         "zeroRecords": "No se encontró ninguna coincidencia", 
+                         "info": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros", 
+                         "infoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros", 
+                         "infoFiltered": "(filtrado de un total de _MAX_ registros)", 
+                         "sSearch": "Buscar:", 
+                         "oPaginate": { 
+                             "sFirst": "Primero", 
+                             "sLast":"Último", 
+                             "sNext":"Siguiente", 
+                             "sPrevious": "Anterior" 
+                         }, 
+                         "sProcessing":"Procesando...", 
+                     } 
+             });      
+         }); 
+     </script>
 </body>
 </html>
 
