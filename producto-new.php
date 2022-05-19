@@ -90,9 +90,6 @@
 								<li>
 									<a href="producto-list.php"><i class="fas fa-clipboard-list fa-fw"></i> &nbsp; LISTA DE PRODUCTOS</a>
 								</li>
-								<li>
-									<a href="item-search.html"><i class="fas fa-search fa-fw"></i> &nbsp; BUSCAR PRODUCTO</a>
-								</li>
 							</ul>
 						</li>
 
@@ -101,7 +98,7 @@
 						</li>
 
 						<li>
-							<a href="company.html"><i class="fas fa-shopping-basket fa-fw"></i> &nbsp; ENTRADAS</a>
+							<a href="company.html"><i class="fas bi bi-box2-fill fa-fw"></i> &nbsp; ENTRADAS</a>
 						</li>
 
 						<li>
@@ -116,10 +113,10 @@
 							<a href="#" class="nav-btn-submenu"><i class="fas  fa-user-secret fa-fw"></i> &nbsp; USUARIOS <i class="fas fa-chevron-down"></i></a>
 							<ul>
 								<li>
-									<a href="user-new.php"><i class="fas fa-user-ninja fa-fw"></i> &nbsp; USUARIO</a>
+									<a href="user-new.php"><i class="fas fa-user-ninja fa-fw"></i> &nbsp; AGREGAR USUARIO</a>
 								</li>
 								<li>
-									<a href="empleado-new.php"><i class="fas fa-user-friends fa-fw"></i> &nbsp; EMPLEADO</a>
+									<a href="empleado-new.php"><i class="fas fa-user-friends fa-fw"></i> &nbsp; AGREGAR EMPLEADO</a>
 								</li>
 							</ul>
 						</li>
@@ -200,7 +197,7 @@
 								<div class="col-12 col-md-6">
 									<div class="form-group">
 										<label for="producto_nombre" class="bmd-label-floating">Nombre del producto</label>
-										<input type="text" pattern="[a-zA-Z0-9-]{1,45}" class="form-control" name="producto_nombre" id="producto_nombre" maxlength="45">
+										<input type="text" pattern="[a-zA-záéíóúÁÉÍÓÚñÑ0-9 ]{1,45}" class="form-control" name="producto_nombre" id="producto_nombre" maxlength="45">
 									</div>
 								</div>
 								
@@ -305,17 +302,25 @@
 					alertify.alert("Advertencia","Debes llenar todos los campos");
 					return false;
 				}
-				datos=$('#frmrproducto').serialize();
+
+				var formData = new FormData(document.getElementById("frmrproducto"));
+
 				$.ajax({
-					type:"POST",
-					data:datos,
-					url:"procesos/productos/registrarProducto.php",
+					url: "procesos/productos/registrarProducto.php",
+					type: "post",
+					dataType: "html",
+					data: formData,
+					cache: false,
+					contentType: false,
+					processData: false,
+
 					success:function(r){
-						//alert(r);
-						if(r==1){
-							//limpia el formulario una vez agregado
+                        //alert(r);
+						
+						if(r == 1){
 							$('#frmrproducto')[0].reset();
-							alertify.success("Producto agregado con éxito");
+							//$('#tablaArticulos').load('articulos/tablaArticulos.php');
+							alertify.success("Producto agregado con exito");
 						}else{
 							alertify.error("Error al agregar");
 						}

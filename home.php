@@ -115,7 +115,7 @@
 						</li>
 
 						<li>
-							<a href="company.html"><i class="fas fa-shopping-basket fa-fw"></i> &nbsp; ENTRADAS</a>
+							<a href="company.html"><i class="fas bi bi-box2-fill fa-fw"></i> &nbsp; ENTRADAS</a>
 						</li>
 
 						<li>
@@ -129,10 +129,10 @@
 							<a href="#" class="nav-btn-submenu"><i class="fas  fa-user-secret fa-fw"></i> &nbsp; USUARIOS <i class="fas fa-chevron-down"></i></a>
 							<ul>
 								<li>
-									<a href="user-new.php"><i class="fas fa-user-ninja fa-fw"></i> &nbsp; USUARIO</a>
+									<a href="user-new.php"><i class="fas fa-user-ninja fa-fw"></i> &nbsp; AGREGAR USUARIO</a>
 								</li>
 								<li>
-									<a href="empleado-new.php"><i class="fas fa-user-friends fa-fw"></i> &nbsp; EMPLEADO</a>
+									<a href="empleado-new.php"><i class="fas fa-user-friends fa-fw"></i> &nbsp; AGREGAR EMPLEADO</a>
 								</li>
 							</ul>
 						</li>
@@ -220,7 +220,7 @@
 				<a href="company.html" class="tile">
 					<div class="tile-tittle">ENTRADAS</div>
 					<div class="tile-icon">
-						<i class="fas fa-shopping-basket fa-fw"></i>
+						<i class="fas bi bi-box2-fill fa-fw"></i>
 						<p>1 Registrada</p>
 					</div>
 				</a>
