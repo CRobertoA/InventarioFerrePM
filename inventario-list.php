@@ -1,6 +1,5 @@
 <?php
 	session_start();
-	//echo $_SESSION['usuario'];
 	
 	if(isset($_SESSION['usuario']) and $_SESSION['estado']== 1){
 		
@@ -12,7 +11,7 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-	<title>Home</title>
+	<title>Lista de inventario</title>
 
 	<!-- Normalize V8.0.1 -->
 	<link rel="stylesheet" href="./css/normalize.css">
@@ -43,17 +42,19 @@
 	<link rel="stylesheet" href="alertify/css/alertify.min.css" />
 	<link rel="stylesheet" href="alertify/css/themes/default.min.css" />
 
+	<!-- DataTable -->
+	<link rel="stylesheet" type="text/css" href="dataTables/datatables.min.css" />
+	<link rel="stylesheet" type="text/css" href="dataTables/DataTables-1.11.5/css/dataTables.bootstrap4.min.css" />
 
 </head>
 <body>
-
+	
 	<?php 
 		require_once "clases/Conexion.php";
 												
 		$c= new conectar();
 		$conexion= $c->conexion();
 		$idusu = $_SESSION['iduser'];
-		$usuarioo = $_SESSION['usuario'];
 		$consulta="SELECT * FROM usuario where idusuario = $idusu";
 		$ejecutar=mysqli_query($conexion, $consulta);
 		$nom = mysqli_fetch_row($ejecutar);
@@ -62,7 +63,6 @@
 		$resultU2= mysqli_query($conexion, $sql2);
 		$vernom = mysqli_fetch_row($resultU2);
 	?>
-	
 	<!-- Main container -->
 	<main class="full-box main-container">
 		<!-- Nav lateral -->
@@ -73,7 +73,7 @@
 					<i class="far fa-times-circle show-nav-lateral"></i>
 					<img src="./assets/avatar/ferretera.jpg" class="img-fluid" alt="Avatar">
 					<figcaption class="roboto-medium text-center">
-						 <?php echo $vernom[0]. " " .$vernom[1]?> <br><small class="roboto-condensed-light"> <?php echo $nom[4] ?> </small>
+						<?php echo $vernom[0]. " " .$vernom[1]?> <br><small class="roboto-condensed-light"><?php echo $nom[4] ?></small>
 					</figcaption>
 				</figure>
 				<div class="full-box nav-lateral-bar"></div>
@@ -96,7 +96,7 @@
 									<a href="client-search.html"><i class="fas fa-search fa-fw"></i> &nbsp; Buscar cliente</a>
 								</li>
 							</ul>
-						</li> -->
+						</li>-->
 
 						<li>
 							<a href="#" class="nav-btn-submenu"><i class="fas fa-pallet fa-fw"></i> &nbsp; PRODUCTOS <i class="fas fa-chevron-down"></i></a>
@@ -125,6 +125,7 @@
 						<?php
 							if($_SESSION['rolu']=="Administrador"):
 						?>
+
 						<li>
 							<a href="#" class="nav-btn-submenu"><i class="fas  fa-user-secret fa-fw"></i> &nbsp; USUARIOS <i class="fas fa-chevron-down"></i></a>
 							<ul>
@@ -154,7 +155,7 @@
 								</li>
 							</ul>
 						</li>
-						
+
 						<?php
 							endif;
 						?>
@@ -163,7 +164,7 @@
 			</div>
 		</section>
 
-		<!-- Page content -->
+		<!-- Contenido de la pagina -->
 		<section class="full-box page-content">
 			<nav class="full-box navbar-info">
 				<a href="#" class="float-left show-nav-lateral">
@@ -173,105 +174,87 @@
 					<i class="fas fa-user-cog"></i>
 				</a>-->
 				<label>
-					<i class="bi bi-person-workspace"></i> <?php echo $usuarioo ?>
+					<i class="bi bi-person-workspace"></i> <?php echo $_SESSION['usuario'] ?>
 				</label>	
-				<a href="procesos/salir.php" class="btn-exit-system">
-					<?php //echo $usuarioo ?> <i class="fas fa-power-off"></i>
+				<a href="#" class="btn-exit-system">
+					<i class="fas fa-power-off"></i>
 				</a>
 			</nav>
 
-			<!-- Page header -->
+			<!-- Cabecera de pagina -->
 			<div class="full-box page-header">
 				<h3 class="text-left">
-					<i class="fab fa-dashcube fa-fw"></i> &nbsp; DASHBOARD
+					<i class="fas fa-clipboard-list fa-fw"></i> &nbsp; LISTA DE INVENTARIO
 				</h3>
-				<p class="text-lg-center">
-					Sistema de inventario para la empresa "Mi Gran Central Ferretera"
+				<p class="text-justify">
+					Inventario del sistema
 				</p>
 			</div>
-			
-			<!-- Content -->
-			<div class="full-box tile-container">
 
-				<!--<a href="empleado-new.php" class="tile">
-					<div class="tile-tittle">PRODUCTOS</div>
-					<div class="tile-icon">
-						<i class="fas fa-users fa-fw"></i>
-						<p>5 Registrados</p>
-					</div>
-				</a>-->
-
-				<?php 
-					$consultaP="select count(*) from producto";
-					$ejecutarP=mysqli_query($conexion, $consultaP);
-					$contp = mysqli_fetch_row($ejecutarP)[0];
-
-				?>
-				<a href="producto-list.php" class="tile">
-					<div class="tile-tittle">PRODUCTOS</div>
-					<div class="tile-icon">
-						<i class="fas fa-pallet fa-fw"></i>
-						<p><?php echo $contp ?> Registrados</p>
-					</div>
-				</a>
-
-				<?php 
-					$consultaI="select count(*) from inventario";
-					$ejecutarI=mysqli_query($conexion, $consultaI);
-					$conti = mysqli_fetch_row($ejecutarI)[0];
-
-				?>
-				<a href="inventario-list.php" class="tile">
-					<div class="tile-tittle">INVENTARIO</div>
-					<div class="tile-icon">
-						<i class="fas fa-store-alt fa-fw"></i>
-						<p><?php echo $conti ?> Registrados</p>
-					</div>
-				</a>
-
-				<a href="company.html" class="tile">
-					<div class="tile-tittle">ENTRADAS</div>
-					<div class="tile-icon">
-						<i class="fas bi bi-box2-fill fa-fw"></i>
-						<p>1 Registrada</p>
-					</div>
-				</a>
-
-				<a href="company.html" class="tile">
-					<div class="tile-tittle">SALIDAS</div>
-					<div class="tile-icon">
-						<i class="fas fa-shopping-cart fa-fw"></i>
-						<p>1 Registrada</p>
-					</div>
-				</a>
-				<?php 
-					$consultaU="select count(*) from usuario";
-					$ejecutarU=mysqli_query($conexion, $consultaU);
-					$contu = mysqli_fetch_row($ejecutarU)[0];
-
-					if($_SESSION['rolu']=="Administrador"):
-				?>
-				<a href="user-list.php" class="tile">
-					<div class="tile-tittle">Usuarios</div>
-					<div class="tile-icon">
-						<i class="fas fa-user-secret fa-fw"></i>
-						<p> <?php echo $contu ?> Registrados</p>
-					</div>
-				</a>
-
-				<a href="reservation-list.html" class="tile">
-					<div class="tile-tittle">REPORTES</div>
-					<div class="tile-icon">
-						<i class="fas fa-file-invoice fa-fw"></i>
-						<p>10 Registrados</p>
-					</div>
-				</a>
-				<?php
-					endif;
-				?>
-				
+			<div class="container-fluid">
+				<ul class="full-box list-unstyled page-nav-tabs">
+					<!--<li>
+						<a href="empleado-new.php"><i class="bi bi-person-plus-fill"></i> &nbsp; AGREGAR EMPLEADO</a>
+					</li>-->
+					<li>
+						<a class="active" href="inventario-list.php"><i class="fas fa-clipboard-list fa-fw"></i> &nbsp; LISTA DE INVENTARIO</a>
+					</li>
+					<!--<li>
+						<a href="client-search.html"><i class="fas fa-search fa-fw"></i> &nbsp; BUSCAR CLIENTE</a>
+					</li>-->
+				</ul>	
 			</div>
 			
+			<!-- Contenido-->
+			<div class="container-fluid">
+				<div class="table-responsive">
+					<?php
+						$sql="SELECT I.idinventario, P.nombre, I.stock, I.entradas, I.salidas FROM inventario I INNER JOIN producto P ON I.codigoproduc = P.codigoproduc order by I.idinventario; ";
+						$resultI= mysqli_query($conexion, $sql);
+					?>
+					<!--tabla para listar el inventario -->
+					<table class="table table-dark table-sm" id="tablainventario">
+						<thead>
+							<tr class="text-center roboto-medium">
+								<th>ID</th>
+								<th>PRODUCTO</th>
+								<th>STOCK ACTUAL</th>
+								<th>ENTRADAS</th>
+								<th>SALIDAS</th>
+							</tr>
+						</thead>
+						<tbody>
+							<!-- while para listar los datos de la bd -->
+							<?php
+								while($ver=mysqli_fetch_row($resultI)):
+							?>
+							<tr class="text-center" >
+								<td><?php echo $ver[0] ?></td>
+								<td><?php echo $ver[1] ?></td>
+								<td><?php echo $ver[2] ?></td>
+								<td><?php echo $ver[3] ?></td>
+								<td><?php echo $ver[4] ?></td>
+							</tr>
+							<?php
+								endwhile;
+							?>
+						</tbody>
+					</table>
+				</div>
+				<!--<nav aria-label="Page navigation example">
+					<ul class="pagination justify-content-center">
+						<li class="page-item disabled">
+							<a class="page-link" href="#" tabindex="-1">Previous</a>
+						</li>
+						<li class="page-item"><a class="page-link" href="#">1</a></li>
+						<li class="page-item"><a class="page-link" href="#">2</a></li>
+						<li class="page-item"><a class="page-link" href="#">3</a></li>
+						<li class="page-item">
+							<a class="page-link" href="#">Next</a>
+						</li>
+					</ul>
+				</nav>-->
+			</div>
 
 		</section>
 	</main>
@@ -299,6 +282,36 @@
 	<script src="./js/main.js" ></script>
 	<script src="./js/funciones.js" ></script>
 	<script src="alertify/alertify.min.js"></script>
+
+	<!-- DataTables -->
+	<script type="text/javascript" src="dataTables/datatables.min.js" ></script>
+
+	<!-- Funcion para DataTables -->
+	<script> 
+          //$('#tablainventario').DataTable();  
+          $(document).ready(function() {     
+              $('#tablainventario').DataTable({ 
+             //para cambiar el lenguaje a español 
+                 "language": { 
+                         "lengthMenu": "Mostrar _MENU_ registros", 
+                         "zeroRecords": "No se encontró ninguna coincidencia", 
+                         "info": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros", 
+                         "infoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros", 
+                         "infoFiltered": "(filtrado de un total de _MAX_ registros)", 
+                         "sSearch": "Buscar:", 
+                         "oPaginate": { 
+                             "sFirst": "Primero", 
+                             "sLast":"Último", 
+                             "sNext":"Siguiente", 
+                             "sPrevious": "Anterior" 
+                         }, 
+                         "sProcessing":"Procesando...", 
+                     } 
+             });      
+         }); 
+     </script>
+
+	
 </body>
 </html>
 

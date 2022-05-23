@@ -92,13 +92,13 @@
 									<a href="producto-new.php"><i class="fas fa-plus fa-fw"></i> &nbsp; AGREGAR PRODUCTO</a>
 								</li>
 								<li>
-									<a href="producto-list.php"><i class="fas fa-clipboard-list fa-fw"></i> &nbsp; LISTA DE PRODUCTOS</a>
+									<a href="marca-new.php"><i class="fas fa-clipboard-list fa-fw"></i> &nbsp; AGREGAR MARCA</a>
 								</li>
 							</ul>
 						</li>
 
 						<li>
-							<a href="company.html"><i class="fas fa-store-alt fa-fw"></i> &nbsp; INVENTARIO</a>
+							<a href="inventario-list.php"><i class="fas fa-store-alt fa-fw"></i> &nbsp; INVENTARIO</a>
 						</li>
 
 						<li>
@@ -176,10 +176,10 @@
             <div class="container-fluid">
                 <ul class="full-box list-unstyled page-nav-tabs">
                     <li>
-                        <a href="producto-new.php"><i class="fas fa-plus fa-fw"></i> &nbsp; AGREGAR PRODUCTO</a>
+                        <a href="producto-new.php"><i class="bi bi-boxes"></i> &nbsp; AGREGAR PRODUCTO</a>
                     </li>
                     <li>
-                        <a class="active" href="item-list.html"><i class="fas fa-clipboard-list fa-fw"></i> &nbsp; LISTA DE PRODUCTOS</a>
+                        <a class="active" href="producto-list.php"><i class="fas fa-clipboard-list fa-fw"></i> &nbsp; LISTA DE PRODUCTOS</a>
                     </li>
                 </ul>
             </div>
@@ -222,12 +222,21 @@
                                 <td><?php echo $ver[5] ?></td>
                                 <td><?php echo $ver[7] ?></td>
                                 <td><?php echo $ver[8] ?></td>
-                                <td><?php echo $ver[6] ?></td>
+                                <td>
+                                    <?php 
+                                        $imgVer=explode("/", $ver[6]) ; 
+                                        $imgruta=$imgVer[2]."/".$imgVer[3];
+                                    ?>
+                                    <img width="65" height="65" src="<?php echo $imgruta ?>">
+                                </td>
 								<td>
                                     <!-- boton para actualizar producto -->
-                                    <a href="user-update.php?id=<?php echo $ver[0] ?>" class="btn btn-success">
+                                    <a href="producto-update.php?id=<?php echo $ver[0] ?>" class="btn btn-success" onclick="agregaDatosProducto('<?php echo $ver[0] ?>')">
 	  									<i class="bi bi-pen-fill"></i>	
 									</a>
+                                    <!--<span class="btn btn-success" onclick="agregaDatosProducto('<?php //echo $ver[0] ?>')">
+                                        <i class="bi bi-pen-fill"></i>
+                                    </span>-->
                                 </td>
                                 <td>
                                     <form action="">
@@ -304,6 +313,27 @@
              });      
          }); 
      </script>
+
+    <!--<script type="text/javascript">
+        function agregaDatosProducto(idproducto){
+            $.ajax({
+                type:"POST",
+				data:"idpro=" + idproducto,
+				url:"procesos/productos/obtenDatosProducto.php",
+                success:function(r){
+                    alert(r);
+                    dato= jQuery.parseJSON(r);
+                    $('#idproductoA').val(dato['codigoproduc']);
+                    $('clases/Productos.php/#producto_nombreU').val(dato['nombre']);
+                    $('#producto_modeloU').val(dato['modelo']);
+                    $('#producto_descripcionU').val(dato['descripcion']);
+                    $('#producto_marcaU').val(dato['idmarca']);
+                    $('#producto_sminU').val(dato['stockminimo']);
+                    $('#producto_smaxU').val(dato['stockmaximo']);
+                }
+            });
+        }
+    </script>-->
 </body>
 </html>
 

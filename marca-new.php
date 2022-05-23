@@ -1,6 +1,5 @@
 <?php
 	session_start();
-	//echo $_SESSION['usuario'];
 	
 	if(isset($_SESSION['usuario']) and $_SESSION['estado']== 1){
 		
@@ -12,7 +11,7 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-	<title>Home</title>
+	<title>Nueva marca</title>
 
 	<!-- Normalize V8.0.1 -->
 	<link rel="stylesheet" href="./css/normalize.css">
@@ -46,14 +45,13 @@
 
 </head>
 <body>
-
+	
 	<?php 
 		require_once "clases/Conexion.php";
 												
 		$c= new conectar();
 		$conexion= $c->conexion();
 		$idusu = $_SESSION['iduser'];
-		$usuarioo = $_SESSION['usuario'];
 		$consulta="SELECT * FROM usuario where idusuario = $idusu";
 		$ejecutar=mysqli_query($conexion, $consulta);
 		$nom = mysqli_fetch_row($ejecutar);
@@ -62,7 +60,6 @@
 		$resultU2= mysqli_query($conexion, $sql2);
 		$vernom = mysqli_fetch_row($resultU2);
 	?>
-	
 	<!-- Main container -->
 	<main class="full-box main-container">
 		<!-- Nav lateral -->
@@ -73,7 +70,7 @@
 					<i class="far fa-times-circle show-nav-lateral"></i>
 					<img src="./assets/avatar/ferretera.jpg" class="img-fluid" alt="Avatar">
 					<figcaption class="roboto-medium text-center">
-						 <?php echo $vernom[0]. " " .$vernom[1]?> <br><small class="roboto-condensed-light"> <?php echo $nom[4] ?> </small>
+						<?php echo $vernom[0]. " " .$vernom[1]?> <br><small class="roboto-condensed-light"><?php echo $nom[4] ?></small>
 					</figcaption>
 				</figure>
 				<div class="full-box nav-lateral-bar"></div>
@@ -96,7 +93,7 @@
 									<a href="client-search.html"><i class="fas fa-search fa-fw"></i> &nbsp; Buscar cliente</a>
 								</li>
 							</ul>
-						</li> -->
+						</li>-->
 
 						<li>
 							<a href="#" class="nav-btn-submenu"><i class="fas fa-pallet fa-fw"></i> &nbsp; PRODUCTOS <i class="fas fa-chevron-down"></i></a>
@@ -125,6 +122,7 @@
 						<?php
 							if($_SESSION['rolu']=="Administrador"):
 						?>
+
 						<li>
 							<a href="#" class="nav-btn-submenu"><i class="fas  fa-user-secret fa-fw"></i> &nbsp; USUARIOS <i class="fas fa-chevron-down"></i></a>
 							<ul>
@@ -154,7 +152,6 @@
 								</li>
 							</ul>
 						</li>
-						
 						<?php
 							endif;
 						?>
@@ -173,105 +170,64 @@
 					<i class="fas fa-user-cog"></i>
 				</a>-->
 				<label>
-					<i class="bi bi-person-workspace"></i> <?php echo $usuarioo ?>
+					<i class="bi bi-person-workspace"></i> <?php echo $_SESSION['usuario'] ?>
 				</label>	
-				<a href="procesos/salir.php" class="btn-exit-system">
-					<?php //echo $usuarioo ?> <i class="fas fa-power-off"></i>
+				<a href="#" class="btn-exit-system">
+					<i class="fas fa-power-off"></i>
 				</a>
 			</nav>
 
 			<!-- Page header -->
 			<div class="full-box page-header">
 				<h3 class="text-left">
-					<i class="fab fa-dashcube fa-fw"></i> &nbsp; DASHBOARD
+					<i class="fas fa-plus fa-fw"></i> &nbsp; AGREGAR MARCA
 				</h3>
-				<p class="text-lg-center">
-					Sistema de inventario para la empresa "Mi Gran Central Ferretera"
+				<p class="text-justify">
+					Capturar los datos de la nueva marca
 				</p>
 			</div>
-			
-			<!-- Content -->
-			<div class="full-box tile-container">
 
-				<!--<a href="empleado-new.php" class="tile">
-					<div class="tile-tittle">PRODUCTOS</div>
-					<div class="tile-icon">
-						<i class="fas fa-users fa-fw"></i>
-						<p>5 Registrados</p>
-					</div>
-				</a>-->
-
-				<?php 
-					$consultaP="select count(*) from producto";
-					$ejecutarP=mysqli_query($conexion, $consultaP);
-					$contp = mysqli_fetch_row($ejecutarP)[0];
-
-				?>
-				<a href="producto-list.php" class="tile">
-					<div class="tile-tittle">PRODUCTOS</div>
-					<div class="tile-icon">
-						<i class="fas fa-pallet fa-fw"></i>
-						<p><?php echo $contp ?> Registrados</p>
-					</div>
-				</a>
-
-				<?php 
-					$consultaI="select count(*) from inventario";
-					$ejecutarI=mysqli_query($conexion, $consultaI);
-					$conti = mysqli_fetch_row($ejecutarI)[0];
-
-				?>
-				<a href="inventario-list.php" class="tile">
-					<div class="tile-tittle">INVENTARIO</div>
-					<div class="tile-icon">
-						<i class="fas fa-store-alt fa-fw"></i>
-						<p><?php echo $conti ?> Registrados</p>
-					</div>
-				</a>
-
-				<a href="company.html" class="tile">
-					<div class="tile-tittle">ENTRADAS</div>
-					<div class="tile-icon">
-						<i class="fas bi bi-box2-fill fa-fw"></i>
-						<p>1 Registrada</p>
-					</div>
-				</a>
-
-				<a href="company.html" class="tile">
-					<div class="tile-tittle">SALIDAS</div>
-					<div class="tile-icon">
-						<i class="fas fa-shopping-cart fa-fw"></i>
-						<p>1 Registrada</p>
-					</div>
-				</a>
-				<?php 
-					$consultaU="select count(*) from usuario";
-					$ejecutarU=mysqli_query($conexion, $consultaU);
-					$contu = mysqli_fetch_row($ejecutarU)[0];
-
-					if($_SESSION['rolu']=="Administrador"):
-				?>
-				<a href="user-list.php" class="tile">
-					<div class="tile-tittle">Usuarios</div>
-					<div class="tile-icon">
-						<i class="fas fa-user-secret fa-fw"></i>
-						<p> <?php echo $contu ?> Registrados</p>
-					</div>
-				</a>
-
-				<a href="reservation-list.html" class="tile">
-					<div class="tile-tittle">REPORTES</div>
-					<div class="tile-icon">
-						<i class="fas fa-file-invoice fa-fw"></i>
-						<p>10 Registrados</p>
-					</div>
-				</a>
-				<?php
-					endif;
-				?>
-				
+			<div class="container-fluid">
+				<ul class="full-box list-unstyled page-nav-tabs">
+					<li>
+						<a class="active" href="marca-new.php"><i class="fas fa-plus fa-fw"></i> &nbsp; AGREGAR MARCA</a>
+					</li>
+					<li>
+						<a href="marca-list.php"><i class="fas fa-clipboard-list fa-fw"></i> &nbsp; LISTA DE MARCAS</a>
+					</li>
+					<!--<li>
+						<a href="client-search.html"><i class="fas fa-search fa-fw"></i> &nbsp; BUSCAR CLIENTE</a>
+					</li>-->
+				</ul>	
 			</div>
 			
+			<!-- Contentenido-->
+			<div class="container-fluid">
+				<!-- formulario para registrar nueva marca -->
+				<form class="form-neon" autocomplete="off" id="frmrmarca">
+					<fieldset>
+						<legend><i class="bi bi-journal-text"></i> &nbsp; Información básica</legend>
+						<div class="container-fluid">
+							<div class="row">
+								<div class="col-12 col-md-6">
+									<div class="form-group">
+										<label for="marca_nombre" class="bmd-label-floating">Nombre marca</label>
+										<input type="text" pattern="[a-zA-ZáéíóúÁÉÍÓÚñÑ ]{1,40}" class="form-control" name="marca_nombre" id="marca_nombre" maxlength="40">
+									</div>
+								</div>
+							</div>
+						</div>
+					</fieldset>
+					<br><br>
+					<p class="text-center" style="margin-top: 40px;">
+						<!-- boton para limpiar formulario -->
+						<button type="reset" class="btn btn-raised btn-secondary btn-sm"><i class="fas fa-paint-roller"></i> &nbsp; LIMPIAR</button>
+						&nbsp; &nbsp;
+						<!-- boton para guardar datos del empleado-->
+						<span class="btn btn-raised btn-info btn-sm" id="registrom" ><i class="far fa-save"></i> &nbsp;GUARDAR</span>
+					</p>
+				</form>
+			</div>	
 
 		</section>
 	</main>
@@ -299,6 +255,36 @@
 	<script src="./js/main.js" ></script>
 	<script src="./js/funciones.js" ></script>
 	<script src="alertify/alertify.min.js"></script>
+
+	<script type="text/javascript">
+		$(document).ready(function(){
+			$('#registrom').click(function(){
+
+				vacios=validarFormVacio('frmrmarca');
+				if(vacios > 0){
+					alertify.alert("Advertencia","Debes llenar todos los campos");
+					return false;
+				}
+				datos=$('#frmrmarca').serialize();
+				$.ajax({
+					type:"POST",
+					data:datos,
+					url:"procesos/marcas/registrarmarca.php",
+					success:function(r){
+						//alert(r);
+						if(r==1){
+							//limpia el formulario una vez agregado
+							$('#frmrmarca')[0].reset();
+							alertify.success("Marca agregada con éxito");
+						}else{
+							alertify.error("Error al agregar");
+						}
+					}
+				});
+			});
+		});
+	</script>
+
 </body>
 </html>
 

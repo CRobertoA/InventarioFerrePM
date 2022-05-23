@@ -106,13 +106,13 @@
 									<a href="producto-new.php"><i class="fas fa-plus fa-fw"></i> &nbsp; AGREGAR PRODUCTO</a>
 								</li>
 								<li>
-									<a href="producto-list.php"><i class="fas fa-clipboard-list fa-fw"></i> &nbsp; LISTA DE PRODUCTOS</a>
+									<a href="marca-new.php"><i class="fas fa-clipboard-list fa-fw"></i> &nbsp; AGREGAR MARCA</a>
 								</li>
 							</ul>
 						</li>
 
 						<li>
-							<a href="company.html"><i class="fas fa-store-alt fa-fw"></i> &nbsp; INVENTARIO</a>
+							<a href="inventario-list.php"><i class="fas fa-store-alt fa-fw"></i> &nbsp; INVENTARIO</a>
 						</li>
 
 						<li>
