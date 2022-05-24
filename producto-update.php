@@ -189,7 +189,7 @@
 						$ver=mysqli_fetch_row($resultPU);
 						
 					?>
-				<form action="" class="form-neon" autocomplete="off" id="frmrproductoAct" enctype="multipart/form-data">
+				<form class="form-neon" autocomplete="off" id="frmrproductoAct" enctype="multipart/form-data">
 					<fieldset>
 						<legend><i class="bi bi-tools"></i> &nbsp; Información del producto</legend>
 						<div class="container-fluid">
@@ -290,6 +290,39 @@
 	<script src="./js/main.js" ></script>
     <script src="./js/funciones.js" ></script>
 	<script src="alertify/alertify.min.js"></script>
+
+	<!-- Actualizar producto -->
+	<script type="text/javascript">
+		$(document).ready(function(){
+			$('#actualizaProducto').click(function(){
+
+				vacios=validarFormVacio('frmrproductoAct');
+				if(vacios > 0){
+					alertify.alert("Advertencia","Debes llenar todos los campos");
+					return false;
+				}
+				
+				datos=$('#frmrproductoAct').serialize();
+				$.ajax({
+					type:"POST",
+					data:datos,
+					url:"procesos/productos/actualizarProducto.php",
+					success:function(r){
+						//alert(r);
+						//comsole.log(r);
+						if(r==1){
+							//window.location="empleado-list.php";
+							alertify.success("Producto actualizado con éxito");
+							//alert("Empleado actualizado con exito");
+							
+						}else{
+							alertify.error("Error al actualizar");
+						}
+					}
+				});
+			});
+		});
+	</script>
 
 </body>
 </html>

@@ -231,19 +231,17 @@
                                 </td>
 								<td>
                                     <!-- boton para actualizar producto -->
-                                    <a href="producto-update.php?id=<?php echo $ver[0] ?>" class="btn btn-success" onclick="agregaDatosProducto('<?php echo $ver[0] ?>')">
+                                    <a href="producto-update.php?id=<?php echo $ver[0] ?>" class="btn btn-success" >
 	  									<i class="bi bi-pen-fill"></i>	
 									</a>
-                                    <!--<span class="btn btn-success" onclick="agregaDatosProducto('<?php //echo $ver[0] ?>')">
-                                        <i class="bi bi-pen-fill"></i>
-                                    </span>-->
+                                    <!--<a href="producto-update.php?id=<?php //echo $ver[0] ?>" class="btn btn-success" onclick="agregaDatosProducto('<?php //echo $ver[0] ?>')">
+	  									<i class="bi bi-pen-fill"></i>	
+									</a>-->
                                 </td>
                                 <td>
-                                    <form action="">
-                                        <button type="button" class="btn btn-warning">
-                                            <i class="bi bi-trash3-fill"></i>
-                                        </button>
-                                    </form>
+                                    <span class="btn btn-warning" onclick="eliminaProducto('<?php echo $ver[0] ?>')">
+                                        <i class="bi bi-trash3-fill"></i>
+                                    </span>
                                 </td>
 							</tr>
 							<?php
@@ -313,6 +311,28 @@
              });      
          }); 
      </script>
+
+    <script type="text/javascript">
+        function eliminaProducto(idProducto){
+			alertify.confirm("Advertencia",'¿Desea eliminar este producto?', function(){ 
+				$.ajax({
+					type:"POST",
+					data:"idproducto=" + idProducto,
+					url:"procesos/productos/eliminarProducto.php",
+					success:function(r){
+						if(r==1){
+							//$('#tablaArticulosLoad').load("articulos/tablaArticulos.php");
+							alertify.success("Producto eliminado con éxito");
+						}else{
+							alertify.error("Error al eliminar ");
+						}
+					}
+				});
+			}, function(){ 
+				alertify.error('Cancelo!')
+			});
+		}
+    </script>
 
     <!--<script type="text/javascript">
         function agregaDatosProducto(idproducto){

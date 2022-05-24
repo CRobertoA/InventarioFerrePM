@@ -73,5 +73,51 @@
 
 			return $datos;
 		}
+
+		public function actualizaProducto($datos){
+            $c= new conectar();
+            $conexion= $c->conexion();
+            $sql= "UPDATE producto set idmarca= '$datos[1]', nombre= '$datos[2]', modelo= '$datos[3]',  
+										descripcion= '$datos[4]', stockminimo= '$datos[5]', stockmaximo= '$datos[6]'
+                                    where codigoproduc= '$datos[0]'";
+            return mysqli_query($conexion,$sql);
+        }
+
+		public function eliminaProducto($idproducto){
+			$c=new conectar();
+			$conexion=$c->conexion();
+ 
+			//$idimagen=self::obtenIdImg($idproducto);
+
+			$sql="DELETE from producto 
+					where codigoproduc='$idproducto'";
+			$result=mysqli_query($conexion,$sql);
+
+			if($result){
+				$ruta=self::obtenRutaImagen($idproducto);
+
+				//$sql="DELETE from imagenes where id_imagen='$idimagen'";
+
+				//$result=mysqli_query($conexion,$sql);
+					//if($result){
+						if(unlink($ruta)){
+							return 1;
+						}
+					//}
+			}
+		}
+
+		public function obtenRutaImagen($idPro){
+			$c= new conectar();
+			$conexion=$c->conexion();
+
+			$sql="SELECT foto 
+					from producto 
+					where codigoproduc='$idPro'";
+
+			$result=mysqli_query($conexion,$sql);
+
+			return mysqli_fetch_row($result)[0];
+		}
     }
 ?>
