@@ -231,15 +231,16 @@
 								<td><?php echo $ver[0] ?></td>
 								<td><?php echo $ver[1] ?></td>
 								<td>
-									<a href="empleado-update.php?id=<?php echo $ver[0] ?>" class="btn btn-success" >
-	  									<i class="fas fa-user-cog"></i>	
+									<!-- boton para actualizar marca -->
+									<a href="marca-update.php?id=<?php echo $ver[0] ?>" class="btn btn-success" >
+	  									<i class="bi bi-pen-fill"></i>	
 									</a>
 									<!--<a href="empleado-update.php" class="btn btn-success" onclick="agregaDato('<?php //echo $ver[0] ?>','<?php //echo $ver[1] ?>')" >
 	  									<i class="fas fa-sync-alt"></i>	
 									</a>-->
 								</td>
 								<td>
-									<span class="btn btn-warning" title="Eliminar marca" onclick="desactivaEmpleado('<?php echo $ver[0]; ?>')">
+									<span class="btn btn-warning" title="Eliminar marca" onclick="eliminaMarca('<?php echo $ver[0]; ?>')">
 		  								<i class="bi bi-trash3-fill"></i>
 									</span>
 								</td>
@@ -319,6 +320,30 @@
              });      
          }); 
      </script>
+
+	<!-- Funcion para eliminar marca -->
+	<script type="text/javascript">
+        function eliminaMarca(idMarca){
+			alertify.confirm("Advertencia",'¿Desea eliminar esta marca?', function(){ 
+				$.ajax({
+					type:"POST",
+					data:"idmarca=" + idMarca,
+					url:"procesos/marcas/eliminarMarca.php",
+					success:function(r){
+						if(r==1){
+							//$('#tablaArticulosLoad').load("articulos/tablaArticulos.php");
+							location.reload();
+							alertify.success("Marca eliminada con éxito");
+						}else{
+							alertify.error("Error al eliminar ");
+						}
+					}
+				});
+			}, function(){ 
+				alertify.error('Cancelo!')
+			});
+		}
+    </script>
 
 	
 </body>
