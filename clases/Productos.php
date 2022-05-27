@@ -91,21 +91,24 @@
 
 			$sql="DELETE from producto 
 					where codigoproduc='$idproducto'";
-			$result=mysqli_query($conexion,$sql);
+			//$result=mysqli_query($conexion,$sql);
+			return mysqli_query($conexion,$sql);
 
-			if($result){
-				$ruta=self::obtenRutaImagen($idproducto);
+				/*if($result){
+					$ruta=self::obtenRutaImagen($idproducto);
+					//print_r($ruta);
+					//$imgVer=explode("/", $ruta) ; 
+					//$imgruta=$imgVer[1]."/".$imgVer[2]."/".$imgVer[3];
+					//$sql="DELETE from imagenes where id_imagen='$idimagen'";
 
-				//$sql="DELETE from imagenes where id_imagen='$idimagen'";
-
-				//$result=mysqli_query($conexion,$sql);
-					//if($result){
-						if(unlink($ruta)){
-							return 1;
-						}
-					//}
+					//$result=mysqli_query($conexion,$sql);
+						//if($result){
+							if(unlink($ruta)){
+								return 1;
+							}
+						//}
+				}*/
 			}
-		}
 
 		public function obtenRutaImagen($idPro){
 			$c= new conectar();

@@ -312,6 +312,7 @@
          }); 
      </script>
 
+    <!-- funcion para eliminar producto -->
     <script type="text/javascript">
         function eliminaProducto(idProducto){
 			alertify.confirm("Advertencia",'¿Desea eliminar este producto?', function(){ 
@@ -320,8 +321,10 @@
 					data:"idproducto=" + idProducto,
 					url:"procesos/productos/eliminarProducto.php",
 					success:function(r){
+                        //alert(r);
 						if(r==1){
 							//$('#tablaArticulosLoad').load("articulos/tablaArticulos.php");
+                            location.reload();
 							alertify.success("Producto eliminado con éxito");
 						}else{
 							alertify.error("Error al eliminar ");

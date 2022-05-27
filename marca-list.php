@@ -332,8 +332,8 @@
 					success:function(r){
 						if(r==1){
 							//$('#tablaArticulosLoad').load("articulos/tablaArticulos.php");
-							location.reload();
 							alertify.success("Marca eliminada con éxito");
+							location.reload();
 						}else{
 							alertify.error("Error al eliminar ");
 						}
