@@ -287,11 +287,19 @@
 		$(document).ready(function(){
 			$('#actualizaEmpleado').click(function(){
 
+				var correo = document.getElementById("empleado_email").value;
+				//EXPRESION REGULAR PARA LA VALIDACION DEL CORREO 
+				re=/^([\da-z_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/ 
+
 				vacios=validarFormVacio('frmrempleadoAct');
 				if(vacios > 0){
 					alertify.alert("Advertencia","Debes llenar todos los campos");
 					return false;
-				}
+				}else if(!re.exec(correo)){ 
+					alertify.alert("Advertencia", "Correo ingresado invalido"); 
+					return false; 
+				}   
+				
 				datos=$('#frmrempleadoAct').serialize();
 				$.ajax({
 					type:"POST",

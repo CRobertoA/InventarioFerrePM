@@ -298,10 +298,23 @@
 		$(document).ready(function(){
 			$('#registrop').click(function(){
 
+				// obtenemos los valores de los input 
+				var stockmin = document.getElementById("producto_smin").value; 
+				var stockmax = document.getElementById("producto_smax").value; 
+
 				vacios=validarFormVacio('frmrproducto');
 				if(vacios > 0){
-					alertify.alert("Advertencia","Debes llenar todos los campos");
+					alertify.alert("Advertencia", "Debes llenar todos los campos");
 					return false;
+				}else if(stockmin <= 0){ 
+                 	alertify.alert("Advertencia", "El stock minimo debe ser mayor a 0"); 
+                 return false; 
+				}else if(stockmax <= 0){ 
+					alertify.alert("Advertencia", "El stock maximo debe ser mayor a 0"); 
+					return false; 
+				}else if(parseInt(stockmaxi) <= parseInt(stockmini)){ 
+					alertify.alert("Advertencia", "El stock maximo debe ser mayor al stock minimo"); 
+					return false; 
 				}
 
 				var formData = new FormData(document.getElementById("frmrproducto"));

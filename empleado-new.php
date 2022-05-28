@@ -274,15 +274,49 @@
 	<script src="./js/funciones.js" ></script>
 	<script src="alertify/alertify.min.js"></script>
 
+	<!-- Funcion para agregar empleado -->
 	<script type="text/javascript">
 		$(document).ready(function(){
 			$('#registroe').click(function(){
+				// obtenemos los valores de los input
+				var numCaracCURP = (document.getElementById("curpe").value).length; 
+				var elementosCURP = document.getElementById("curpe").value; 
+				var nombre = document.getElementById("empleado_nombre").value; 
+				var apellido_paterno = document.getElementById("empleado_apellido").value; 
+				var correo = document.getElementById("empleado_email").value;
+
+				//EXPRESION REGULAR PARA LA VALIDACION DEL CORREO 
+				re=/^([\da-z_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/ 
+  
+				//EXPRESION REGULAR PARA LA CURP 
+				reCurp =  /^([A-Z][AEIOUX][A-Z]{2}\d{2}(?:0\d|1[0-2])(?:[0-2]\d|3[01])[HM](?:AS|B[CS]|C[CLMSH]|D[FG]|G[TR]|HG|JC|M[CNS]|N[ETL]|OC|PL|Q[TR]|S[PLR]|T[CSL]|VZ|YN|ZS)[B-DF-HJ-NP-TV-Z]{3}[A-Z\d])(\d)$/ 
 
 				vacios=validarFormVacio('frmrempleado');
 				if(vacios > 0){
 					alertify.alert("Advertencia","Debes llenar todos los campos");
 					return false;
-				}
+				}else if(numCaracCURP < 18){ 
+                 	alertify.alert("Advertencia", "La CURP debe tener 18 caracteres"); 
+                 return false; 
+				}else if(!reCurp.exec(elementosCURP)){ 
+					alertify.alert("Advertencia", "La CURP no cuenta con la estructura correcta"); 
+					return false; 
+				}/*else if(nombre == ''){ 
+					alertify.alert("Advertencia", "Ingrese su nombre"); 
+					return false; 
+				}else if(apellido_paterno == ''){ 
+					alertify.alert("Advertencia", "Ingrese sus apellidos"); 
+					return false; 
+				}else if(correo == ''){ 
+					alertify.alert("Advertencia", "Ingrese su correo electrónico"); 
+					return false; 
+				}*/else if(!re.exec(correo)){ 
+					alertify.alert("Advertencia", "Correo ingresado invalido"); 
+					return false; 
+				}   
+
+				
+				
 				datos=$('#frmrempleado').serialize();
 				$.ajax({
 					type:"POST",

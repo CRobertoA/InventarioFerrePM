@@ -296,10 +296,23 @@
 		$(document).ready(function(){
 			$('#actualizaProducto').click(function(){
 
+				// obtenemos los valores de los input 
+				var stockmini = document.getElementById("producto_sminU").value; 
+				var stockmaxi = document.getElementById("producto_smaxU").value; 
+
 				vacios=validarFormVacio('frmrproductoAct');
 				if(vacios > 0){
 					alertify.alert("Advertencia","Debes llenar todos los campos");
 					return false;
+				}else if(stockmini <= 0){ 
+                 	alertify.alert("Advertencia", "El stock minimo debe ser mayor a 0"); 
+                 return false; 
+				}else if(stockmaxi <= 0){ 
+					alertify.alert("Advertencia", "El stock maximo debe ser mayor a 0"); 
+					return false; 
+				}else if(parseInt(stockmaxi) <= parseInt(stockmini)){ 
+					alertify.alert("Advertencia", "El stock maximo debe ser mayor al stock minimo"); 
+					return false; 
 				}
 				
 				datos=$('#frmrproductoAct').serialize();

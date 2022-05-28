@@ -327,11 +327,28 @@
 		$(document).ready(function(){
 			$('#actualizaUsuario').click(function(){
 
+				// obtenemos los valores de los input 
+				var usuario = document.getElementById("usuario_usuario").value.length; 
+				var contral = document.getElementById("usuario_clave_1").value.length; 
+				var contra = document.getElementById("usuario_clave_1").value; 
+				//EXPRESION REGULAR PARA LA VALIDACION DE LA CONTRASEÑA
+				con=/^(?=(?:.*\d))(?=.*[A-Z])(?=.*[a-z])(?=.*[.,*!?¿¡/#$%&])\S{8,64}$/
+
 				vacios=validarFormVacio('frmrusuarioAct');
 				if(vacios > 0){
 					alertify.alert("Advertencia","Debes llenar todos los campos");
 					return false;
-				}
+				}else if(usuario < 6){ 
+                 	alertify.alert("Advertencia", "El nombre de usuario debe ser mayor a 6 digitos"); 
+                 return false; 
+				}else if(contral < 8){ 
+                 	alertify.alert("Advertencia", "La contraseña debe ser mayor a 8 digitos"); 
+                 return false; 
+				}/*else if(!con.exec(contra)){ 
+					alertify.alert("Advertencia", 'La contraseña debe contener \n Al menos una mayúscula \n Al menos una minúscula \n Al menos un número 0-9 \n Al menos un carácter especial (.,*!?¿¡/#$%&) \n Longitud mínima de 8 caracteres, 64 máxima \n No acepta espacios'); 
+					return false; 
+				}*/
+
 				datos=$('#frmrusuarioAct').serialize();
 				$.ajax({
 					type:"POST",
