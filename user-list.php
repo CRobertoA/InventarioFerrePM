@@ -116,7 +116,7 @@
 						</li>
 
 						<li>
-							<a href="company.html"><i class="fas bi bi-box2-fill fa-fw"></i> &nbsp; ENTRADAS</a>
+							<a href="entrada-new.php"><i class="fas bi bi-box2-fill fa-fw"></i> &nbsp; ENTRADAS</a>
 						</li>
 
 						<li>
@@ -143,7 +143,7 @@
 							<a href="#" class="nav-btn-submenu"><i class="fas fa-file-invoice fa-fw"></i> &nbsp; REPORTES <i class="fas fa-chevron-down"></i></a>
 							<ul>
 								<li>
-									<a href="reservation-new.html"><i class="fas fa-plus fa-fw"></i> &nbsp; Nuevo préstamo</a>
+									<a href="entrada-new.php"><i class="fas fa-plus fa-fw"></i> &nbsp; Nuevo préstamo</a>
 								</li>
 								<li>
 									<a href="reservation-list.html"><i class="fas fa-clipboard-list fa-fw"></i> &nbsp; Lista de préstamos</a>
