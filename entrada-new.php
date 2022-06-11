@@ -2,6 +2,7 @@
 	session_start();
 	
 	if(isset($_SESSION['usuario']) and $_SESSION['estado']== 1){
+        if(!isset($_SESSION["tablaEntradasTemp"])) $_SESSION["tablaEntradasTemp"] = [];
 		
 	
 ?>
@@ -204,19 +205,31 @@
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    <?php //foreach($_SESSION["carrito"] as $indice => $producto){ 
+                                        //$granTotal += $producto->total;
+                                        if(isset($_SESSION['tablaEntradasTemp'])):
+                                            $i=0;
+                                            foreach(@$_SESSION['tablaEntradasTemp'] as $key){
+                                                $d=explode("||", @$key);
+                                    ?>
                                     <tr class="text-center" >
-                                        <td>Codigo producto</td>
-                                        <td>Producto</td>
-                                        <td>Modelo producto</td>
-                                        <td>7</td>
-                                        <td>29-05-2022</td>
-                                        <td>Compra</td>
+                                        <td><?php echo $d[0] ?></td>
+                                        <td><?php echo $d[1] ?></td>
+                                        <td><?php echo $d[2] ?></td>
+                                        <td><?php echo $d[3] ?></td>
+                                        <td><?php echo $d[4] ?></td>
+                                        <td><?php echo $d[5] ?></td>
                                         <td>
-                                            <span class="btn btn-warning" title="Eliminar de la lista">
+                                            <span class="btn btn-warning" title="Eliminar de la lista" onclick="quitarp1('<?php echo $i; ?>')">
                                                 <i class="bi bi-trash3-fill"></i>
                                             </span>
                                         </td>
                                     </tr>
+                                    <?php 
+                                        $i++;
+                                            } 
+                                        endif;
+                                    ?>
                                 </tbody>
                             </table>
                         </div>
@@ -239,7 +252,7 @@
                             </button>
                         </div>
                         <div class="modal-body">
-                            <form action="" autocomplete="off">
+                            <form autocomplete="off" id="frmrentrada1">
                             <fieldset>
                                 <p><i class="far fa-plus-square"></i> &nbsp; Información del producto</p>
                                 <div class="container-fluid">
@@ -264,20 +277,20 @@
                                         </div>
                                         <div class="col-12 col-md-6">
                                             <div class="form-group">
-                                                <label for="codigo_producto1">Codigo de producto</label>
-                                                <input type="text" class="form-control" name="codigo_producto1" id="codigo_producto1" readonly="readonly">
+                                                <label for="codigo_producto">Codigo de producto</label>
+                                                <input type="text" class="form-control" name="codigo_producto" id="codigo_producto" readonly="readonly">
                                             </div>
                                         </div>
                                         <div class="col-12 col-md-6">
                                             <div class="form-group">
                                                 <label for="producto_producto1">Producto</label>
-                                                <input type="text" class="form-control" name="producto_producto1" id="producto_producto1" readonly="readonly">
+                                                <input type="text" class="form-control" name="producto_producto" id="producto_producto" readonly="readonly">
                                             </div>
                                         </div>
                                         <div class="col-12 col-md-6">
                                             <div class="form-group">
-                                                <label for="modelo_producto1">Modelo</label>
-                                                <input type="text" class="form-control" name="modelo_producto1" id="modelo_producto1" readonly="readonly">
+                                                <label for="modelo_producto">Modelo</label>
+                                                <input type="text" class="form-control" name="modelo_producto" id="modelo_producto" readonly="readonly">
                                             </div>
                                         </div>
                                         <div class="col-12 col-md-6">
@@ -290,6 +303,7 @@
                                             <div class="form-group">
                                                 <label for="producto_cantidad" class="bmd-label-floating">Cantidad</label>
                                                 <input type="text" pattern="[0-9.]{1,10}" class="form-control" name="producto_cantidad" id="producto_cantidad" maxlength="10">
+                                                <input type="text" hidden="" pattern="[0-9.]{1,10}" class="form-control" name="producto_stockmax" id="producto_stockmax" maxlength="10">
                                             </div>
                                         </div>
                                         <!--<div class="col-12 col-md-4">
@@ -308,7 +322,7 @@
                                 </div>
                             </fieldset>
                             <p class="text-center" style="margin-top: 40px;">
-                                <span class="btn btn-raised btn-info btn-sm"><i class="far fa-save"></i> &nbsp; AGREGAR</span>
+                                <span class="btn btn-raised btn-info btn-sm" id="registroen1"><i class="far fa-save"></i> &nbsp; AGREGAR PRODUCTO</span>
                             </p>
                             </form>
                         </div>
@@ -360,14 +374,58 @@
                 success:function(r){
                     dato=jQuery.parseJSON(r);
 
-                    $('#codigo_producto1').val(dato['codigoproduc']);
-                    $('#producto_producto1').val(dato['nombre']);
-                    $('#modelo_producto1').val(dato['modelo']);
+                    $('#codigo_producto').val(dato['codigoproduc']);
+                    $('#producto_producto').val(dato['nombre']);
+                    $('#modelo_producto').val(dato['modelo']);
+                    $('#producto_stockmax').val(dato['stockmaximo']);
+                }
+            });
+        }
+
+        function quitarp1(index){
+
+            $.ajax({
+                type:"POST",
+                data:"ind=" + index,
+                url:"procesos/entradas/quitarDelCarrito1.php",
+                success:function(r){
+                    location.reload();
                 }
             });
         }
 
     </script>
+
+    <!-- Agregar al carrito -->
+	<script type="text/javascript">
+		$(document).ready(function(){
+			$('#registroen1').click(function(){
+
+				// obtenemos los valores de los input 
+				var cantidad = document.getElementById("producto_cantidad").value; 
+                var smax = document.getElementById("producto_stockmax").value; 
+
+				vacios=validarFormVacio('frmrentrada1');
+				if(vacios > 0){
+					alertify.alert("Advertencia", "Debes llenar todos los campos");
+					return false;
+				}else if(parseInt(smax) < parseInt(cantidad)){ 
+                 	alertify.alert("Advertencia", "La cantidad ingresada es mayor al stock maximo del producto"); 
+                 return false; 
+				} 
+
+				datos=$('#frmrentrada1').serialize();
+				$.ajax({
+					type:"POST",
+					data:datos,
+					url:"procesos/entradas/agregarTablaTemp1.php",
+					success:function(r){
+                        location.reload();
+					}
+				});
+			});
+		});
+	</script>
 </body>
 </html>
 

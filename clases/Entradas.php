@@ -10,7 +10,8 @@
 			$sql="SELECT codigoproduc,
                             idmarca,
 							nombre,
-							modelo
+							modelo,
+                            stockmaximo
 					from producto 
 					where codigoproduc='$idproducto'";
 			$result=mysqli_query($conexion,$sql);
@@ -21,7 +22,8 @@
 						'codigoproduc' => $ver[0],
 							'idmarca' => $ver[1],
 							'nombre' => $ver[2],
-							'modelo' => $ver[3]
+							'modelo' => $ver[3],
+                            'stockmaximo' => $ver[4]
 						);
 
 			return $datos;
