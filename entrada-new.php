@@ -2,7 +2,7 @@
 	session_start();
 	
 	if(isset($_SESSION['usuario']) and $_SESSION['estado']== 1){
-        if(!isset($_SESSION["tablaEntradasTemp"])) $_SESSION["tablaEntradasTemp"] = [];
+        if(!isset($_SESSION["carrito"])) $_SESSION["carrito"] = [];
 		
 	
 ?>
@@ -42,6 +42,9 @@
 	<!-- Alertify -->
 	<link rel="stylesheet" href="alertify/css/alertify.min.css" />
 	<link rel="stylesheet" href="alertify/css/themes/default.min.css" />
+
+    <!-- Select2 -->
+    <link href="select2/dist/css/select2.min.css" rel="stylesheet" />
 
 
 </head>
@@ -205,37 +208,36 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <?php //foreach($_SESSION["carrito"] as $indice => $producto){ 
-                                        //$granTotal += $producto->total;
-                                        if(isset($_SESSION['tablaEntradasTemp'])):
-                                            $i=0;
-                                            foreach(@$_SESSION['tablaEntradasTemp'] as $key){
-                                                $d=explode("||", @$key);
+                                    <?php 
+                                        foreach($_SESSION["carrito"] as $indice => $producto){ 
+                                            //$granTotal += $producto->total;
+                                        
                                     ?>
                                     <tr class="text-center" >
-                                        <td><?php echo $d[0] ?></td>
-                                        <td><?php echo $d[1] ?></td>
-                                        <td><?php echo $d[2] ?></td>
-                                        <td><?php echo $d[3] ?></td>
-                                        <td><?php echo $d[4] ?></td>
-                                        <td><?php echo $d[5] ?></td>
+                                        <td><?php echo $producto->codigoproduc ?></td>
+                                        <td><?php echo $producto->nombre ?></td>
+                                        <td><?php echo $producto->modelo ?></td>
+                                        <td><?php echo $producto->cantidad ?></td>
+                                        <td><?php echo $producto->fechaR ?></td>
+                                        <td><?php echo $producto->observaciones ?></td>
                                         <td>
-                                            <span class="btn btn-warning" title="Eliminar de la lista" onclick="quitarp1('<?php echo $i; ?>')">
+                                            <a class="btn btn-warning" href="<?php echo "procesos/entradas/quitarDelCarrito.php?indice=" . $indice?>" title="Eliminar de la lista">
                                                 <i class="bi bi-trash3-fill"></i>
-                                            </span>
+                                            </a>
                                         </td>
                                     </tr>
                                     <?php 
-                                        $i++;
-                                            } 
-                                        endif;
+                                        } 
                                     ?>
                                 </tbody>
                             </table>
                         </div>
+                        <form method="POST" action="procesos/entradas/registrarEntrada.php">
                         <p class="text-center" style="margin-top: 40px;">
-                            <span class="btn btn-raised btn-info btn-sm"><i class="far fa-save"></i> &nbsp; AGREGAR ENTRADA</span>
+                            <button type="submit" class="btn btn-raised btn-info btn-sm" id="btnAgregarEntrada1"><i class="far fa-save"></i> &nbsp; AGREGAR ENTRADA</button>
+                            <span class="btn btn-raised btn-warning btn-sm" id="btnCancelarEntrada1"><i class="bi bi-x-lg"></i> &nbsp; CANCELAR ENTRADA</span>
                         </p>
+                        </form>
                     </div>
             	</div>
 			</div>
@@ -252,7 +254,7 @@
                             </button>
                         </div>
                         <div class="modal-body">
-                            <form autocomplete="off" id="frmrentrada1">
+                            <form method="post" action="procesos/entradas/agregarTablaTemp.php" autocomplete="off" id="frmrentrada1">
                             <fieldset>
                                 <p><i class="far fa-plus-square"></i> &nbsp; Información del producto</p>
                                 <div class="container-fluid">
@@ -283,7 +285,7 @@
                                         </div>
                                         <div class="col-12 col-md-6">
                                             <div class="form-group">
-                                                <label for="producto_producto1">Producto</label>
+                                                <label for="producto_producto1">Nombre producto</label>
                                                 <input type="text" class="form-control" name="producto_producto" id="producto_producto" readonly="readonly">
                                             </div>
                                         </div>
@@ -296,7 +298,7 @@
                                         <div class="col-12 col-md-6">
                                             <div class="form-group">
                                                 <label for="producto_fecha">Fecha registro</label>
-                                                <input type="date" class="form-control" name="producto_fecha" id="producto_fecha">
+                                                <input type="text" class="form-control" name="producto_fecha" id="producto_fecha">
                                             </div>
                                         </div>
                                         <div class="col-12 col-md-6">
@@ -322,7 +324,7 @@
                                 </div>
                             </fieldset>
                             <p class="text-center" style="margin-top: 40px;">
-                                <span class="btn btn-raised btn-info btn-sm" id="registroen1"><i class="far fa-save"></i> &nbsp; AGREGAR PRODUCTO</span>
+                                <button type="submit" class="btn btn-raised btn-info btn-sm" id="registroen1"><i class="far fa-save"></i> &nbsp; AGREGAR PRODUCTO</button>
                             </p>
                             </form>
                         </div>
@@ -362,6 +364,19 @@
 
     <!-- Alertify -->
 	<script src="alertify/alertify.min.js"></script>
+
+    <!-- Select2 -->
+    <script src="select2/dist/js/select2.min.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+            //$('#listproducto').select2();
+            var fecha = new Date();
+            var salida = String(fecha.getDate()).padStart(2, '0') + '/' + String(fecha.getMonth()+1).padStart(2, '0') + '/' + String(fecha.getFullYear());
+            document.getElementById('producto_fecha').value = salida;
+
+        });
+    </script>
 
     <!-- Funcion para rellenar imputs -->
 	<script type="text/javascript">
@@ -409,23 +424,51 @@
 				if(vacios > 0){
 					alertify.alert("Advertencia", "Debes llenar todos los campos");
 					return false;
-				}else if(parseInt(smax) < parseInt(cantidad)){ 
-                 	alertify.alert("Advertencia", "La cantidad ingresada es mayor al stock maximo del producto"); 
-                 return false; 
-				} 
-
-				datos=$('#frmrentrada1').serialize();
-				$.ajax({
-					type:"POST",
-					data:datos,
-					url:"procesos/entradas/agregarTablaTemp1.php",
-					success:function(r){
-                        location.reload();
-					}
-				});
+				}
 			});
+
+            $('#btnCancelarEntrada1').click(function(){
+
+                $.ajax({
+                    url:"procesos/entradas/cancelarEntrada.php",
+                    success:function(r){
+                        location.reload();
+                    }
+                });
+            });
 		});
 	</script>
+
+     <!-- Obsiones de alertas -->
+     <?php 
+        if(isset($_GET["status"])){
+            if($_GET["status"] === "1"){
+    ?>
+        <script type="text/javascript">
+            alertify.success("Entrada agregada con éxito");
+        </script>
+        <?php
+            } else if($_GET["status"] === "2"){
+        ?>
+        <script type="text/javascript">
+            alertify.alert("Advertencia","La cantidad ingresada supera el stock máximo del producto");
+        </script>
+        <?php
+            } else if($_GET["status"] === "3"){
+        ?>
+        <script type="text/javascript">
+            alertify.alert("Advertencia","El producto ya se ha seleccionado");
+        </script>
+        <?php
+            } else if($_GET["status"] === "4"){
+        ?>
+        <script type="text/javascript">
+            alertify.alert("Advertencia","El producto seleccionado no existe");
+        </script>
+    <?php
+            }
+        }
+    ?>
 </body>
 </html>
 

@@ -4,5 +4,5 @@
 
     session_start();
     array_splice($_SESSION["carrito"], $indice, 1);
-    header("Location: ../../item-search.php");
+    header("Location: ../../entrada-new.php");
 ?>

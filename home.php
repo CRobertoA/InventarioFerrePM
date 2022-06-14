@@ -229,11 +229,17 @@
 					</div>
 				</a>
 
+				<?php 
+					$consultaE="select count(*) from entrada";
+					$ejecutarE=mysqli_query($conexion, $consultaE);
+					$conte = mysqli_fetch_row($ejecutarE)[0];
+
+				?>
 				<a href="company.html" class="tile">
 					<div class="tile-tittle">ENTRADAS</div>
 					<div class="tile-icon">
 						<i class="fas bi bi-box2-fill fa-fw"></i>
-						<p>1 Registrada</p>
+						<p><?php echo $conte ?> Registradas</p>
 					</div>
 				</a>
 
@@ -263,7 +269,7 @@
 					<div class="tile-tittle">REPORTES</div>
 					<div class="tile-icon">
 						<i class="fas fa-file-invoice fa-fw"></i>
-						<p>10 Registrados</p>
+						<p>Reportes</p>
 					</div>
 				</a>
 				<?php

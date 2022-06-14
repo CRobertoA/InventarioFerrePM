@@ -232,7 +232,7 @@
                                         <div class="col-12 col-md-4">
                                             <div class="form-group">
                                                 <label for="producto_fecha">Fecha registro</label>
-                                                <input type="date" class="form-control" name="producto_fecha" id="producto_fecha">
+                                                <input type="text" class="form-control" name="producto_fecha" id="producto_fecha" readonly="readonly">
                                             </div>
                                         </div>
                                         <div class="col-12 col-md-4">
@@ -286,9 +286,9 @@
                                 <td><?php echo $producto->codigoproduc ?></td>
                                 <td><?php echo $producto->nombre ?></td>
                                 <td><?php echo $producto->modelo ?></td>
-                                <td><?php echo $producto->modelo ?></td>
-                                <td><?php echo $producto->modelo ?></td>
-                                <td><?php echo $producto->modelo ?></td>
+                                <td><?php echo $producto->cantidad ?></td>
+                                <td><?php echo $producto->fechaR ?></td>
+                                <td><?php echo $producto->observaciones ?></td>
                                 <td>
                                     <a class="btn btn-warning" href="<?php echo "procesos/entradas/quitarDelCarrito.php?indice=" . $indice?>" title="Eliminar de la lista">
                                         <i class="bi bi-trash3-fill"></i>
@@ -304,9 +304,13 @@
                         </tbody>
                     </table>
 				</div>
+                    
+                    <form method="POST" action="procesos/entradas/registrarEntrada.php">
                     <p class="text-center" style="margin-top: 40px;">
-                        <span class="btn btn-raised btn-info btn-sm"><i class="far fa-save"></i> &nbsp; AGREGAR ENTRADA</span>
+                        <button type="submit" class="btn btn-raised btn-info btn-sm" id="btnAgregarEntrada1"><i class="far fa-save"></i> &nbsp; AGREGAR ENTRADA</button>
+                        <span class="btn btn-raised btn-warning btn-sm" id="btnCancelarEntrada"><i class="bi bi-x-lg"></i> &nbsp; CANCELAR ENTRADA</span>
                     </p>
+                    </form>
 			</div>
         </section>
 
@@ -345,6 +349,10 @@
     <script type="text/javascript">
         $(document).ready(function() {
             //$('#listproducto').select2();
+            var fecha = new Date();
+            var salida = String(fecha.getDate()).padStart(2, '0') + '/' + String(fecha.getMonth()+1).padStart(2, '0') + '/' + String(fecha.getFullYear());
+            document.getElementById('producto_fecha').value = salida;
+
         });
     </script>
 
@@ -382,7 +390,7 @@
 
     <!-- Agregar al carrito -->
 	<script type="text/javascript">
-		/*$(document).ready(function(){
+		$(document).ready(function(){
 			$('#registroen').click(function(){
 
 				// obtenemos los valores de los input 
@@ -393,12 +401,12 @@
 				if(vacios > 0){
 					alertify.alert("Advertencia", "Debes llenar todos los campos");
 					return false;
-				}else if(parseInt(smax) < parseInt(cantidad)){ 
+				}/*else if(parseInt(smax) < parseInt(cantidad)){ 
                  	alertify.alert("Advertencia", "La cantidad ingresada es mayor al stock maximo del producto"); 
                  return false; 
-				} 
+				} */
 
-				datos=$('#frmrentrada').serialize();
+		        /*datos=$('#frmrentrada').serialize();
 				$.ajax({
 					type:"POST",
 					data:datos,
@@ -406,10 +414,52 @@
 					success:function(r){
                         location.reload();
 					}
-				});
+				});*/
 			});
-		});*/
+
+            $('#btnCancelarEntrada').click(function(){
+
+                $.ajax({
+                    url:"procesos/entradas/cancelarEntrada.php",
+                    success:function(r){
+                        location.reload();
+                    }
+                });
+            });
+		});
 	</script>
+
+    <!-- Obsiones de alertas -->
+    <?php 
+        if(isset($_GET["status"])){
+            if($_GET["status"] === "1"){
+    ?>
+        <script type="text/javascript">
+            //location.reload();
+            alertify.success("Entrada agregada con éxito");
+        </script>
+        <?php
+            } else if($_GET["status"] === "2"){
+        ?>
+        <script type="text/javascript">
+            alertify.alert("Advertencia","La cantidad ingresada supera el stock máximo del producto");
+        </script>
+        <?php
+            } else if($_GET["status"] === "3"){
+        ?>
+        <script type="text/javascript">
+            alertify.alert("Advertencia","El producto ya se ha seleccionado");
+        </script>
+        <?php
+            } else if($_GET["status"] === "4"){
+        ?>
+        <script type="text/javascript">
+            alertify.alert("Advertencia","El producto seleccionado no existe");
+        </script>
+    <?php
+            }
+        }
+    ?>
 </body>
 </html>
 
