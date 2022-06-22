@@ -11,7 +11,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <title>Actualizar marca</title>
+    <title>Lista de entradas</title>
 
     <!-- Normalize V8.0.1 -->
     <link rel="stylesheet" href="./css/normalize.css">
@@ -36,18 +36,21 @@
 
     <!-- General Styles -->
     <link rel="stylesheet" href="./css/style.css">
-    <link rel="stylesheet" type="text/css" href="icons/font/bootstrap-icons.css">
+	<link rel="stylesheet" type="text/css" href="icons/font/bootstrap-icons.css">
 
 	<!-- Alertify -->
 	<link rel="stylesheet" href="alertify/css/alertify.min.css" />
 	<link rel="stylesheet" href="alertify/css/themes/default.min.css" />
 
+	<!-- DataTable -->
+	<link rel="stylesheet" type="text/css" href="dataTables/datatables.min.css" />
+	<link rel="stylesheet" type="text/css" href="dataTables/DataTables-1.11.5/css/dataTables.bootstrap4.min.css" />
 
 </head>
 
 
 <body>
-    <?php 
+	<?php 
 		require_once "clases/Conexion.php";
 												
 		$c= new conectar();
@@ -61,7 +64,7 @@
 		$resultU2= mysqli_query($conexion, $sql2);
 		$vernom = mysqli_fetch_row($resultU2);
 	?>
-    <!-- Main container -->
+    <!-- Contenedor principal -->
     <main class="full-box main-container">
         <!-- Nav lateral -->
         <section class="full-box nav-lateral">
@@ -71,17 +74,17 @@
                     <i class="far fa-times-circle show-nav-lateral"></i>
                     <img src="./assets/avatar/ferretera.jpg" class="img-fluid" alt="Avatar">
                     <figcaption class="roboto-medium text-center">
-                        <?php echo $vernom[0]. " " .$vernom[1]?> <br><small class="roboto-condensed-light"><?php echo $nom[4] ?></small>
+						<?php echo $vernom[0]. " " .$vernom[1]?> <br><small class="roboto-condensed-light"><?php echo $nom[4] ?></small>
                     </figcaption>
                 </figure>
                 <div class="full-box nav-lateral-bar"></div>
                 <nav class="full-box nav-lateral-menu">
-                    <ul>
-                        <li>
-                            <a href="home.php"><i class="fab fa-dashcube fa-fw"></i> &nbsp; Dashboard</a>
-                        </li>
+					<ul>
+						<li>
+							<a href="home.php"><i class="fab fa-dashcube fa-fw"></i> &nbsp; Dashboard</a>
+						</li>
 
-                        <li>
+						<li>
 							<a href="#" class="nav-btn-submenu"><i class="fas fa-pallet fa-fw"></i> &nbsp; PRODUCTOS <i class="fas fa-chevron-down"></i></a>
 							<ul>
 								<li>
@@ -132,8 +135,8 @@
 						<?php
 							endif;
 						?>
-                    </ul>
-                </nav>
+					</ul>
+				</nav>
             </div>
         </section>
         <section class="full-box page-content">
@@ -144,7 +147,7 @@
                 <!--<a href="user-update.php">
                     <i class="fas fa-user-cog"></i>
                 </a>-->
-                <label>
+				<label>
 					<i class="bi bi-person-workspace"></i> <?php echo $_SESSION['usuario'] ?>
 				</label>
                 <a href="#" class="btn-exit-system">
@@ -154,60 +157,64 @@
             <!-- Cabecera de pagina -->
             <div class="full-box page-header">
                 <h3 class="text-left">
-                    <i class="fas fa-sync-alt fa-fw"></i> &nbsp; EDITAR MARCA
+                    <i class="fas fa-clipboard-list fa-fw"></i> &nbsp; LISTA DE ENTRADAS
                 </h3>
                 <p class="text-justify">
-                    Editar los datos de la marca seleccionada
+					Entradas registradas en el sistema
                 </p>
             </div>
             <div class="container-fluid">
                 <ul class="full-box list-unstyled page-nav-tabs">
                     <li>
-                        <a href="marca-new.php"><i class="fas fa-plus fa-fw"></i> &nbsp; AGREGAR MARCA</a>
+                        <a href="entrada-new.php"><i class="fas fa-plus fa-fw"></i> &nbsp; NUEVA ENTRADA</a>
                     </li>
                     <li>
-                        <a href="marca-list.php"><i class="fas fa-clipboard-list fa-fw"></i> &nbsp; LISTA DE MARCAS</a>
+                        <a class="active" href="entrada-list.php"><i class="fas fa-clipboard-list fa-fw"></i> &nbsp; LISTA DE ENTRADAS</a>
                     </li>
                 </ul>
             </div>
             
             <!--CONTENIDO-->
-            <div class="container-fluid">
-                    <?php
-						$id = $_GET['id'];
-						$sql="SELECT * FROM marca where idmarca = '$id'";
-						$resultMU= mysqli_query($conexion, $sql);
-						$ver=mysqli_fetch_row($resultMU);
-						
+			 <div class="container-fluid">
+				<div class="table-responsive">
+					<?php
+						$sql="SELECT entrada.folio_entrada, entrada.fecha, empleado.nombre, empleado.apellidos 
+							  FROM entrada INNER JOIN usuario ON entrada.idusuario = usuario.idusuario
+							  INNER JOIN empleado ON usuario.curp = empleado.curp order by folio_entrada;";
+						$resultU= mysqli_query($conexion, $sql);
 					?>
-				<form class="form-neon" autocomplete="off" id="frmrmarcaAct" >
-					<fieldset>
-						<legend><i class="bi bi-tools"></i> &nbsp; Información de la marca</legend>
-						<div class="container-fluid">
-							<div class="row">
-                                <div class="col-12 col-md-6">
-									<div class="form-group">
-                                        <input type="text" hidden="" id="idmarcaA" name="idmarcaA" value="<?php echo $ver[0] ?>">
-										<label for="marca_nombreU" >Nombre de la marca</label>
-										<input type="text" pattern="[a-zA-záéíóúÁÉÍÓÚñÑ0-9 ]{1,45}" class="form-control" name="marca_nombreU" id="marca_nombreU" maxlength="45" value="<?php echo $ver[1] ?>">
-									</div>
-								</div>
-								
-							</div>
-						</div>
-					</fieldset>
-					<br><br>
-					<p class="text-center" style="margin-top: 40px;">
-						<span  class="btn btn-raised btn-success btn-sm" id="actualizaMarca"><i class="fas fa-sync-alt"></i> &nbsp; ACTUALIZAR</span>
-                        <a href="marca-list.php" class="btn btn-raised btn-secondary btn-sm"><i class="bi bi-chevron-double-left"></i> &nbsp; VOLVER</a>
-					</p>
-				</form>
+					<!-- tabla para listar entradas registrados -->
+					<table class="table table-dark table-sm" id="tablaentrada">
+						<thead>
+							<tr class="text-center roboto-medium">
+								<th>FOLIO ENTRADA</th>
+								<th>FECHA REGISTRO</th>
+								<th>USUARIO REGISTRO</th>
+							</tr>
+						</thead>
+						<tbody>
+							<!-- consulta rellena datos de entrada -->
+							<?php
+								while($ver=mysqli_fetch_row($resultU)):
+							?>
+							<tr class="text-center" >
+								<td><?php echo $ver[0] ?></td>
+								<td><?php echo $ver[1] ?></td>
+								<td><?php echo $ver[2]." ".$ver[3] ?></td>
+								<!--<td>
+									<a href="#" class="btn btn-info">
+	  									<i class="fas fa-file-pdf"></i>	
+									</a>
+								</td>-->
+							</tr>
+							<?php
+								endwhile;
+							?>
+						</tbody>
+					</table>
+				</div>
 			</div>
         </section>
-
-
-
-
     </main>
     
     	
@@ -231,42 +238,38 @@
 	<script>$(document).ready(function() { $('body').bootstrapMaterialDesign(); });</script>
 
 	<script src="./js/main.js" ></script>
-    <script src="./js/funciones.js" ></script>
+	<script src="./js/funciones.js" ></script>
+
+	<!-- Alertify -->
 	<script src="alertify/alertify.min.js"></script>
 
-	<!-- Actualizar producto -->
-	<script type="text/javascript">
-		$(document).ready(function(){
-			$('#actualizaMarca').click(function(){
+	<!-- DataTables -->
+	<script type="text/javascript" src="dataTables/datatables.min.js" ></script>
 
-				vacios=validarFormVacio('frmrmarcaAct');
-				if(vacios > 0){
-					alertify.alert("Advertencia","Debes llenar todos los campos");
-					return false;
-				}
-				
-				datos=$('#frmrmarcaAct').serialize();
-				$.ajax({
-					type:"POST",
-					data:datos,
-					url:"procesos/marcas/actualizarMarca.php",
-					success:function(r){
-						//alert(r);
-						//comsole.log(r);
-						if(r==1){
-							//window.location="empleado-list.php";
-							alertify.success("Marca actualizada con éxito");
-							//alert("Empleado actualizado con exito");
-							
-						}else{
-							alertify.error("Error al actualizar");
-						}
-					}
-				});
-			});
-		});
-	</script>
-
+    <!-- Funcion para DataTables -->
+	<script> 
+          //$('#tablaempleado').DataTable();  
+          $(document).ready(function() {     
+              $('#tablaentrada').DataTable({ 
+             //para cambiar el lenguaje a español 
+                 "language": { 
+                         "lengthMenu": "Mostrar _MENU_ registros", 
+                         "zeroRecords": "No se encontró ninguna coincidencia", 
+                         "info": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros", 
+                         "infoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros", 
+                         "infoFiltered": "(filtrado de un total de _MAX_ registros)", 
+                         "sSearch": "Buscar:", 
+                         "oPaginate": { 
+                             "sFirst": "Primero", 
+                             "sLast":"Último", 
+                             "sNext":"Siguiente", 
+                             "sPrevious": "Anterior" 
+                         }, 
+                         "sProcessing":"Procesando...", 
+                     } 
+             });      
+         }); 
+     </script>
 </body>
 </html>
 

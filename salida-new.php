@@ -2,7 +2,7 @@
 	session_start();
 	
 	if(isset($_SESSION['usuario']) and $_SESSION['estado']== 1){
-        if(!isset($_SESSION["carrito"])) $_SESSION["carrito"] = [];
+        if(!isset($_SESSION["salidas"])) $_SESSION["salidas"] = [];
 		
 	
 ?>
@@ -12,7 +12,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <title>Nueva entrada</title>
+    <title>Nueva salida</title>
 
     <!-- Normalize V8.0.1 -->
     <link rel="stylesheet" href="./css/normalize.css">
@@ -159,19 +159,19 @@
             <!-- Cabecera de la pagina -->
             <div class="full-box page-header">
                 <h3 class="text-left">
-                    <i class="fas fa-plus fa-fw"></i> &nbsp; NUEVA ENTRADA
+                    <i class="fas fa-plus fa-fw"></i> &nbsp; NUEVA SALIDA
                 </h3>
                 <p class="text-justify">
-                    Capturar los datos de la nueva entrada
+                    Capturar los datos de la nueva salida
                 </p>
             </div>
             <div class="container-fluid">
                 <ul class="full-box list-unstyled page-nav-tabs">
                     <li>
-                        <a class="active" href="entrada-new.php"><i class="fas fa-plus fa-fw"></i> &nbsp; NUEVA ENTRADA</a>
+                        <a class="active" href="salida-new.php"><i class="fas fa-plus fa-fw"></i> &nbsp; NUEVA SALIDA</a>
                     </li>
                     <li>
-                        <a href="entrada-list.php"><i class="fas fa-clipboard-list fa-fw"></i> &nbsp; LISTA DE ENTRADAS</a>
+                        <a href="salida-list.php"><i class="fas fa-clipboard-list fa-fw"></i> &nbsp; LISTA DE SALIDAS</a>
                     </li>
                 </ul>
             </div>
@@ -200,7 +200,7 @@
                                 </thead>
                                 <tbody>
                                     <?php 
-                                        foreach($_SESSION["carrito"] as $indice => $producto){ 
+                                        foreach($_SESSION["salidas"] as $indice => $producto){ 
                                             //$granTotal += $producto->total;
                                         
                                     ?>
@@ -212,7 +212,7 @@
                                         <td><?php echo $producto->fechaR ?></td>
                                         <td><?php echo $producto->observaciones ?></td>
                                         <td>
-                                            <a class="btn btn-warning" href="<?php echo "procesos/entradas/quitarDelCarrito.php?indice=" . $indice?>" title="Eliminar de la lista">
+                                            <a class="btn btn-warning" href="<?php echo "procesos/salidas/quitarDelCarro.php?indice=" . $indice?>" title="Eliminar de la lista">
                                                 <i class="bi bi-trash3-fill"></i>
                                             </a>
                                         </td>
@@ -223,10 +223,10 @@
                                 </tbody>
                             </table>
                         </div>
-                        <form method="POST" action="procesos/entradas/registrarEntrada.php">
+                        <form method="POST" action="procesos/salidas/registrarSalida.php">
                         <p class="text-center" style="margin-top: 40px;">
-                            <button type="submit" class="btn btn-raised btn-info btn-sm" id="btnAgregarEntrada1"><i class="far fa-save"></i> &nbsp; AGREGAR ENTRADA</button>
-                            <span class="btn btn-raised btn-warning btn-sm" id="btnCancelarEntrada1"><i class="bi bi-x-lg"></i> &nbsp; CANCELAR ENTRADA</span>
+                            <button type="submit" class="btn btn-raised btn-info btn-sm" id="btnAgregarSalida1"><i class="far fa-save"></i> &nbsp; AGREGAR SALIDA</button>
+                            <span class="btn btn-raised btn-warning btn-sm" id="btnCancelarSalida1"><i class="bi bi-x-lg"></i> &nbsp; CANCELAR SALIDA</span>
                         </p>
                         </form>
                     </div>
@@ -245,7 +245,7 @@
                             </button>
                         </div>
                         <div class="modal-body">
-                            <form method="post" action="procesos/entradas/agregarTablaTemp.php" autocomplete="off" id="frmrentrada1">
+                            <form method="post" action="procesos/salidas/agregaTabTemporal.php" autocomplete="off" id="frmrsalida1">
                             <fieldset>
                                 <p><i class="far fa-plus-square"></i> &nbsp; Información del producto</p>
                                 <div class="container-fluid">
@@ -260,7 +260,7 @@
                                                         $consulta="SELECT * from producto";
                                                         $ejecutar=mysqli_query($conexion, $consulta);
                                                     ?>
-                                                <select class="form-control" name="listproducto" id="listproducto" onchange="agregaDatosProdu1(event.target.value)">
+                                                <select class="form-control" name="listproducto" id="listproducto" onchange="agregaDatosProducto(event.target.value)">
                                                     <option value="A" selected="">Seleccione un producto</option>
                                                     <?php foreach ($ejecutar as $opciones): ?>
                                                     <option value="<?php echo $opciones['codigoproduc'] ?>"> <?php echo $opciones['nombre'] ?> </option>
@@ -315,7 +315,7 @@
                                 </div>
                             </fieldset>
                             <p class="text-center" style="margin-top: 40px;">
-                                <button type="submit" class="btn btn-raised btn-info btn-sm" id="registroen1"><i class="far fa-save"></i> &nbsp; AGREGAR PRODUCTO</button>
+                                <button type="submit" class="btn btn-raised btn-info btn-sm" id="agregaCarro"><i class="far fa-save"></i> &nbsp; AGREGAR PRODUCTO</button>
                             </p>
                             </form>
                         </div>
@@ -371,12 +371,12 @@
 
     <!-- Funcion para rellenar imputs -->
 	<script type="text/javascript">
-        function agregaDatosProdu1(idproducto){
+        function agregaDatosProducto(idproducto){
 
             $.ajax({
                 type:"POST",
                 data:"idproducto=" + idproducto,
-                url:"procesos/entradas/obtenDatosProdu.php",
+                url:"procesos/salidas/obtenDatosProducto.php",
                 success:function(r){
                     dato=jQuery.parseJSON(r);
 
@@ -388,40 +388,28 @@
             });
         }
 
-        function quitarp1(index){
-
-            $.ajax({
-                type:"POST",
-                data:"ind=" + index,
-                url:"procesos/entradas/quitarDelCarrito1.php",
-                success:function(r){
-                    location.reload();
-                }
-            });
-        }
-
     </script>
 
     <!-- Agregar al carrito -->
 	<script type="text/javascript">
 		$(document).ready(function(){
-			$('#registroen1').click(function(){
+			$('#agregaCarro').click(function(){
 
 				// obtenemos los valores de los input 
 				var cantidad = document.getElementById("producto_cantidad").value; 
                 var smax = document.getElementById("producto_stockmax").value; 
 
-				vacios=validarFormVacio('frmrentrada1');
+				vacios=validarFormVacio('frmrsalida1');
 				if(vacios > 0){
 					alertify.alert("Advertencia", "Debes llenar todos los campos");
 					return false;
 				}
 			});
 
-            $('#btnCancelarEntrada1').click(function(){
+            $('#btnCancelarSalida1').click(function(){
 
                 $.ajax({
-                    url:"procesos/entradas/cancelarEntrada.php",
+                    url:"procesos/salidas/cancelarSalida.php",
                     success:function(r){
                         location.reload();
                     }
@@ -436,25 +424,29 @@
             if($_GET["status"] === "1"){
     ?>
         <script type="text/javascript">
-            alertify.success("Entrada agregada con éxito");
+            alertify.success("Salida agregada con éxito");
+            setTimeout(recargarPagina,3000);
         </script>
         <?php
             } else if($_GET["status"] === "2"){
         ?>
         <script type="text/javascript">
-            alertify.alert("Advertencia","La cantidad ingresada supera el stock máximo del producto");
+            alertify.alert("Advertencia","La cantidad ingresada supera el stock actual del producto");
+            setTimeout(recargarPagina,3000);
         </script>
         <?php
             } else if($_GET["status"] === "3"){
         ?>
         <script type="text/javascript">
             alertify.alert("Advertencia","El producto ya se ha seleccionado");
+            setTimeout(recargarPagina,3000);
         </script>
         <?php
             } else if($_GET["status"] === "4"){
         ?>
         <script type="text/javascript">
             alertify.alert("Advertencia","El producto seleccionado no existe");
+            setTimeout(recargarPagina,3000);
         </script>
     <?php
             }

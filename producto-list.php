@@ -89,10 +89,10 @@
 							<a href="#" class="nav-btn-submenu"><i class="fas fa-pallet fa-fw"></i> &nbsp; PRODUCTOS <i class="fas fa-chevron-down"></i></a>
 							<ul>
 								<li>
-									<a href="producto-new.php"><i class="fas fa-plus fa-fw"></i> &nbsp; AGREGAR PRODUCTO</a>
+									<a href="producto-new.php"><i class="bi bi-boxes"></i> &nbsp; AGREGAR PRODUCTO</a>
 								</li>
 								<li>
-									<a href="marca-new.php"><i class="fas fa-clipboard-list fa-fw"></i> &nbsp; AGREGAR MARCA</a>
+									<a href="marca-new.php"><i class="fas fa-plus fa-fw"></i> &nbsp; AGREGAR MARCA</a>
 								</li>
 							</ul>
 						</li>
@@ -106,7 +106,7 @@
 						</li>
 
 						<li>
-							<a href="company.html"><i class="fas fa-shopping-cart fa-fw"></i> &nbsp; SALIDAS</a>
+							<a href="salida-new.php"><i class="fas fa-shopping-cart fa-fw"></i> &nbsp; SALIDAS</a>
 						</li>
 
 						<?php
@@ -129,16 +129,7 @@
 							<a href="#" class="nav-btn-submenu"><i class="fas fa-file-invoice fa-fw"></i> &nbsp; REPORTES <i class="fas fa-chevron-down"></i></a>
 							<ul>
 								<li>
-									<a href="entrada-new.php"><i class="fas fa-plus fa-fw"></i> &nbsp; Nuevo préstamo</a>
-								</li>
-								<li>
-									<a href="reservation-list.html"><i class="fas fa-clipboard-list fa-fw"></i> &nbsp; Lista de préstamos</a>
-								</li>
-								<li>
-									<a href="reservation-search.html"><i class="fas fa-search-dollar fa-fw"></i> &nbsp; Buscar préstamos</a>
-								</li>
-								<li>
-									<a href="reservation-pending.html"><i class="fas fa-hand-holding-usd fa-fw"></i> &nbsp; Préstamos pendientes</a>
+									<a href="entrada-new.php"><i class="fas fa-plus fa-fw"></i> &nbsp; REPORTES</a>
 								</li>
 							</ul>
 						</li>
@@ -188,7 +179,8 @@
            <div class="container-fluid">
 				<div class="table-responsive">
                     <?php
-						$sql="SELECT * FROM producto";
+						$sql="SELECT pro.codigoproduc, pro.nombre, pro.modelo, pro.descripcion, pro.foto, pro.stockminimo, pro.stockmaximo, inv.stock
+                                FROM inventario inv INNER JOIN producto pro ON pro.codigoproduc = inv.codigoproduc;";
 						$resultU= mysqli_query($conexion, $sql);
 						$sql2="SELECT M.nombre FROM marca M INNER JOIN producto P ON M.idmarca = P.idmarca order by P.codigoproduc";
 						$resultU2= mysqli_query($conexion, $sql2);
@@ -216,22 +208,22 @@
 							?>
 							<tr class="text-center" >
 								<td><?php echo $ver[0] ?></td>
-								<td><?php echo $ver[3] ?></td>
+								<td><?php echo $ver[1] ?></td>
 								<td><?php echo $ver2[0] ?></td>
-								<td><?php echo $ver[4] ?></td>
+								<td><?php echo $ver[2] ?></td>
+                                <td><?php echo $ver[3] ?></td>
                                 <td><?php echo $ver[5] ?></td>
-                                <td><?php echo $ver[7] ?></td>
-                                <td><?php echo $ver[8] ?></td>
+                                <td><?php echo $ver[6] ?></td>
                                 <td>
                                     <?php 
-                                        $imgVer=explode("/", $ver[6]) ; 
+                                        $imgVer=explode("/", $ver[4]) ; 
                                         $imgruta=$imgVer[2]."/".$imgVer[3];
                                     ?>
                                     <img width="65" height="65" src="<?php echo $imgruta ?>">
                                 </td>
 								<td>
                                     <!-- boton para actualizar producto -->
-                                    <a href="producto-update.php?id=<?php echo $ver[0] ?>" class="btn btn-success" >
+                                    <a href="producto-update.php?id=<?php echo $ver[0] ?>" class="btn btn-success" title="Editar producto" >
 	  									<i class="bi bi-pen-fill"></i>	
 									</a>
                                     <!--<a href="producto-update.php?id=<?php //echo $ver[0] ?>" class="btn btn-success" onclick="agregaDatosProducto('<?php //echo $ver[0] ?>')">
@@ -239,9 +231,18 @@
 									</a>-->
                                 </td>
                                 <td>
-                                    <span class="btn btn-warning" onclick="eliminaProducto('<?php echo $ver[0] ?>')">
+                                    <!-- boton para eliminar producto -->
+                                    <?php if($ver[7] == 0){ ?>
+                                    <!-- si la existencia del producto = o se puede eliminar -->
+                                    <span class="btn btn-warning" title="Eliminar producto" onclick="eliminaProducto('<?php echo $ver[0] ?>')">
                                         <i class="bi bi-trash3-fill"></i>
                                     </span>
+                                    <?php }else{ ?>
+                                    <!-- si el producto tiene existencias no se puede eliminar -->
+                                    <span class="btn btn-secondary" title="Eliminar producto">
+                                        <i class="bi bi-trash3-fill"></i>
+                                    </span>
+                                    <?php }?>
                                 </td>
 							</tr>
 							<?php

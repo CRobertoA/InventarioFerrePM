@@ -85,10 +85,10 @@
 							<a href="#" class="nav-btn-submenu"><i class="fas fa-pallet fa-fw"></i> &nbsp; PRODUCTOS <i class="fas fa-chevron-down"></i></a>
 							<ul>
 								<li>
-									<a href="producto-new.php"><i class="fas fa-plus fa-fw"></i> &nbsp; AGREGAR PRODUCTO</a>
+									<a href="producto-new.php"><i class="bi bi-boxes"></i> &nbsp; AGREGAR PRODUCTO</a>
 								</li>
 								<li>
-									<a href="marca-new.php"><i class="fas fa-clipboard-list fa-fw"></i> &nbsp; AGREGAR MARCA</a>
+									<a href="marca-new.php"><i class="fas fa-plus fa-fw"></i> &nbsp; AGREGAR MARCA</a>
 								</li>
 							</ul>
 						</li>
@@ -102,7 +102,7 @@
 						</li>
 
 						<li>
-							<a href="company.html"><i class="fas fa-shopping-cart fa-fw"></i> &nbsp; SALIDAS</a>
+							<a href="salida-new.php"><i class="fas fa-shopping-cart fa-fw"></i> &nbsp; SALIDAS</a>
 						</li>
 
 						<?php
@@ -125,16 +125,7 @@
 							<a href="#" class="nav-btn-submenu"><i class="fas fa-file-invoice fa-fw"></i> &nbsp; REPORTES <i class="fas fa-chevron-down"></i></a>
 							<ul>
 								<li>
-									<a href="entrada-new.php"><i class="fas fa-plus fa-fw"></i> &nbsp; Nuevo préstamo</a>
-								</li>
-								<li>
-									<a href="reservation-list.html"><i class="fas fa-clipboard-list fa-fw"></i> &nbsp; Lista de préstamos</a>
-								</li>
-								<li>
-									<a href="reservation-search.html"><i class="fas fa-search-dollar fa-fw"></i> &nbsp; Buscar préstamos</a>
-								</li>
-								<li>
-									<a href="reservation-pending.html"><i class="fas fa-hand-holding-usd fa-fw"></i> &nbsp; Préstamos pendientes</a>
+									<a href="entrada-new.php"><i class="fas fa-plus fa-fw"></i> &nbsp; REPORTES</a>
 								</li>
 							</ul>
 						</li>
@@ -210,7 +201,7 @@
 								<div class="col-12 col-md-6">
 									<div class="form-group">
 										<label for="producto_descripcion" class="bmd-label-floating">Descripción</label>
-										<input type="num" pattern="[a-zA-záéíóúÁÉÍÓÚñÑ0-9()- ]{1,190}" class="form-control" name="producto_descripcion" id="producto_descripcion" maxlength="140">
+										<input type="text" pattern="[a-zA-záéíóúÁÉÍÓÚñÑ0-9()- ]{1,190}" class="form-control" name="producto_descripcion" id="producto_descripcion" maxlength="140">
 									</div>
 								</div>
 								<div class="col-12 col-md-6">
@@ -234,13 +225,13 @@
 								<div class="col-12 col-md-6">
 									<div class="form-group">
 										<label for="producto_smin" class="bmd-label-floating">Stock minimo</label>
-										<input type="text" pattern="[0-9]{1,9}" class="form-control" name="producto_smin" id="producto_smin" maxlength="190">
+										<input type="number" pattern="[0-9]{1,9}" class="form-control" name="producto_smin" id="producto_smin" maxlength="190">
 									</div>
 								</div>
                                 <div class="col-12 col-md-6">
 									<div class="form-group">
 										<label for="producto_smax" class="bmd-label-floating">Stock maximo</label>
-										<input type="text" pattern="[0-9]{1,9}" class="form-control" name="producto_smax" id="producto_smax" maxlength="190">
+										<input type="number" pattern="[0-9]{1,9}" class="form-control" name="producto_smax" id="producto_smax" maxlength="190">
 									</div>
 								</div>
                                 <div class="col-12 col-md-6">
@@ -312,7 +303,7 @@
 				}else if(stockmax <= 0){ 
 					alertify.alert("Advertencia", "El stock maximo debe ser mayor a 0"); 
 					return false; 
-				}else if(parseInt(stockmaxi) <= parseInt(stockmini)){ 
+				}else if(parseInt(stockmax) <= parseInt(stockmin)){ 
 					alertify.alert("Advertencia", "El stock maximo debe ser mayor al stock minimo"); 
 					return false; 
 				}
