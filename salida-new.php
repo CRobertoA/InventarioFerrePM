@@ -388,6 +388,10 @@
             });
         }
 
+        function refreshs() {
+            window.location="salida-new.php";
+        }
+
     </script>
 
     <!-- Agregar al carrito -->
@@ -425,28 +429,28 @@
     ?>
         <script type="text/javascript">
             alertify.success("Salida agregada con éxito");
-            setTimeout(recargarPagina,3000);
+            setTimeout(refreshs,4000);
         </script>
         <?php
             } else if($_GET["status"] === "2"){
         ?>
         <script type="text/javascript">
             alertify.alert("Advertencia","La cantidad ingresada supera el stock actual del producto");
-            setTimeout(recargarPagina,3000);
+            setTimeout(refreshs,4000);
         </script>
         <?php
             } else if($_GET["status"] === "3"){
         ?>
         <script type="text/javascript">
             alertify.alert("Advertencia","El producto ya se ha seleccionado");
-            setTimeout(recargarPagina,3000);
+            setTimeout(refreshs,4000);
         </script>
         <?php
             } else if($_GET["status"] === "4"){
         ?>
         <script type="text/javascript">
             alertify.alert("Advertencia","El producto seleccionado no existe");
-            setTimeout(recargarPagina,3000);
+            setTimeout(refreshs,4000);
         </script>
     <?php
             }
