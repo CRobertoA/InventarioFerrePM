@@ -277,6 +277,7 @@
 						&nbsp; &nbsp;
 						<!--<button type="submit" class="btn btn-raised btn-info btn-sm"><i class="far fa-save"></i> &nbsp; GUARDAR</button>-->
 						<span type="submit" class="btn btn-raised btn-info btn-sm" id="registrou"><i class="far fa-save"></i> &nbsp; GUARDAR</span>
+						<a href="procesos/usuarios/correo.php">correo</a>
 					</p>
 				</form>
 			</div>
@@ -341,11 +342,13 @@
 					data:datos,
 					url:"procesos/reglogin/registrarUsuario.php",
 					success:function(r){
-						//alert(r);
+						alert(r);
 						if(r==1){
 							//limpia el formulario una vez agregado
 							$('#frmrusuario')[0].reset();
 							alertify.success("Usuario agregado con éxito");
+						}else if(r==2){
+							alertify.error("El empleado seleccionado ya petenece a un usuario");
 						}else{
 							alertify.error("Error al agregar");
 						}

@@ -33,6 +33,7 @@
 					$datos[5]=$rutaFinal;
                     $datos[6]=$_POST['producto_smin'];
                     $datos[7]=$_POST['producto_smax'];
+					$datos[8]=$_POST['generacodigo'];
 					echo $obj->insertaProducto($datos);
 				//}else{
 				//	echo 0;

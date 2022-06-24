@@ -214,13 +214,13 @@
 								<div class="col-12 col-md-6">
 									<div class="form-group">
 										<label for="empleado_nombre" >Nombre</label>
-										<input type="text" pattern="[a-zA-ZáéíóúÁÉÍÓÚñÑ ]{1,40}" class="form-control" name="empleado_nombre" id="empleado_nombre" maxlength="40" value="<?php echo $ver[1] ?>">
+										<input type="text" pattern="[a-zA-ZáéíóúÁÉÍÓÚñÑ ]{1,40}" class="form-control" name="empleado_nombre" id="empleado_nombre" maxlength="40" readonly="readonly" value="<?php echo $ver[1] ?>">
 									</div>
 								</div>
 								<div class="col-12 col-md-6">
 									<div class="form-group">
 										<label for="empleado_apellido" >Apellidos</label>
-										<input type="text" pattern="[a-zA-ZáéíóúÁÉÍÓÚñÑ ]{1,40}" class="form-control" name="empleado_apellido" id="empleado_apellido" maxlength="40" value="<?php echo $ver[2] ?>">
+										<input type="text" pattern="[a-zA-ZáéíóúÁÉÍÓÚñÑ ]{1,40}" class="form-control" name="empleado_apellido" id="empleado_apellido" maxlength="40" readonly="readonly" value="<?php echo $ver[2] ?>">
 									</div>
 								</div>
 								<div class="col-12 col-md-6">

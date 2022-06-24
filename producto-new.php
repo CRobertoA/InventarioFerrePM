@@ -189,6 +189,7 @@
 									<div class="form-group">
 										<label for="producto_nombre" class="bmd-label-floating">Nombre del producto</label>
 										<input type="text" pattern="[a-zA-záéíóúÁÉÍÓÚñÑ0-9 ]{1,45}" class="form-control" name="producto_nombre" id="producto_nombre" maxlength="45">
+										<input type="text" hidden="" class="form-control" name="generacodigo" id="generacodigo" maxlength="45">
 									</div>
 								</div>
 								
@@ -204,7 +205,7 @@
 										<input type="text" pattern="[a-zA-záéíóúÁÉÍÓÚñÑ0-9()- ]{1,190}" class="form-control" name="producto_descripcion" id="producto_descripcion" maxlength="140">
 									</div>
 								</div>
-								<div class="col-12 col-md-6">
+								<div class="col-12 col-md-4">
 									<div class="form-group">
 										<label for="producto_marca" class="bmd-label-floating">Marca</label>
 										<select class="form-control" name="producto_marca" id="producto_marca">
@@ -220,6 +221,12 @@
                                                 <option value="<?php echo $opciones['idmarca'] ?>"><?php echo $opciones['nombre'] ?></option>
                                             <?php endforeach ?>
 										</select>
+									</div>
+								</div>
+								<div class="col-12 col-md-2">
+									<div class="form-group">
+										<label for="producto_descripcion" class="bmd-label-floating">Marca nueva</label>
+										<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#ModalMarca"><i class="bi bi-plus-square-dotted"></i> &nbsp; Marca</button>
 									</div>
 								</div>
 								<div class="col-12 col-md-6">
@@ -251,11 +258,46 @@
 					</p>
 				</form>
 			</div>
+
+			<!-- MODAL MARCA -->
+            <div class="modal fade" id="ModalMarca" tabindex="-1" role="dialog" aria-labelledby="ModalMarca" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="ModalMarca">Agregar marca</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form autocomplete="off" id="frmrmarcaM">
+                            <fieldset>
+                                <p><i class="far fa-plus-square"></i> &nbsp; Información de la marca</p>
+                                <div class="container-fluid">
+                                    <div class="row">
+                                        <div class="col-12 col-md-8">
+                                            <div class="form-group">
+                                                <label for="marca_nombre">Nombre marca</label>
+                                                <input type="text" class="form-control" name="marca_nombre" id="marca_nombre">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </fieldset>
+                            <p class="text-center" style="margin-top: 40px;">
+                                <!-- boton para guardar datos de la marca-->
+								<span class="btn btn-raised btn-info btn-sm" id="registromM" ><i class="far fa-save"></i> &nbsp;GUARDAR</span>
+                            </p>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
         </section>
-
-
-
-
     </main>
     
     	
@@ -292,6 +334,17 @@
 				// obtenemos los valores de los input 
 				var stockmin = document.getElementById("producto_smin").value; 
 				var stockmax = document.getElementById("producto_smax").value; 
+				var modeloco = document.getElementById("producto_modelo").value; 
+
+				$("#producto_marca").change(function() {
+					var valor = $(this).val(); // Capturamos el valor del select
+					var texto = $(this).find('option:selected').text(); // Capturamos el texto del option seleccionado
+				});
+
+				var submarca = texto.substr(0,3);
+				var submodelo = modeloco.substr(0,2);
+
+				document.getElementById("generacodigo").value = submarca + submodelo;
 
 				vacios=validarFormVacio('frmrproducto');
 				if(vacios > 0){
@@ -326,6 +379,55 @@
 							$('#frmrproducto')[0].reset();
 							//$('#tablaArticulos').load('articulos/tablaArticulos.php');
 							alertify.success("Producto agregado con exito");
+						}else{
+							alertify.error("Error al agregar");
+						}
+					}
+				});
+			});
+		});
+	</script>
+
+	<script>
+		/*function LlenarCombo(){
+			$.ajax({
+                type:"POST",
+				url:"procesos/marcas/obtenDatosMarca.php",
+                success:function(r){
+                    alert(r);
+					$("#producto_marca").empty();
+                    dato= jQuery.parseJSON(r);
+					$.each(dato, function(i, item){
+							$('#producto_marca').append('<option value="'+item.idmarca+'">'+item.nombre+'</option>');
+					});
+                }
+            });
+    	}*/
+	</script>
+	<!-- registrar marca -->
+	<script type="text/javascript">
+		$(document).ready(function(){
+			$('#registromM').click(function(){
+
+				vacios=validarFormVacio('frmrmarcaM');
+				if(vacios > 0){
+					alertify.alert("Advertencia","Debes llenar todos los campos");
+					return false;
+				}
+				datos=$('#frmrmarcaM').serialize();
+				$.ajax({
+					type:"POST",
+					data:datos,
+					url:"procesos/marcas/registrarmarca.php",
+					success:function(r){
+						//alert(r);
+						if(r==1){
+							//limpia el formulario una vez agregado
+							location.reload();
+							//$('#frmrmarcaM')[0].reset();
+							//$('#ModalMarca').modal('hide');
+							//LlenarCombo();
+							//alertify.success("Marca agregada con éxito");
 						}else{
 							alertify.error("Error al agregar");
 						}

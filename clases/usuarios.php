@@ -4,15 +4,22 @@
             $c= new conectar();
             $conexion= $c->conexion();
 
-            $estado=1;
-            $sql="INSERT into usuario (curp, 
-                                        nombre,
-                                        contrasena,
-                                        rol,
-                                        estado)
-                                values ('$datos[0]', '$datos[1]', '$datos[2]', '$datos[3]', '$estado')";
+			$sqlid="SELECT * FROM usuario where curp= '$datos[0]'";
+            $result= mysqli_query($conexion, $sqlid);
 
-            return mysqli_query($conexion,$sql);
+			if(mysqli_num_rows($result) > 0){
+                return 2;
+            }else{
+				$estado=1;
+				$sql="INSERT into usuario (curp, 
+											nombre,
+											contrasena,
+											rol,
+											estado)
+									values ('$datos[0]', '$datos[1]', '$datos[2]', '$datos[3]', '$estado')";
+
+				return mysqli_query($conexion,$sql);
+			}
         }
 
         public function loginUser($datos){

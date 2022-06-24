@@ -214,7 +214,7 @@
 						<!-- boton para limpiar formulario -->
 						<button type="reset" class="btn btn-raised btn-secondary btn-sm"><i class="fas fa-paint-roller"></i> &nbsp; LIMPIAR</button>
 						&nbsp; &nbsp;
-						<!-- boton para guardar datos del empleado-->
+						<!-- boton para guardar datos de la marca-->
 						<span class="btn btn-raised btn-info btn-sm" id="registrom" ><i class="far fa-save"></i> &nbsp;GUARDAR</span>
 					</p>
 				</form>

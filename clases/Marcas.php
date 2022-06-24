@@ -29,5 +29,18 @@
 			return mysqli_query($conexion,$sql);
 
 		}
+
+        public function obtenDatosMarca(){
+			$c=new conectar();
+			$conexion=$c->conexion();
+ 
+			//$idimagen=self::obtenIdImg($idproducto);
+
+			$sql="SELECT * FROM marca ";
+
+			$result= mysqli_query($conexion,$sql);
+            $ver=mysqli_fetch_assoc($result);
+            return $ver;
+		}
     }
 ?>

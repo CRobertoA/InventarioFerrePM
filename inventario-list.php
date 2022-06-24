@@ -200,14 +200,14 @@
 			<div class="container-fluid">
 				<div class="table-responsive">
 					<?php
-						$sql="SELECT I.idinventario, P.nombre, I.stock, I.entradas, I.salidas FROM inventario I INNER JOIN producto P ON I.codigoproduc = P.codigoproduc order by I.idinventario; ";
+						$sql="SELECT P.codigoproduc, P.nombre, I.stock, I.entradas, I.salidas FROM inventario I INNER JOIN producto P ON I.codigoproduc = P.codigoproduc order by P.codigoproduc; ";
 						$resultI= mysqli_query($conexion, $sql);
 					?>
 					<!--tabla para listar el inventario -->
 					<table class="table table-dark table-sm" id="tablainventario">
 						<thead>
 							<tr class="text-center roboto-medium">
-								<th>ID</th>
+								<th>CODIGO</th>
 								<th>PRODUCTO</th>
 								<th>STOCK ACTUAL</th>
 								<th>ENTRADAS</th>

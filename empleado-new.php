@@ -319,6 +319,8 @@
 							//limpia el formulario una vez agregado
 							$('#frmrempleado')[0].reset();
 							alertify.success("Empleado agregado con éxito");
+						}else if(r==2){
+							alertify.error("El empleado ya ha sido agregado");
 						}else{
 							alertify.error("Error al agregar");
 						}
