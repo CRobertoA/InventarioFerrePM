@@ -167,7 +167,10 @@
 				<label>
 					<i class="bi bi-person-workspace"></i> <?php echo $_SESSION['usuario'] ?>
 				</label>	
-				<a href="#" class="btn-exit-system">
+				<!--<a href="#" class="btn-exit-system">
+					<i class="fas fa-power-off"></i>
+				</a>-->
+				<a onclick="cerrarSesion();" title="Cerrar sesion">
 					<i class="fas fa-power-off"></i>
 				</a>
 			</nav>
@@ -340,6 +343,14 @@
 					}
 				}
 			});
+		}
+
+		function cerrarSesion(){
+			alertify.confirm("Cerrando sesión",'¿Seguro que desea cerrar sesión?', function(){
+				window.location="procesos/reglogin/salir.php";
+			}, function(){ 
+				alertify.error('Cancelo!')
+			}).set('labels', {ok:'Si, salir!', cancel:'No, cancelar'});
 		}
 	</script>
 

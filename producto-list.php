@@ -151,9 +151,12 @@
                 <label>
 					<i class="bi bi-person-workspace"></i> <?php echo $_SESSION['usuario'] ?>
 				</label>
-                <a href="#" class="btn-exit-system">
-                    <i class="fas fa-power-off"></i>
-                </a>
+                <!--<a href="#" class="btn-exit-system">
+					<i class="fas fa-power-off"></i>
+				</a>-->
+				<a onclick="cerrarSesion();" title="Cerrar sesion">
+					<i class="fas fa-power-off"></i>
+				</a>
             </nav>
             <!-- Cabecera de pagina -->
             <div class="full-box page-header">
@@ -180,9 +183,9 @@
 				<div class="table-responsive">
                     <?php
 						$sql="SELECT pro.codigoproduc, pro.nombre, pro.modelo, pro.descripcion, pro.foto, pro.stockminimo, pro.stockmaximo, inv.stock
-                                FROM inventario inv INNER JOIN producto pro ON pro.codigoproduc = inv.codigoproduc;";
+                                FROM inventario inv INNER JOIN producto pro ON pro.codigoproduc = inv.codigoproduc order by substring(pro.codigoproduc, 6);";
 						$resultU= mysqli_query($conexion, $sql);
-						$sql2="SELECT M.nombre FROM marca M INNER JOIN producto P ON M.idmarca = P.idmarca order by P.codigoproduc";
+						$sql2="SELECT M.nombre FROM marca M INNER JOIN producto P ON M.idmarca = P.idmarca order by substring(P.codigoproduc, 6)";
 						$resultU2= mysqli_query($conexion, $sql2);
 					?>
 					<!-- tabla para listar productos registrados -->
@@ -335,6 +338,14 @@
 			}, function(){ 
 				alertify.error('Cancelo!')
 			});
+		}
+
+        function cerrarSesion(){
+			alertify.confirm("Cerrando sesión",'¿Seguro que desea cerrar sesión?', function(){
+				window.location="procesos/reglogin/salir.php";
+			}, function(){ 
+				alertify.error('Cancelo!')
+			}).set('labels', {ok:'Si, salir!', cancel:'No, cancelar'});
 		}
     </script>
 

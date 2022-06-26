@@ -10,3 +10,11 @@ function validarFormVacio(formulario){
     }
     return vacios;
 }
+
+/*function cerrarSesion(){
+    alertify.confirm("Advertencia",'¿Seguro que desea cerrar sesion?', function(){
+        window.location="procesos/reglogin/salir.php";
+    }, function(){ 
+        alertify.error('Cancelo!')
+    });
+}*/

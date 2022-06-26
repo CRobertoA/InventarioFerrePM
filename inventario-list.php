@@ -167,7 +167,10 @@
 				<label>
 					<i class="bi bi-person-workspace"></i> <?php echo $_SESSION['usuario'] ?>
 				</label>	
-				<a href="#" class="btn-exit-system">
+				<!--<a href="#" class="btn-exit-system">
+					<i class="fas fa-power-off"></i>
+				</a>-->
+				<a onclick="cerrarSesion();" title="Cerrar sesion">
 					<i class="fas fa-power-off"></i>
 				</a>
 			</nav>
@@ -200,7 +203,7 @@
 			<div class="container-fluid">
 				<div class="table-responsive">
 					<?php
-						$sql="SELECT P.codigoproduc, P.nombre, I.stock, I.entradas, I.salidas FROM inventario I INNER JOIN producto P ON I.codigoproduc = P.codigoproduc order by P.codigoproduc; ";
+						$sql="SELECT P.codigoproduc, P.nombre, I.stock, I.entradas, I.salidas FROM inventario I INNER JOIN producto P ON I.codigoproduc = P.codigoproduc order by I.idinventario; ";
 						$resultI= mysqli_query($conexion, $sql);
 					?>
 					<!--tabla para listar el inventario -->
@@ -301,6 +304,15 @@
              });      
          }); 
      </script>
+	 <script type="text/javascript">
+		function cerrarSesion(){
+			alertify.confirm("Cerrando sesión",'¿Seguro que desea cerrar sesión?', function(){
+				window.location="procesos/reglogin/salir.php";
+			}, function(){ 
+				alertify.error('Cancelo!')
+			}).set('labels', {ok:'Si, salir!', cancel:'No, cancelar'});
+		}
+	</script>
 
 	
 </body>

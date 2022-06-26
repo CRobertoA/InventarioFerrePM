@@ -149,9 +149,12 @@
                 <label>
 					<i class="bi bi-person-workspace"></i> <?php echo $_SESSION['usuario'] ?>
 				</label>
-                <a href="#" class="btn-exit-system">
-                    <i class="fas fa-power-off"></i>
-                </a>
+                <!--<a href="#" class="btn-exit-system">
+					<i class="fas fa-power-off"></i>
+				</a>-->
+				<a onclick="cerrarSesion();" title="Cerrar sesion">
+					<i class="fas fa-power-off"></i>
+				</a>
             </nav>
             <!-- Cabecera de la pagina -->
             <div class="full-box page-header">
@@ -208,7 +211,7 @@
 								<div class="col-12 col-md-4">
 									<div class="form-group">
 										<label for="producto_marca" class="bmd-label-floating">Marca</label>
-										<select class="form-control" name="producto_marca" id="producto_marca">
+										<select class="form-control" name="producto_marca" id="producto_marca" onchange="ShowSelected();">
                                             <?php
 												
 												$c= new conectar();
@@ -336,10 +339,11 @@
 				var stockmax = document.getElementById("producto_smax").value; 
 				var modeloco = document.getElementById("producto_modelo").value; 
 
-				$("#producto_marca").change(function() {
+				/*$("#producto_marca").change(function() {
 					var valor = $(this).val(); // Capturamos el valor del select
 					var texto = $(this).find('option:selected').text(); // Capturamos el texto del option seleccionado
-				});
+				});*/
+				var texto = ShowSelected();
 
 				var submarca = texto.substr(0,3);
 				var submodelo = modeloco.substr(0,2);
@@ -378,7 +382,9 @@
 						if(r == 1){
 							$('#frmrproducto')[0].reset();
 							//$('#tablaArticulos').load('articulos/tablaArticulos.php');
-							alertify.success("Producto agregado con exito");
+							alertify.success("Producto agregado con éxito");
+						}else if(r==2){
+							alertify.error("El producto ya ha sido registrado");
 						}else{
 							alertify.error("Error al agregar");
 						}
@@ -388,7 +394,26 @@
 		});
 	</script>
 
-	<script>
+	<script type="text/javascript">
+		function ShowSelected(){
+			/* Funsion para obtener el valor del select*/
+			var cod = document.getElementById("producto_marca").value;
+			//alert(cod);
+			
+			/* Para obtener el texto */
+			var combo = document.getElementById("producto_marca");
+			var selected = combo.options[combo.selectedIndex].text;
+			//alert(selected);
+			return selected;
+		}
+
+		function cerrarSesion(){
+			alertify.confirm("Cerrando sesión",'¿Seguro que desea cerrar sesión?', function(){
+				window.location="procesos/reglogin/salir.php";
+			}, function(){ 
+				alertify.error('Cancelo!')
+			}).set('labels', {ok:'Si, salir!', cancel:'No, cancelar'});
+		}
 		/*function LlenarCombo(){
 			$.ajax({
                 type:"POST",

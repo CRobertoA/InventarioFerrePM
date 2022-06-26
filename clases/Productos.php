@@ -22,26 +22,34 @@
         public function insertaProducto($datos){
 			$c=new conectar();
 			$conexion=$c->conexion();
-
 			//$fecha=date('Y-m-d');
 
-			$sql="INSERT into producto (idusuario,
-										idmarca,
-										nombre,
-										modelo,
-										descripcion,
-										foto,
-										stockminimo,
-										stockmaximo) 
-							values ('$datos[0]',
-									'$datos[1]',
-									'$datos[2]',
-									'$datos[3]',
-									'$datos[4]',
-									'$datos[5]',
-									'$datos[6]',
-									'$datos[7]')";
-			return mysqli_query($conexion,$sql);
+			$sqlid="SELECT * FROM producto WHERE (idmarca = '$datos[1]') AND (nombre = '$datos[2]') AND (modelo = '$datos[3]');";
+            $result= mysqli_query($conexion, $sqlid);
+
+			if(mysqli_num_rows($result) > 0){
+                return 2;
+            }else{
+				$sql="INSERT into producto (codigoproduc,
+											idusuario,
+											idmarca,
+											nombre,
+											modelo,
+											descripcion,
+											foto,
+											stockminimo,
+											stockmaximo) 
+								values ('$datos[8]',
+										'$datos[0]',
+										'$datos[1]',
+										'$datos[2]',
+										'$datos[3]',
+										'$datos[4]',
+										'$datos[5]',
+										'$datos[6]',
+										'$datos[7]')";
+				return mysqli_query($conexion,$sql);
+			}
 		}
 
 		public function obtenDatosProducto($idproducto){
