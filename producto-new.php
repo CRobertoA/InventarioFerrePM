@@ -209,21 +209,9 @@
 									</div>
 								</div>
 								<div class="col-12 col-md-4">
-									<div class="form-group">
-										<label for="producto_marca" class="bmd-label-floating">Marca</label>
-										<select class="form-control" name="producto_marca" id="producto_marca" onchange="ShowSelected();">
-                                            <?php
-												
-												$c= new conectar();
-            									$conexion= $c->conexion();
-												$consulta="SELECT * from marca";
-												$ejecutar=mysqli_query($conexion, $consulta);
-											?>
-											<option value="A" selected="">Seleccione una marca</option>
-                                            <?php foreach ($ejecutar as $opciones): ?>
-                                                <option value="<?php echo $opciones['idmarca'] ?>"><?php echo $opciones['nombre'] ?></option>
-                                            <?php endforeach ?>
-										</select>
+									<div class="form-group" id="divMarca">
+										
+										
 									</div>
 								</div>
 								<div class="col-12 col-md-2">
@@ -332,6 +320,7 @@
 	<!-- registrar producto -->
 	<script type="text/javascript">
 		$(document).ready(function(){
+			$('#divMarca').load('tablas/selectMarcas.php');
 			$('#registrop').click(function(){
 
 				// obtenemos los valores de los input 
@@ -382,6 +371,7 @@
 						if(r == 1){
 							$('#frmrproducto')[0].reset();
 							//$('#tablaArticulos').load('articulos/tablaArticulos.php');
+							$('#divMarca').load('tablas/selectMarcas.php');
 							alertify.success("Producto agregado con éxito");
 						}else if(r==2){
 							alertify.error("El producto ya ha sido registrado");
@@ -448,11 +438,12 @@
 						//alert(r);
 						if(r==1){
 							//limpia el formulario una vez agregado
-							location.reload();
+							//location.reload();
 							//$('#frmrmarcaM')[0].reset();
-							//$('#ModalMarca').modal('hide');
+							$('#ModalMarca').modal('hide');
+							$('#divMarca').load('tablas/selectMarcas.php');
 							//LlenarCombo();
-							//alertify.success("Marca agregada con éxito");
+							alertify.success("Marca agregada con éxito");
 						}else{
 							alertify.error("Error al agregar");
 						}

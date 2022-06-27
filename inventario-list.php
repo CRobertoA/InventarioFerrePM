@@ -286,6 +286,7 @@
           $(document).ready(function() {     
               $('#tablainventario').DataTable({ 
              //para cambiar el lenguaje a español 
+			 	"ordering": false,
                  "language": { 
                          "lengthMenu": "Mostrar _MENU_ registros", 
                          "zeroRecords": "No se encontró ninguna coincidencia", 

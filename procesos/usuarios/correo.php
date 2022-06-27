@@ -1,7 +1,7 @@
 <?php
 
     use PHPMailer\PHPMailer\PHPMailer;
-    use PHPMailer\PHPMailer\SMTP;
+    //use PHPMailer\PHPMailer\SMTP;
     use PHPMailer\PHPMailer\Exception;
 
     require '../../PHPMailer/src/PHPMailer.php';
@@ -17,8 +17,8 @@
         $mail->SMTPAuth = true;
         $mail->Username = 'otakujuno@gmail.com';
         $mail->Password = 'vcqnyhcdenqvipcb';
-        $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
-        $mail->Port = 587;
+        $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
+        $mail->Port = 465;
     
         $mail->setFrom('otakujuno@gmail.com', 'Ferreteria');
         $mail->addAddress('rob.acesan@gmail.com', 'Receptor');

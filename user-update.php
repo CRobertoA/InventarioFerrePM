@@ -229,13 +229,13 @@
 								<div class="col-12 col-md-6">
 									<div class="form-group">
 										<label for="usuario_usuario" >Nombre de usuario</label>
-										<input type="text" pattern="[a-zA-Z0-9]{1,35}" class="form-control" name="usuario_usuario" id="usuario_usuario" maxlength="35" value="<?php echo $ver[2] ?>">
+										<input type="text" pattern="[a-zA-Z0-9]{1,35}" class="form-control" readonly="readonly" name="usuario_usuario" id="usuario_usuario" maxlength="35" value="<?php echo $ver[2] ?>">
 									</div>
 								</div>
 								<div class="col-12 col-md-6">
 									<div class="form-group">
 									<label for="usuario_clave_1" > Contraseña</label>
-									<input type="password" class="form-control" name="usuario_clave_1" id="usuario_clave_1" maxlength="200" value="<?php echo $ver[3] ?>">
+									<input type="password" class="form-control" readonly="readonly" name="usuario_clave_1" id="usuario_clave_1" maxlength="200" value="<?php echo $ver[3] ?>">
 									</div>
 								</div>
 							</div>

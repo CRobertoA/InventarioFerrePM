@@ -5,9 +5,7 @@
 
     $obj= new usuarios();
 
-    $datos= array(  $_POST['empleado_usuario'], 
-                    $_POST['usuario_usuario'], 
-                    $_POST['usuario_clave_1'], 
+    $datos= array(  $_POST['empleado_usuario'],
                     $_POST['usuario_rol'] );
 
     echo $obj->registroUsuario($datos);
