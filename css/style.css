@@ -180,10 +180,11 @@ table form{
 	display: flex;
 	justify-content: center;
 	align-items: center;
+	--opacidad-negro: 0.5;
 	background: #0575E6;
 	background: -webkit-linear-gradient(to right, #021B79, #0575E6);
 	background: linear-gradient(to right, #021B79, #0575E6);
-	background-image: url(../assets/img/herramientas.jpeg);
+	background-image: linear-gradient(rgba(0, 0, 0, var(--opacidad-negro)), rgba(0, 0, 0, var(--opacidad-negro))), url(../assets/img/herramientas.jpeg);
 
 }
 .login-content{
@@ -191,7 +192,7 @@ table form{
 	max-width: 320px;
 	height: auto;
 	border: 1px solid var(--border-color);
-	background-color: rgba(255, 255, 255, 0.856);
+	background-color: rgb(255, 255, 255);
 	border-radius: 4px;
 	padding: 15px;
 	color: var(--accent-color);

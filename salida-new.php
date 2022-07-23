@@ -45,6 +45,7 @@
 
     <!-- Select2 -->
     <link href="select2/dist/css/select2.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="bootstrap-select-1.13.14/dist/css/bootstrap-select.min.css">
 
 
 </head>
@@ -129,7 +130,16 @@
 							<a href="#" class="nav-btn-submenu"><i class="fas fa-file-invoice fa-fw"></i> &nbsp; REPORTES <i class="fas fa-chevron-down"></i></a>
 							<ul>
 								<li>
-									<a href="entrada-new.php"><i class="fas fa-plus fa-fw"></i> &nbsp; REPORTES</a>
+									<a href="generar-reporte.php"><i class="fas fa-plus fa-fw"></i> &nbsp; REPORTES</a>
+								</li>
+							</ul>
+						</li>
+
+                        <li>
+							<a href="#" class="nav-btn-submenu"><i class="bi bi-wrench"></i> &nbsp; ADMINISTRACION <i class="fas fa-chevron-down"></i></a>
+							<ul>
+								<li>
+									<a href="generar-respaldo.php"><i class="bi bi-server"></i> &nbsp; RESPALDO</a>
 								</li>
 							</ul>
 						</li>
@@ -197,7 +207,7 @@
                                         <th>MODELO</th>
                                         <th>CANTIDAD</th>
                                         <th>FECHA</th>
-                                        <th>OBSERVACIONES</th>
+                                        <!--<th>OBSERVACIONES</th>-->
                                         <th>ELIMINAR</th>
                                     </tr>
                                 </thead>
@@ -209,11 +219,11 @@
                                     ?>
                                     <tr class="text-center" >
                                         <td><?php echo $producto->codigoproduc ?></td>
-                                        <td><?php echo $producto->nombre ?></td>
+                                        <td><?php echo $producto->nombreproducto ?></td>
                                         <td><?php echo $producto->modelo ?></td>
                                         <td><?php echo $producto->cantidad ?></td>
                                         <td><?php echo $producto->fechaR ?></td>
-                                        <td><?php echo $producto->observaciones ?></td>
+                                        <!--<td><?php //echo $producto->observaciones ?></td>-->
                                         <td>
                                             <a class="btn btn-warning" href="<?php echo "procesos/salidas/quitarDelCarro.php?indice=" . $indice?>" title="Eliminar de la lista">
                                                 <i class="bi bi-trash3-fill"></i>
@@ -226,11 +236,38 @@
                                 </tbody>
                             </table>
                         </div>
+                        <br>
                         <form method="POST" action="procesos/salidas/registrarSalida.php">
-                        <p class="text-center" style="margin-top: 40px;">
-                            <button type="submit" class="btn btn-raised btn-info btn-sm" id="btnAgregarSalida1"><i class="far fa-save"></i> &nbsp; AGREGAR SALIDA</button>
-                            <span class="btn btn-raised btn-warning btn-sm" id="btnCancelarSalida1"><i class="bi bi-x-lg"></i> &nbsp; CANCELAR SALIDA</span>
-                        </p>
+                                <div class="container-fluid">
+                                    <div class="row">
+                                        <div class="col-12 col-md-4">
+                                            <div class="form-group">
+                                                <label for="tipo_salida">Tipo salida</label>
+                                                <select class="form-control" name="tipo_salida" id="tipo_salida" >
+                                                    <option value="A" selected="" >Seleccione una opción</option>  <!--puede tener atributo disabled="" -->
+                                                    <option value="Venta">Venta</option>
+                                                    <option value="Cambio">Cambio</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <!--<div class="col-12 col-md-4">
+                                            <div class="form-group">
+                                                <label for="folio_salida" class="bmd-label-floating">Folio salida</label>
+                                                <input type="text" class="form-control" name="folio_salida" id="folio_salida">
+                                            </div>
+                                        </div>-->
+                                        <div class="col-12 col-md-4">
+                                            <div class="form-group">
+                                                <label for="observaciones_salida" class="bmd-label-floating">Observaciones</label>
+                                                <input type="text" class="form-control" name="observaciones_salida" id="observaciones_salida">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            <p class="text-center" style="margin-top: 40px;">
+                                <button type="submit" class="btn btn-raised btn-info btn-sm" id="btnAgregarSalida1"><i class="far fa-save"></i> &nbsp; AGREGAR SALIDA</button>
+                                <span class="btn btn-raised btn-warning btn-sm" id="btnCancelarSalida1"><i class="bi bi-x-lg"></i> &nbsp; CANCELAR SALIDA</span>
+                            </p>
                         </form>
                     </div>
             	</div>
@@ -255,18 +292,18 @@
                                     <div class="row">
                                         <div class="col-12 col-md-6">
                                             <div class="form-group">
-                                                <label for="listproducto" class="bmd-label-floating">Producto</label>
+                                                <label for="listproductoS" class="bmd-label-floating">Producto</label>
                                                     <?php
                                                         
                                                         $c= new conectar();
                                                         $conexion= $c->conexion();
-                                                        $consulta="SELECT * from producto";
+                                                        $consulta="SELECT * from producto order by substring(codigoproduc, 6);";
                                                         $ejecutar=mysqli_query($conexion, $consulta);
                                                     ?>
-                                                <select class="form-control" name="listproducto" id="listproducto" onchange="agregaDatosProducto(event.target.value)">
+                                                <select class="form-control" data-live-search="true" name="listproductoS" id="listproductoS" onchange="agregaDatosProducto(event.target.value)">
                                                     <option value="A" selected="">Seleccione un producto</option>
                                                     <?php foreach ($ejecutar as $opciones): ?>
-                                                    <option value="<?php echo $opciones['codigoproduc'] ?>"> <?php echo $opciones['nombre'] ?> </option>
+                                                    <option value="<?php echo $opciones['codigoproduc'] ?>"> <?php echo $opciones['nombreproducto'] ?> </option>
                                                     <?php endforeach ?>
                                                 </select>
                                             </div>
@@ -298,7 +335,7 @@
                                         <div class="col-12 col-md-6">
                                             <div class="form-group">
                                                 <label for="producto_cantidad" class="bmd-label-floating">Cantidad</label>
-                                                <input type="text" pattern="[0-9.]{1,10}" class="form-control" name="producto_cantidad" id="producto_cantidad" maxlength="10">
+                                                <input type="number" min="1" pattern="[0-9]{1,}" class="form-control" name="producto_cantidad" id="producto_cantidad" maxlength="10">
                                                 <input type="text" hidden="" pattern="[0-9.]{1,10}" class="form-control" name="producto_stockmax" id="producto_stockmax" maxlength="10">
                                             </div>
                                         </div>
@@ -307,13 +344,13 @@
                                                 <label for="producto_stock" class="bmd-label-floating">Stock actual</label>
                                                 <input type="text" pattern="[0-9.]{1,10}" class="form-control" name="producto_stock" id="producto_stock" maxlength="10">
                                             </div>
-                                        </div>-->
+                                        </div>
                                         <div class="col-12 col-md-12">
                                             <div class="form-group">
                                                 <label for="producto_observacion" class="bmd-label-floating">Observación</label>
                                                 <input type="text" pattern="[a-zA-z0-9áéíóúÁÉÍÓÚñÑ#() ]{1,400}" class="form-control" name="producto_observacion" id="producto_observacion" maxlength="400">
                                             </div>
-                                        </div>
+                                        </div>-->
                                     </div>
                                 </div>
                             </fieldset>
@@ -361,10 +398,12 @@
 
     <!-- Select2 -->
     <script src="select2/dist/js/select2.min.js"></script>
+    <script src="bootstrap-select-1.13.14/dist/js/bootstrap-select.min.js"></script>
 
     <script type="text/javascript">
         $(document).ready(function() {
             //$('#listproducto').select2();
+            $('#listproductoS').selectpicker();
             var fecha = new Date();
             var salida = String(fecha.getDate()).padStart(2, '0') + '/' + String(fecha.getMonth()+1).padStart(2, '0') + '/' + String(fecha.getFullYear());
             document.getElementById('producto_fecha').value = salida;
@@ -384,7 +423,7 @@
                     dato=jQuery.parseJSON(r);
 
                     $('#codigo_producto').val(dato['codigoproduc']);
-                    $('#producto_producto').val(dato['nombre']);
+                    $('#producto_producto').val(dato['nombreproducto']);
                     $('#modelo_producto').val(dato['modelo']);
                     $('#producto_stockmax').val(dato['stockmaximo']);
                 }

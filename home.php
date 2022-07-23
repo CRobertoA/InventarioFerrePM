@@ -141,11 +141,18 @@
 							<a href="#" class="nav-btn-submenu"><i class="fas fa-file-invoice fa-fw"></i> &nbsp; REPORTES <i class="fas fa-chevron-down"></i></a>
 							<ul>
 								<li>
-									<a href="item-search.php"><i class="fas fa-plus fa-fw"></i> &nbsp; REPORTES</a>
+									<a href="generar-reporte.php"><i class="fas fa-plus fa-fw"></i> &nbsp; REPORTES</a>
 								</li>
 							</ul>
 						</li>
-						
+						<li>
+							<a href="#" class="nav-btn-submenu"><i class="bi bi-wrench"></i> &nbsp; ADMINISTRACION <i class="fas fa-chevron-down"></i></a>
+							<ul>
+								<li>
+									<a href="generar-respaldo.php"><i class="bi bi-server"></i> &nbsp; RESPALDO</a>
+								</li>
+							</ul>
+						</li>
 						<?php
 							endif;
 						?>
@@ -265,11 +272,19 @@
 					</div>
 				</a>
 
-				<a href="entrada-list.php" class="tile">
+				<a href="generar-reporte.php" class="tile">
 					<div class="tile-tittle">REPORTES</div>
 					<div class="tile-icon">
 						<i class="fas fa-file-invoice fa-fw"></i>
 						<p>Reportes</p>
+					</div>
+				</a>
+
+				<a href="generar-respaldo.php" class="tile">
+					<div class="tile-tittle">RESPALDO</div>
+					<div class="tile-icon">
+						<i class="fas bi bi-server fa-fw"></i>
+						<p>Respaldo</p>
 					</div>
 				</a>
 				<?php

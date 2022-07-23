@@ -24,7 +24,7 @@
 			$conexion=$c->conexion();
 			//$fecha=date('Y-m-d');
 
-			$sqlid="SELECT * FROM producto WHERE (idmarca = '$datos[1]') AND (nombre = '$datos[2]') AND (modelo = '$datos[3]');";
+			$sqlid="SELECT * FROM producto WHERE (idmarca = '$datos[1]') AND (nombreproducto = '$datos[2]') AND (modelo = '$datos[3]');";
             $result= mysqli_query($conexion, $sqlid);
 
 			if(mysqli_num_rows($result) > 0){
@@ -33,7 +33,7 @@
 				$sql="INSERT into producto (codigoproduc,
 											idusuario,
 											idmarca,
-											nombre,
+											nombreproducto,
 											modelo,
 											descripcion,
 											foto,
@@ -58,7 +58,7 @@
 
 			$sql="SELECT codigoproduc,
 						idmarca, 
-						nombre,
+						nombreproducto,
 						modelo,
 						descripcion,
 						stockminimo,
@@ -72,7 +72,7 @@
 			$datos=array(
 					"codigoproduc" => $ver[0],
 					"idmarca" => $ver[1],
-					"nombre" => $ver[2],
+					"nombreproducto" => $ver[2],
 					"modelo" => $ver[3],
 					"descripcion" => $ver[4],
 					"stockminimo" => $ver[5],
@@ -85,7 +85,7 @@
 		public function actualizaProducto($datos){
             $c= new conectar();
             $conexion= $c->conexion();
-            $sql= "UPDATE producto set idmarca= '$datos[1]', nombre= '$datos[2]', modelo= '$datos[3]',  
+            $sql= "UPDATE producto set idmarca= '$datos[1]', nombreproducto= '$datos[2]', modelo= '$datos[3]',  
 										descripcion= '$datos[4]', stockminimo= '$datos[5]', stockmaximo= '$datos[6]'
                                     where codigoproduc= '$datos[0]'";
             return mysqli_query($conexion,$sql);

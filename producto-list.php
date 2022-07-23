@@ -129,7 +129,16 @@
 							<a href="#" class="nav-btn-submenu"><i class="fas fa-file-invoice fa-fw"></i> &nbsp; REPORTES <i class="fas fa-chevron-down"></i></a>
 							<ul>
 								<li>
-									<a href="entrada-new.php"><i class="fas fa-plus fa-fw"></i> &nbsp; REPORTES</a>
+									<a href="generar-reporte.php"><i class="fas fa-plus fa-fw"></i> &nbsp; REPORTES</a>
+								</li>
+							</ul>
+						</li>
+
+                        <li>
+							<a href="#" class="nav-btn-submenu"><i class="bi bi-wrench"></i> &nbsp; ADMINISTRACION <i class="fas fa-chevron-down"></i></a>
+							<ul>
+								<li>
+									<a href="generar-respaldo.php"><i class="bi bi-server"></i> &nbsp; RESPALDO</a>
 								</li>
 							</ul>
 						</li>
@@ -182,7 +191,7 @@
            <div class="container-fluid">
 				<div class="table-responsive">
                     <?php
-						$sql="SELECT pro.codigoproduc, pro.nombre, pro.modelo, pro.descripcion, pro.foto, pro.stockminimo, pro.stockmaximo, inv.stock
+						$sql="SELECT pro.codigoproduc, pro.nombreproducto, pro.modelo, pro.descripcion, pro.foto, pro.stockminimo, pro.stockmaximo, inv.stock
                                 FROM inventario inv INNER JOIN producto pro ON pro.codigoproduc = inv.codigoproduc order by substring(pro.codigoproduc, 6);";
 						$resultU= mysqli_query($conexion, $sql);
 						$sql2="SELECT M.nombre FROM marca M INNER JOIN producto P ON M.idmarca = P.idmarca order by substring(P.codigoproduc, 6)";
@@ -360,7 +369,7 @@
                     alert(r);
                     dato= jQuery.parseJSON(r);
                     $('#idproductoA').val(dato['codigoproduc']);
-                    $('clases/Productos.php/#producto_nombreU').val(dato['nombre']);
+                    $('clases/Productos.php/#producto_nombreU').val(dato['nombreproducto']);
                     $('#producto_modeloU').val(dato['modelo']);
                     $('#producto_descripcionU').val(dato['descripcion']);
                     $('#producto_marcaU').val(dato['idmarca']);

@@ -125,7 +125,16 @@
 							<a href="#" class="nav-btn-submenu"><i class="fas fa-file-invoice fa-fw"></i> &nbsp; REPORTES <i class="fas fa-chevron-down"></i></a>
 							<ul>
 								<li>
-									<a href="entrada-new.php"><i class="fas fa-plus fa-fw"></i> &nbsp; REPORTES</a>
+									<a href="generar-reporte.php"><i class="fas fa-plus fa-fw"></i> &nbsp; REPORTES</a>
+								</li>
+							</ul>
+						</li>
+
+						<li>
+							<a href="#" class="nav-btn-submenu"><i class="bi bi-wrench"></i> &nbsp; ADMINISTRACION <i class="fas fa-chevron-down"></i></a>
+							<ul>
+								<li>
+									<a href="generar-respaldo.php"><i class="bi bi-server"></i> &nbsp; RESPALDO</a>
 								</li>
 							</ul>
 						</li>
@@ -223,13 +232,13 @@
 								<div class="col-12 col-md-6">
 									<div class="form-group">
 										<label for="producto_smin" class="bmd-label-floating">Stock minimo</label>
-										<input type="number" pattern="[0-9]{1,9}" class="form-control" name="producto_smin" id="producto_smin" maxlength="190">
+										<input type="number" min="1" pattern="[0-9]{1,}" class="form-control" name="producto_smin" id="producto_smin" maxlength="190">
 									</div>
 								</div>
                                 <div class="col-12 col-md-6">
 									<div class="form-group">
 										<label for="producto_smax" class="bmd-label-floating">Stock maximo</label>
-										<input type="number" pattern="[0-9]{1,9}" class="form-control" name="producto_smax" id="producto_smax" maxlength="190">
+										<input type="number" min="1" pattern="[0-9]{1,}" class="form-control" name="producto_smax" id="producto_smax" maxlength="190">
 									</div>
 								</div>
                                 <div class="col-12 col-md-6">

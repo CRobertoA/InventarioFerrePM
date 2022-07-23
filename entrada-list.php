@@ -128,7 +128,16 @@
 							<a href="#" class="nav-btn-submenu"><i class="fas fa-file-invoice fa-fw"></i> &nbsp; REPORTES <i class="fas fa-chevron-down"></i></a>
 							<ul>
 								<li>
-									<a href="entrada-new.php"><i class="fas fa-plus fa-fw"></i> &nbsp; REPORTES</a>
+									<a href="generar-reporte.php"><i class="fas fa-plus fa-fw"></i> &nbsp; REPORTES</a>
+								</li>
+							</ul>
+						</li>
+
+						<li>
+							<a href="#" class="nav-btn-submenu"><i class="bi bi-wrench"></i> &nbsp; ADMINISTRACION <i class="fas fa-chevron-down"></i></a>
+							<ul>
+								<li>
+									<a href="generar-respaldo.php"><i class="bi bi-server"></i> &nbsp; RESPALDO</a>
 								</li>
 							</ul>
 						</li>
@@ -181,7 +190,7 @@
 			 <div class="container-fluid">
 				<div class="table-responsive">
 					<?php
-						$sql="SELECT entrada.folio_entrada, entrada.fecha, empleado.nombre, empleado.apellidos 
+						$sql="SELECT entrada.folio_entrada, entrada.fecha, empleado.nombre, empleado.apellidos, entrada.tipo_entrada, entrada.folio_compra 
 							  FROM entrada INNER JOIN usuario ON entrada.idusuario = usuario.idusuario
 							  INNER JOIN empleado ON usuario.curp = empleado.curp order by folio_entrada;";
 						$resultU= mysqli_query($conexion, $sql);
@@ -193,6 +202,8 @@
 								<th>FOLIO ENTRADA</th>
 								<th>FECHA REGISTRO</th>
 								<th>USUARIO REGISTRO</th>
+								<th>TIPO ENTRADA</th>
+								<th>FOLIO COMPRA/SALIDA</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -204,6 +215,8 @@
 								<td><?php echo $ver[0] ?></td>
 								<td><?php echo $ver[1] ?></td>
 								<td><?php echo $ver[2]." ".$ver[3] ?></td>
+								<td><?php echo $ver[4] ?></td>
+								<td><?php echo $ver[5] ?></td>
 								<!--<td>
 									<a href="#" class="btn btn-info">
 	  									<i class="fas fa-file-pdf"></i>	

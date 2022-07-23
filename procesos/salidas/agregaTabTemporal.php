@@ -5,15 +5,15 @@
     $codigo = $_POST["codigo_producto"];
     $fecha = $_POST["producto_fecha"];
     $cantidad = $_POST["producto_cantidad"];
-    $observacion = $_POST["producto_observacion"];
+    //$observacion = $_POST["producto_observacion"];
 
     date_default_timezone_set('UTC');
     date_default_timezone_set("America/Mexico_City");
-    $fecha = date("d-m-Y");
+    $fecha = date("Y-m-d");
 
     include_once "../../clases/base_de_datos.php";
 
-    $sentencia = $base_de_datos->prepare("SELECT inventario.idinventario, producto.codigoproduc, inventario.codigoproduc, producto.nombre, producto.modelo, inventario.stock, producto.stockmaximo 
+    $sentencia = $base_de_datos->prepare("SELECT inventario.idinventario, producto.codigoproduc, inventario.codigoproduc, producto.nombreproducto, producto.modelo, inventario.stock, producto.stockmaximo 
                                         FROM inventario INNER JOIN producto ON producto.codigoproduc = inventario.codigoproduc 
                                         WHERE producto.codigoproduc = ? LIMIT 1;");
     $sentencia->execute([$codigo]);
@@ -42,7 +42,7 @@
             }
             $producto->cantidad = $cantidad;
             $producto->fechaR = $fecha;
-            $producto->observaciones = $observacion;
+            //$producto->observaciones = $observacion;
             array_push($_SESSION["salidas"], $producto);
         }else{
             header("Location: ../../salida-new.php?status=3");

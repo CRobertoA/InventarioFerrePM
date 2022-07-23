@@ -28,8 +28,8 @@
 				$result3= mysqli_query($conexion, $sqlnclient);
 				$vercliente=mysqli_fetch_row($result3);
 				
-				$nusuario = self::randPass(6, 'abcdefghijklmnñopqrstuvwxyzABCDEFGHIJKLMNÑOPQRSTUVWXYZ1234567890');
-				$pass = self::randPass(10, 'abcdefghijklmnñopqrstuvwxyzABCDEFGHIJKLMNÑOPQRSTUVWXYZ1234567890');	
+				$nusuario = self::randPass(6, 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890');
+				$pass = self::randPass(12, 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890');	
 				$estado=1;
 
 				$sql="INSERT into usuario (curp, 
@@ -46,20 +46,21 @@
 				$mail->isSMTP();
 				$mail->Host = 'smtp.gmail.com';
 				$mail->SMTPAuth = true;
-				$mail->Username = 'otakujuno@gmail.com';
-				$mail->Password = 'vcqnyhcdenqvipcb';
+				$mail->Username = 'migrancentralferretera@gmail.com';
+				$mail->Password = 'pincgvxjpbvovmbb';
 				$mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
 				$mail->Port = 465;
 
-				$mail->setFrom('otakujuno@gmail.com', 'Mi Gran Central Ferretera');
+				$mail->setFrom('migrancentralferretera@gmail.com', 'Mi Gran Central Ferretera');
         		$mail->addAddress($vercliente[1]);
 
 				$mail->isHTML(true);
 				$mail->Subject = 'Envio de los datos de su usuario Mi Gran Central Ferretera';
-				$mail->Body = 'Hola, '.$vercliente[0].' <br>
+				$mail->Body = "Hola, ".$vercliente[0]." <br>
 								Datos para <b>Inicio de sesion</b> <br><br>
-								Usuario:  '.$nusuario.'<br>
-								Contraseña:  '.$pass.'<br>';
+								Usuario:  ".$nusuario." <br>
+								Contraseña:  ".$pass." <br> 
+								Buen dia! ";
 				$mail->send();
 				return 1;
 			}

@@ -142,11 +142,19 @@
 							<a href="#" class="nav-btn-submenu"><i class="fas fa-file-invoice fa-fw"></i> &nbsp; REPORTES <i class="fas fa-chevron-down"></i></a>
 							<ul>
 								<li>
-									<a href="entrada-new.php"><i class="fas fa-plus fa-fw"></i> &nbsp; REPORTES</a>
+									<a href="generar-reporte.php"><i class="fas fa-plus fa-fw"></i> &nbsp; REPORTES</a>
 								</li>
 							</ul>
 						</li>
 
+						<li>
+							<a href="#" class="nav-btn-submenu"><i class="bi bi-wrench"></i> &nbsp; ADMINISTRACION <i class="fas fa-chevron-down"></i></a>
+							<ul>
+								<li>
+									<a href="generar-respaldo.php"><i class="bi bi-server"></i> &nbsp; RESPALDO</a>
+								</li>
+							</ul>
+						</li>
 						<?php
 							endif;
 						?>
@@ -203,7 +211,7 @@
 			<div class="container-fluid">
 				<div class="table-responsive">
 					<?php
-						$sql="SELECT P.codigoproduc, P.nombre, I.stock, I.entradas, I.salidas FROM inventario I INNER JOIN producto P ON I.codigoproduc = P.codigoproduc order by I.idinventario; ";
+						$sql="SELECT P.codigoproduc, P.nombreproducto, I.stock, I.entradas, I.salidas FROM inventario I INNER JOIN producto P ON I.codigoproduc = P.codigoproduc order by I.idinventario; ";
 						$resultI= mysqli_query($conexion, $sql);
 					?>
 					<!--tabla para listar el inventario -->

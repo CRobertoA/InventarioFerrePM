@@ -9,7 +9,7 @@
 
 			$sql="SELECT codigoproduc,
                             idmarca,
-							nombre,
+							nombreproducto,
 							modelo,
                             stockmaximo
 					from producto 
@@ -21,7 +21,7 @@
 			$datos=array(
 						'codigoproduc' => $ver[0],
 							'idmarca' => $ver[1],
-							'nombre' => $ver[2],
+							'nombreproducto' => $ver[2],
 							'modelo' => $ver[3],
                             'stockmaximo' => $ver[4]
 						);
