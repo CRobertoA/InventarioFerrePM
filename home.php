@@ -189,6 +189,30 @@
 				<p class="text-lg-center">
 					Sistema de inventario para la empresa "Mi Gran Central Ferretera"
 				</p>
+				<?php 
+					$consultaPS="SELECT P.stockminimo, I.stock FROM producto P INNER JOIN inventario I 
+					ON P.codigoproduc = I.codigoproduc order by I.idinventario;";
+					$ejecutarPS=mysqli_query($conexion, $consultaPS);
+					$contador =0;
+					while($ver=mysqli_fetch_row($ejecutarPS)):
+						if($ver[1] <= $ver[0]){
+							$contador++;
+						}
+					endwhile;
+					if($contador > 0){
+				?>
+				<div class="full-box tile-container">
+					<a href="producto-stockmin.php" class="tile1">
+						<div class="tile-tittle1">PRODUCTOS CON STOCK MINIMO</div>
+						<div class="tile-icon">
+							<i class="fas bi bi-exclamation-triangle-fill fa-fw"></i>
+							<p><?php echo $contador ?> productos stock minimo</p>
+						</div>
+					</a>
+				</div>
+				<?php
+					}
+				?>
 			</div>
 			
 			<!-- Content -->
@@ -254,7 +278,7 @@
 					<div class="tile-tittle">SALIDAS</div>
 					<div class="tile-icon">
 						<i class="fas fa-shopping-cart fa-fw"></i>
-						<p><?php echo $contsa ?> Registrada</p>
+						<p><?php echo $contsa ?> Registradas</p>
 					</div>
 				</a>
 				<?php 
@@ -292,8 +316,6 @@
 				?>
 				
 			</div>
-			
-
 		</section>
 	</main>
 	

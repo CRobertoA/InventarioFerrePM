@@ -190,9 +190,13 @@
 			 <div class="container-fluid">
 				<div class="table-responsive">
 					<?php
-						$sql="SELECT salida.folio_salida, salida.fecha, empleado.nombre, empleado.apellidos 
-                                FROM salida INNER JOIN usuario ON salida.idusuario = usuario.idusuario
-                                INNER JOIN empleado ON usuario.curp = empleado.curp order by folio_salida;";
+						$sql="SELECT S.folio_salida, S.fecha, EM.nombre, EM.apellidos, S.tipo_salida, GROUP_CONCAT(	P.codigoproduc, '..',  P.nombreproducto, '..', D.lote_producto SEPARATOR '__') AS productos 
+						FROM salida S INNER JOIN detalle_salida D ON S.folio_salida = D.folio_salida
+						INNER JOIN inventario I ON D.idinventario = I.idinventario
+						INNER JOIN producto P ON I.codigoproduc = P.codigoproduc
+						INNER JOIN usuario U ON S.idusuario = U.idusuario
+						INNER JOIN empleado EM ON U.curp = EM.curp
+						GROUP BY S.folio_salida ORDER BY S.folio_salida;";
 						$resultU= mysqli_query($conexion, $sql);
 					?>
 					<!-- tabla para listar entradas registrados -->
@@ -202,6 +206,8 @@
 								<th>FOLIO SALIDA</th>
 								<th>FECHA REGISTRO</th>
 								<th>USUARIO REGISTRO</th>
+								<th>TIPO SALIDA</th>
+								<th>PRODUCTOS</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -213,6 +219,29 @@
 								<td><?php echo $ver[0] ?></td>
 								<td><?php echo $ver[1] ?></td>
 								<td><?php echo $ver[2]." ".$ver[3] ?></td>
+								<td><?php echo $ver[4] ?></td>
+								<td>
+									<table class="table table-bordered table-xs">
+									<thead>
+										<tr class="text-center">
+											<th>Código</th>
+											<th>Nombre</th>
+											<th>lote</th>
+										</tr>
+									</thead>
+									<tbody>
+										<?php foreach(explode("__", $ver[5]) as $productosConcatenados){ 
+										$producto = explode("..", $productosConcatenados)
+										?>
+										<tr>
+											<td><?php echo $producto[0] ?></td>
+											<td><?php echo $producto[1] ?></td>
+											<td><?php echo $producto[2] ?></td>
+										</tr>
+										<?php } ?>
+									</tbody>
+									</table>
+								</td>
 								<!--<td>
 									<a href="#" class="btn btn-info">
 	  									<i class="fas fa-file-pdf"></i>	

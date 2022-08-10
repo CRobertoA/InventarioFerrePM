@@ -207,6 +207,7 @@
                                         <th>MODELO</th>
                                         <th>CANTIDAD</th>
                                         <th>FECHA</th>
+                                        <th>NUMERO LOTE</th>
                                         <!--<th>OBSERVACIONES</th>-->
                                         <th>ELIMINAR</th>
                                     </tr>
@@ -223,6 +224,7 @@
                                         <td><?php echo $producto->modelo ?></td>
                                         <td><?php echo $producto->cantidad ?></td>
                                         <td><?php echo $producto->fechaR ?></td>
+                                        <td><?php echo $producto->lote_producto ?></td>
                                         <!--<td><?php //echo $producto->observaciones ?></td>-->
                                         <td>
                                             <a class="btn btn-warning" href="<?php echo "procesos/salidas/quitarDelCarro.php?indice=" . $indice?>" title="Eliminar de la lista">

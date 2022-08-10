@@ -190,9 +190,13 @@
 			 <div class="container-fluid">
 				<div class="table-responsive">
 					<?php
-						$sql="SELECT entrada.folio_entrada, entrada.fecha, empleado.nombre, empleado.apellidos, entrada.tipo_entrada, entrada.folio_compra 
-							  FROM entrada INNER JOIN usuario ON entrada.idusuario = usuario.idusuario
-							  INNER JOIN empleado ON usuario.curp = empleado.curp order by folio_entrada;";
+						$sql="SELECT E.folio_entrada, E.fecha, EM.nombre, EM.apellidos, E.tipo_entrada, E.folio_compra, GROUP_CONCAT(	P.codigoproduc, '..',  P.nombreproducto, '..', D.lote_producto SEPARATOR '__') AS productos 
+						FROM entrada E INNER JOIN detalle_entrada D ON E.folio_entrada = D.folio_entrada
+						INNER JOIN inventario I ON D.idinventario = I.idinventario
+						INNER JOIN producto P ON I.codigoproduc = P.codigoproduc
+						INNER JOIN usuario U ON E.idusuario = U.idusuario
+						INNER JOIN empleado EM ON U.curp = EM.curp
+						GROUP BY E.folio_entrada ORDER BY E.folio_entrada;";
 						$resultU= mysqli_query($conexion, $sql);
 					?>
 					<!-- tabla para listar entradas registrados -->
@@ -204,6 +208,7 @@
 								<th>USUARIO REGISTRO</th>
 								<th>TIPO ENTRADA</th>
 								<th>FOLIO COMPRA/SALIDA</th>
+								<th>PRODUCTOS</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -217,6 +222,28 @@
 								<td><?php echo $ver[2]." ".$ver[3] ?></td>
 								<td><?php echo $ver[4] ?></td>
 								<td><?php echo $ver[5] ?></td>
+								<td>
+									<table class="table table-bordered table-xs">
+									<thead>
+										<tr class="text-center">
+											<th>Código</th>
+											<th>Nombre</th>
+											<th>lote</th>
+										</tr>
+									</thead>
+									<tbody>
+										<?php foreach(explode("__", $ver[6]) as $productosConcatenados){ 
+										$producto = explode("..", $productosConcatenados)
+										?>
+										<tr>
+											<td><?php echo $producto[0] ?></td>
+											<td><?php echo $producto[1] ?></td>
+											<td><?php echo $producto[2] ?></td>
+										</tr>
+										<?php } ?>
+									</tbody>
+									</table>
+								</td>
 								<!--<td>
 									<a href="#" class="btn btn-info">
 	  									<i class="fas fa-file-pdf"></i>	

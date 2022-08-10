@@ -250,20 +250,34 @@
                                                     <option value="A" selected="" >Seleccione una opción</option> <!--puede tener atributo disabled="" -->
                                                     <option value="Compra">Compra</option>
                                                     <option value="Devolucion">Devolucion</option>
+                                                    <option value="Cambio">Cambio</option>
                                                 </select>
                                             </div>
                                         </div>
-                                        <div class="col-12 col-md-4">
-                                            <div class="form-group">
-                                                <label for="folio_compra" class="bmd-label-floating">Folio compra</label>
-                                                <input type="text" class="form-control" name="folio_compra" id="folio_compra">
-                                            </div>
-                                        </div>
-                                        <div class="col-12 col-md-4">
-                                            <div class="form-group">
+                                        <div class="row ">
+                                            <p class="form-group" id="divObservaciones" style="margin-left: 30px;">
                                                 <label for="observaciones" class="bmd-label-floating">Observaciones</label>
-                                                <input type="text" class="form-control" name="observaciones" id="observaciones">
-                                            </div>
+                                                <input type="text" class="form-control" name="observaciones" id="observaciones" style="width : 300px;">
+                                            </p>
+
+                                            <p class="form-group" id="divFolioSalida" style="margin-left: 30px;">
+                                                <label for="selectFolioSalida" class="bmd-label-floating">Folio salida</label>
+                                                <?php 
+                                                    $consulta="SELECT folio_salida from salida";
+                                                    $ejecutar=mysqli_query($conexion, $consulta);
+                                                ?>
+                                                <select class="form-control" name="selectFolioSalida" id="selectFolioSalida" style="width : 300px;" >
+                                                    <option value="A" selected="" >Seleccione un folio</option>
+                                                    <?php foreach ($ejecutar as $opciones): ?>
+                                                        <option value="<?php echo $opciones['folio_salida'] ?>"><?php echo $opciones['folio_salida'] ?></option>
+                                                    <?php endforeach ?>
+                                                </select>
+                                            </p>
+
+                                            <p class="form-group" id="divFolioCompra" style="margin-left: 30px;">
+                                                <label for="folio_compra" class="bmd-label-floating">Folio compra</label>
+                                                <input type="text" class="form-control" name="folio_compra" id="folio_compra" style="width : 300px;">
+                                            </p>
                                         </div>
                                     </div>
                                 </div>
@@ -410,6 +424,25 @@
             var fecha = new Date();
             var salida = String(fecha.getDate()).padStart(2, '0') + '/' + String(fecha.getMonth()+1).padStart(2, '0') + '/' + String(fecha.getFullYear());
             document.getElementById('producto_fecha').value = salida;
+
+            $("#divObservaciones").hide();
+            $("#divFolioSalida").hide();
+            $("#divFolioCompra").hide();
+            $("#tipo_entrada").click(function() {
+                if($("#tipo_entrada").val()=="Compra"){
+                    $("#divObservaciones").show();
+                    $("#divFolioCompra").show();
+                    $("#divFolioSalida").hide();
+                } else if($("#tipo_entrada").val()=="Devolucion"){
+                    $("#divFolioCompra").hide();
+                    $("#divObservaciones").show();
+                    $("#divFolioSalida").show();
+                } else if($("#tipo_entrada").val()=="Cambio"){
+                    $("#divFolioCompra").hide();
+                    $("#divObservaciones").show();
+                    $("#divFolioSalida").show();
+                }
+            });
 
         });
     </script>
