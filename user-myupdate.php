@@ -1,6 +1,5 @@
 <?php
 	session_start();
-	//echo $_SESSION['usuario'];
 	
 	if(isset($_SESSION['usuario']) and $_SESSION['estado']== 1){
 		
@@ -12,7 +11,7 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-	<title>Home</title>
+	<title>Actualizar usuario</title>
 
 	<!-- Normalize V8.0.1 -->
 	<link rel="stylesheet" href="./css/normalize.css">
@@ -46,14 +45,13 @@
 
 </head>
 <body>
-
+	
 	<?php 
 		require_once "clases/Conexion.php";
 												
 		$c= new conectar();
 		$conexion= $c->conexion();
 		$idusu = $_SESSION['iduser'];
-		$usuarioo = $_SESSION['usuario'];
 		$consulta="SELECT * FROM usuario where idusuario = $idusu";
 		$ejecutar=mysqli_query($conexion, $consulta);
 		$nom = mysqli_fetch_row($ejecutar);
@@ -62,7 +60,6 @@
 		$resultU2= mysqli_query($conexion, $sql2);
 		$vernom = mysqli_fetch_row($resultU2);
 	?>
-	
 	<!-- Main container -->
 	<main class="full-box main-container">
 		<!-- Nav lateral -->
@@ -73,7 +70,7 @@
 					<i class="far fa-times-circle show-nav-lateral"></i>
 					<img src="./assets/avatar/ferretera.jpg" class="img-fluid" alt="Avatar">
 					<figcaption class="roboto-medium text-center">
-						 <?php echo $vernom[0]. " " .$vernom[1]?> <br><small class="roboto-condensed-light"> <?php echo $nom[4] ?> </small>
+						<?php echo $vernom[0]. " " .$vernom[1]?> <br><small class="roboto-condensed-light"><?php echo $nom[4] ?></small>
 					</figcaption>
 				</figure>
 				<div class="full-box nav-lateral-bar"></div>
@@ -96,7 +93,7 @@
 									<a href="client-search.html"><i class="fas fa-search fa-fw"></i> &nbsp; Buscar cliente</a>
 								</li>
 							</ul>
-						</li> -->
+						</li>-->
 
 						<li>
 							<a href="#" class="nav-btn-submenu"><i class="fas fa-pallet fa-fw"></i> &nbsp; PRODUCTOS <i class="fas fa-chevron-down"></i></a>
@@ -125,6 +122,7 @@
 						<?php
 							if($_SESSION['rolu']=="Administrador"):
 						?>
+
 						<li>
 							<a href="#" class="nav-btn-submenu"><i class="fas  fa-user-secret fa-fw"></i> &nbsp; USUARIOS <i class="fas fa-chevron-down"></i></a>
 							<ul>
@@ -145,6 +143,7 @@
 								</li>
 							</ul>
 						</li>
+
 						<li>
 							<a href="#" class="nav-btn-submenu"><i class="bi bi-wrench"></i> &nbsp; ADMINISTRACION <i class="fas fa-chevron-down"></i></a>
 							<ul>
@@ -167,12 +166,12 @@
 				<a href="#" class="float-left show-nav-lateral">
 					<i class="fas fa-exchange-alt"></i>
 				</a>
-				<a href="user-myupdate.php" title="Editar usuario">
+				<a href="user-myupdate.php">
 					<i class="fas fa-user-cog"></i>
 				</a>
 				<label>
-					<i class="bi bi-person-workspace"></i> <?php echo $usuarioo ?>
-				</label>	
+					<i class="bi bi-person-workspace"></i> <?php echo $_SESSION['usuario'] ?>
+				</label>
 				<!--<a href="#" class="btn-exit-system">
 					<i class="fas fa-power-off"></i>
 				</a>-->
@@ -184,138 +183,96 @@
 			<!-- Page header -->
 			<div class="full-box page-header">
 				<h3 class="text-left">
-					<i class="fab fa-dashcube fa-fw"></i> &nbsp; DASHBOARD
+					<i class="fas fa-user-cog fa-fw"></i> &nbsp; EDITAR MI USUARIO
 				</h3>
-				<p class="text-lg-center">
-					Sistema de inventario para la empresa "Mi Gran Central Ferretera"
+				<p class="text-justify">
+					Editar los datos del usuario 
 				</p>
-				<?php 
-					$consultaPS="SELECT P.stockminimo, I.stock FROM producto P INNER JOIN inventario I 
-					ON P.codigoproduc = I.codigoproduc order by I.idinventario;";
-					$ejecutarPS=mysqli_query($conexion, $consultaPS);
-					$contador =0;
-					while($ver=mysqli_fetch_row($ejecutarPS)):
-						if($ver[1] <= $ver[0]){
-							$contador++;
-						}
-					endwhile;
-					if($contador > 0){
-				?>
-				<div class="full-box tile-container">
-					<a href="producto-stockmin.php" class="tile1">
-						<div class="tile-tittle1">PRODUCTOS CON STOCK MINIMO</div>
-						<div class="tile-icon">
-							<i class="fas bi bi-exclamation-triangle-fill fa-fw"></i>
-							<p><?php echo $contador ?> productos stock minimo</p>
-						</div>
-					</a>
-				</div>
-				<?php
-					}
-				?>
+			</div>
+			
+			<div class="container-fluid">
+				<ul class="full-box list-unstyled page-nav-tabs">
+					<li>
+						<a class="active" href="user-myupdate.php"><i class="fas fa-user-cog"></i> &nbsp; EDITAR MI USUARIO</a>
+					</li>
+				</ul>	
 			</div>
 			
 			<!-- Content -->
-			<div class="full-box tile-container">
-
-				<!--<a href="empleado-new.php" class="tile">
-					<div class="tile-tittle">PRODUCTOS</div>
-					<div class="tile-icon">
-						<i class="fas fa-users fa-fw"></i>
-						<p>5 Registrados</p>
-					</div>
-				</a>-->
-
-				<?php 
-					$consultaP="select count(*) from producto";
-					$ejecutarP=mysqli_query($conexion, $consultaP);
-					$contp = mysqli_fetch_row($ejecutarP)[0];
-
-				?>
-				<a href="producto-list.php" class="tile">
-					<div class="tile-tittle">PRODUCTOS</div>
-					<div class="tile-icon">
-						<i class="fas fa-pallet fa-fw"></i>
-						<p><?php echo $contp ?> Registrados</p>
-					</div>
-				</a>
-
-				<?php 
-					$consultaI="select count(*) from inventario";
-					$ejecutarI=mysqli_query($conexion, $consultaI);
-					$conti = mysqli_fetch_row($ejecutarI)[0];
-
-				?>
-				<a href="inventario-list.php" class="tile">
-					<div class="tile-tittle">INVENTARIO</div>
-					<div class="tile-icon">
-						<i class="fas fa-store-alt fa-fw"></i>
-						<p><?php echo $conti ?> Registrados</p>
-					</div>
-				</a>
-
-				<?php 
-					$consultaE="select count(*) from entrada";
-					$ejecutarE=mysqli_query($conexion, $consultaE);
-					$conte = mysqli_fetch_row($ejecutarE)[0];
-
-				?>
-				<a href="entrada-list.php" class="tile">
-					<div class="tile-tittle">ENTRADAS</div>
-					<div class="tile-icon">
-						<i class="fas bi bi-box2-fill fa-fw"></i>
-						<p><?php echo $conte ?> Registradas</p>
-					</div>
-				</a>
-
-				<?php 
-					$consultaSa="select count(*) from salida";
-					$ejecutarSa=mysqli_query($conexion, $consultaSa);
-					$contsa = mysqli_fetch_row($ejecutarSa)[0];
-
-				?>
-				<a href="salida-list.php" class="tile">
-					<div class="tile-tittle">SALIDAS</div>
-					<div class="tile-icon">
-						<i class="fas fa-shopping-cart fa-fw"></i>
-						<p><?php echo $contsa ?> Registradas</p>
-					</div>
-				</a>
-				<?php 
-					$consultaU="select count(*) from usuario";
-					$ejecutarU=mysqli_query($conexion, $consultaU);
-					$contu = mysqli_fetch_row($ejecutarU)[0];
-
-					if($_SESSION['rolu']=="Administrador"):
-				?>
-				<a href="user-list.php" class="tile">
-					<div class="tile-tittle">Usuarios</div>
-					<div class="tile-icon">
-						<i class="fas fa-user-secret fa-fw"></i>
-						<p> <?php echo $contu ?> Registrados</p>
-					</div>
-				</a>
-
-				<a href="generar-reporte.php" class="tile">
-					<div class="tile-tittle">REPORTES</div>
-					<div class="tile-icon">
-						<i class="fas fa-file-invoice fa-fw"></i>
-						<p>Reportes</p>
-					</div>
-				</a>
-
-				<a href="generar-respaldo.php" class="tile">
-					<div class="tile-tittle">RESPALDO</div>
-					<div class="tile-icon">
-						<i class="fas bi bi-server fa-fw"></i>
-						<p>Respaldo</p>
-					</div>
-				</a>
-				<?php
-					endif;
-				?>
-				
+			<div class="container-fluid">
+					<?php
+						$sql="SELECT * FROM usuario where idusuario = '$idusu'";
+						$resultUU= mysqli_query($conexion, $sql);
+						$ver=mysqli_fetch_row($resultUU);
+						$sql2="SELECT E.nombre, E.apellidos FROM empleado E INNER JOIN usuario U ON E.curp = U.curp where U.idusuario = '$idusu' ";
+						$resultUU2= mysqli_query($conexion, $sql2);
+						$ver2=mysqli_fetch_row($resultUU2);
+					?>
+				<form class="form-neon" autocomplete="off" id="frmrMiusuarioAct">
+					<fieldset>
+						<legend><i class="far fa-address-card"></i> &nbsp; Información personal</legend>
+						<div class="container-fluid">
+							<div class="row">
+								<div class="col-12 col-md-6">
+									<div class="form-group">
+										<input type="text" hidden="" id="idusuarioA" name="idusuarioA" value="<?php echo $ver[0] ?>">
+										<label for="curp_empleadou" >EMPLEADO</label>
+										<input type="text" pattern="[a-zA-ZáéíóúÁÉÍÓÚñÑ ]{1,35}" class="form-control" name="curp_empleadou" id="curp_empleadou" maxlength="35" readonly="readonly" value="<?php echo $ver2[0]. " " .$ver2[1] ?>">
+									</div>
+								</div>
+                                <div class="col-12 col-md-6">
+									<div class="form-group">
+										<label for="usuario_usuario" >Nombre de usuario</label>
+										<input type="text" pattern="[a-zA-Z0-9]{1,35}" class="form-control" readonly="readonly" name="usuario_usuario" id="usuario_usuario" maxlength="35" value="<?php echo $ver[2] ?>">
+									</div>
+								</div>
+							</div>
+						</div>
+					</fieldset>
+					<br><br>
+					<fieldset>
+						<legend><i class="fas fa-user-lock"></i> &nbsp; Información de la cuenta</legend>
+						<div class="container-fluid">
+							<div class="row">
+								<div class="col-12 col-md-6">
+									<div class="form-group">
+									<input type="password" hidden="" class="form-control" name="usuario_clave" id="usuario_clave" maxlength="200" value="<?php echo $ver[3] ?>">
+                                    <label for="usuario_clave_1" > Contraseña nueva</label>
+                                    <input type="password" class="form-control" name="usuario_clave_1" id="usuario_clave_1" maxlength="200">
+									</div>
+								</div>
+                                <div class="col-12 col-md-6">
+									<div class="form-group">
+                                    <label for="usuario_clave_2" > Repetir contraseña</label>
+                                    <input type="password" class="form-control" name="usuario_clave_2" id="usuario_clave_2" maxlength="200">
+									</div>
+								</div>
+							</div>
+						</div>
+					</fieldset>
+					<br><br><br>
+					<fieldset>
+						<legend><i class="fas fa-medal"></i> &nbsp; Cargo del usuario</legend>
+						<div class="container-fluid">
+							<div class="row">
+								<div class="col-8">
+									<p><span class="badge badge-info">Administrador</span> Acceso a todos los módulos del sistema</p>
+									<p><span class="badge badge-success">Almacen</span> Acceso a módulo de productos e inventario</p>
+									<div class="form-group">
+                                        <input type="text" pattern="[a-zA-Z0-9]{1,35}" class="form-control" readonly="readonly" name="usuario_cargo" id="usuario_cargo" maxlength="35" value="<?php echo $ver[4] ?>">
+									</div>
+								</div>
+							</div>
+						</div>
+					</fieldset>
+					<br>
+					<p class="text-center" style="margin-top: 40px;">
+						<span class="btn btn-raised btn-success btn-sm" id="actualizaMiUsuario"><i class="fas fa-sync-alt"></i> &nbsp; ACTUALIZAR</span>
+					</p>
+				</form>
 			</div>
+			
+
 		</section>
 	</main>
 	
@@ -344,6 +301,10 @@
 	<script src="alertify/alertify.min.js"></script>
 
 	<script type="text/javascript">
+		/*function agregaDato(idEmpleado, nombre){
+			$('#curpeu').val(idEmpleado);
+			$('#empleado_nombre').val(nombre);
+		}*/
 		function cerrarSesion(){
 			alertify.confirm("Cerrando sesión",'¿Seguro que desea cerrar sesión?', function(){
 				window.location="procesos/reglogin/salir.php";
@@ -351,6 +312,60 @@
 				alertify.error('Cancelo!')
 			}).set('labels', {ok:'Si, salir!', cancel:'No, cancelar'});
 		}
+	</script>
+
+	<script type="text/javascript">
+		$(document).ready(function(){
+			$('#actualizaMiUsuario').click(function(){
+
+				// obtenemos los valores de los input 
+				var usuario = document.getElementById("usuario_usuario").value.length; 
+				var contral = document.getElementById("usuario_clave_2").value.length; 
+				var contra = document.getElementById("usuario_clave_2").value; 
+                var contraant = document.getElementById("usuario_clave_1").value; 
+                var contrabase = document.getElementById("usuario_clave").value; 
+                var comparacion = contraant.localeCompare(contra);
+				//EXPRESION REGULAR PARA LA VALIDACION DE LA CONTRASEÑA
+				con=/^(?=(?:.*\d))(?=.*[A-Z])(?=.*[a-z])(?=.*[.,*!?¿¡/#$%&])\S{8,64}$/
+
+				vacios=validarFormVacio('frmrMiusuarioAct');
+				if(vacios > 0){
+					alertify.alert("Advertencia","Debes llenar todos los campos");
+					return false;
+				}else if(usuario < 6){ 
+                 	alertify.alert("Advertencia", "El nombre de usuario debe ser mayor a 6 digitos"); 
+                 return false; 
+				}else if(contral < 8){ 
+                 	alertify.alert("Advertencia", "La contraseña debe ser mayor a 8 digitos"); 
+                 return false; 
+				}else if(comparacion!=0){
+                    alertify.alert("Advertencia", "Las contraseñas no coinciden"); 
+                    return false; 
+                }
+                /*else if(!con.exec(contra)){ 
+					alertify.alert("Advertencia", 'La contraseña debe contener \n Al menos una mayúscula \n Al menos una minúscula \n Al menos un número 0-9 \n Al menos un carácter especial (.,*!?¿¡/#$%&) \n Longitud mínima de 8 caracteres, 64 máxima \n No acepta espacios'); 
+					return false; 
+				}*/
+
+				datos=$('#frmrMiusuarioAct').serialize();
+				$.ajax({
+					type:"POST",
+					data:datos,
+					url:"procesos/usuarios/actualizarmiusuario.php",
+					success:function(r){
+						//alert(r);
+						if(r==1){
+							//window.location="empleado-list.php";
+							alertify.success("Usuario actualizado con éxito");
+							//alert("Empleado actualizado con exito");
+							
+						}else{
+							alertify.error("Error al actualizar");
+						}
+					}
+				});
+			});
+		});
 	</script>
 </body>
 </html>

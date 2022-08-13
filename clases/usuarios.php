@@ -127,6 +127,14 @@
             echo mysqli_query($conexion,$sql);
         }
 
+		public function actualizaMiUsuario($datos){
+            $c= new conectar();
+            $conexion= $c->conexion();
+            $sql= "UPDATE usuario set contrasena= '$datos[1]' 
+                                    where idusuario= '$datos[0]'";
+            echo mysqli_query($conexion,$sql);
+        }
+
 		public function desactivarUsuario($datos){
             $c= new conectar();
             $conexion= $c->conexion();

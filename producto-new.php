@@ -152,9 +152,9 @@
                 <a href="#" class="float-left show-nav-lateral">
                     <i class="fas fa-exchange-alt"></i>
                 </a>
-                <!--<a href="user-update.php">
+                <a href="user-myupdate.php">
                     <i class="fas fa-user-cog"></i>
-                </a>-->
+                </a>
                 <label>
 					<i class="bi bi-person-workspace"></i> <?php echo $_SESSION['usuario'] ?>
 				</label>
@@ -329,66 +329,79 @@
 	<!-- registrar producto -->
 	<script type="text/javascript">
 		$(document).ready(function(){
+			// Listen for the input event.
+			jQuery("#producto_smin").on('input', function (evt) {
+				// Allow only numbers.
+				jQuery(this).val(jQuery(this).val().replace(/[^0-9]/g, ''));
+			});
+			jQuery("#producto_smax").on('input', function (evt) {
+				// Allow only numbers.
+				jQuery(this).val(jQuery(this).val().replace(/[^0-9]/g, ''));
+			});
 			$('#divMarca').load('tablas/selectMarcas.php');
 			$('#registrop').click(function(){
+				//if (producto_smin.value.match(/[0-9]{1,}/) && producto_smax.value.match(/[0-9]{1,}/)) {
 
-				// obtenemos los valores de los input 
-				var stockmin = document.getElementById("producto_smin").value; 
-				var stockmax = document.getElementById("producto_smax").value; 
-				var modeloco = document.getElementById("producto_modelo").value; 
+					// obtenemos los valores de los input 
+					var stockmin = document.getElementById("producto_smin").value; 
+					var stockmax = document.getElementById("producto_smax").value; 
+					var modeloco = document.getElementById("producto_modelo").value; 
 
-				/*$("#producto_marca").change(function() {
-					var valor = $(this).val(); // Capturamos el valor del select
-					var texto = $(this).find('option:selected').text(); // Capturamos el texto del option seleccionado
-				});*/
-				var texto = ShowSelected();
+					/*$("#producto_marca").change(function() {
+						var valor = $(this).val(); // Capturamos el valor del select
+						var texto = $(this).find('option:selected').text(); // Capturamos el texto del option seleccionado
+					});*/
+					var texto = ShowSelected();
 
-				var submarca = texto.substr(0,3);
-				var submodelo = modeloco.substr(0,2);
+					var submarca = texto.substr(0,3);
+					var submodelo = modeloco.substr(0,2);
 
-				document.getElementById("generacodigo").value = submarca + submodelo;
+					document.getElementById("generacodigo").value = submarca + submodelo;
 
-				vacios=validarFormVacio('frmrproducto');
-				if(vacios > 0){
-					alertify.alert("Advertencia", "Debes llenar todos los campos");
-					return false;
-				}else if(stockmin <= 0){ 
-                 	alertify.alert("Advertencia", "El stock minimo debe ser mayor a 0"); 
-                 return false; 
-				}else if(stockmax <= 0){ 
-					alertify.alert("Advertencia", "El stock maximo debe ser mayor a 0"); 
+					vacios=validarFormVacio('frmrproducto');
+					if(vacios > 0){
+						alertify.alert("Advertencia", "Debes llenar todos los campos");
+						return false;
+					}else if(stockmin <= 0){ 
+						alertify.alert("Advertencia", "El stock minimo debe ser mayor a 0"); 
 					return false; 
-				}else if(parseInt(stockmax) <= parseInt(stockmin)){ 
-					alertify.alert("Advertencia", "El stock maximo debe ser mayor al stock minimo"); 
-					return false; 
-				}
-
-				var formData = new FormData(document.getElementById("frmrproducto"));
-
-				$.ajax({
-					url: "procesos/productos/registrarProducto.php",
-					type: "post",
-					dataType: "html",
-					data: formData,
-					cache: false,
-					contentType: false,
-					processData: false,
-
-					success:function(r){
-                        //alert(r);
-						
-						if(r == 1){
-							$('#frmrproducto')[0].reset();
-							//$('#tablaArticulos').load('articulos/tablaArticulos.php');
-							$('#divMarca').load('tablas/selectMarcas.php');
-							alertify.success("Producto agregado con éxito");
-						}else if(r==2){
-							alertify.error("El producto ya ha sido registrado");
-						}else{
-							alertify.error("Error al agregar");
-						}
+					}else if(stockmax <= 0){ 
+						alertify.alert("Advertencia", "El stock maximo debe ser mayor a 0"); 
+						return false; 
+					}else if(parseInt(stockmax) <= parseInt(stockmin)){ 
+						alertify.alert("Advertencia", "El stock maximo debe ser mayor al stock minimo"); 
+						return false; 
 					}
-				});
+
+					var formData = new FormData(document.getElementById("frmrproducto"));
+
+					$.ajax({
+						url: "procesos/productos/registrarProducto.php",
+						type: "post",
+						dataType: "html",
+						data: formData,
+						cache: false,
+						contentType: false,
+						processData: false,
+
+						success:function(r){
+							//alert(r);
+							
+							if(r == 1){
+								$('#frmrproducto')[0].reset();
+								//$('#tablaArticulos').load('articulos/tablaArticulos.php');
+								$('#divMarca').load('tablas/selectMarcas.php');
+								alertify.success("Producto agregado con éxito");
+							}else if(r==2){
+								alertify.error("El producto ya ha sido registrado");
+							}else{
+								alertify.error("Error al agregar");
+							}
+						}
+					});
+				/*}else {
+					alertify.alert("Advertencia", "Solo se aceptan numeros enteros"); 
+				}*/
 			});
 		});
 	</script>

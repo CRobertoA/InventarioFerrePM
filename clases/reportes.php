@@ -77,7 +77,7 @@
         $hojaActiva->setCellValue('B1','FECHA');
         $hojaActiva->setCellValue('C1','USUARIO');
         $hojaActiva->setCellValue('D1','TIPO ENTRADA');
-        $hojaActiva->setCellValue('E1','FOLIO COMPRA');
+        $hojaActiva->setCellValue('E1','FOLIO COMPRA/SALIDA');
         $hojaActiva->setCellValue('F1','CANTIDAD');
         $hojaActiva->setCellValue('G1','CODIGO PRODUCTO');
         $hojaActiva->setCellValue('H1','NOMBRE PRODUCTO');
@@ -86,7 +86,7 @@
         $hojaActiva->getColumnDimension('B')->setWidth(15);
         $hojaActiva->getColumnDimension('C')->setWidth(15);
         $hojaActiva->getColumnDimension('D')->setWidth(15);
-        $hojaActiva->getColumnDimension('E')->setWidth(15);
+        $hojaActiva->getColumnDimension('E')->setWidth(22);
         $hojaActiva->getColumnDimension('F')->setWidth(15);
         $hojaActiva->getColumnDimension('G')->setWidth(20);
         $hojaActiva->getColumnDimension('H')->setWidth(20);

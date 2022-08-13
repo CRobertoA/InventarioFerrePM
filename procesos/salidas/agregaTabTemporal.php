@@ -13,9 +13,11 @@
 
     include_once "../../clases/base_de_datos.php";
 
-    $sentencia = $base_de_datos->prepare("SELECT inventario.idinventario, producto.codigoproduc, inventario.codigoproduc, producto.nombreproducto, producto.modelo, inventario.stock, producto.stockmaximo 
+    $sentencia = $base_de_datos->prepare("SELECT inventario.idinventario, producto.codigoproduc, inventario.codigoproduc, producto.nombreproducto, producto.modelo, inventario.stock, producto.stockmaximo, E.folio_entrada, min(fecha), D.contador, D.lote_producto  
                                         FROM inventario INNER JOIN producto ON producto.codigoproduc = inventario.codigoproduc 
-                                        WHERE producto.codigoproduc = ? LIMIT 1;");
+                                        INNER JOIN detalle_entrada D ON inventario.idinventario = D.idinventario
+                                        INNER JOIN entrada E ON E.folio_entrada = D.folio_entrada
+                                        WHERE D.contador > 0 AND producto.codigoproduc = ? LIMIT 1;");
     $sentencia->execute([$codigo]);
     $producto = $sentencia->fetch(PDO::FETCH_OBJ);
     if($producto){ 
@@ -40,10 +42,31 @@
                 header("Location: ../../salida-new.php?status=2");
                 exit;
             }
-            $producto->cantidad = $cantidad;
-            $producto->fechaR = $fecha;
-            //$producto->observaciones = $observacion;
-            array_push($_SESSION["salidas"], $producto);
+            if($cantidad > $producto->contador){
+                $producto->cantidad = $producto->contador;
+                $producto->fechaR = $fecha;
+                //$producto->observaciones = $observacion;
+                array_push($_SESSION["salidas"], $producto);
+                $cantidad = $cantidad - $producto->contador;
+
+                $sentencia = $base_de_datos->prepare("SELECT inventario.idinventario, producto.codigoproduc, inventario.codigoproduc, producto.nombreproducto, producto.modelo, inventario.stock, producto.stockmaximo, E.folio_entrada, min(fecha), D.contador, D.lote_producto  
+                                        FROM inventario INNER JOIN producto ON producto.codigoproduc = inventario.codigoproduc 
+                                        INNER JOIN detalle_entrada D ON inventario.idinventario = D.idinventario
+                                        INNER JOIN entrada E ON E.folio_entrada = D.folio_entrada
+                                        WHERE D.contador > 0 AND lote_producto != ? AND producto.codigoproduc = ? LIMIT 1;");
+                $sentencia->execute([$producto->lote_producto ,$codigo]);
+                $producto = $sentencia->fetch(PDO::FETCH_OBJ);
+
+                $producto->cantidad = $cantidad;
+                $producto->fechaR = $fecha;
+                //$producto->observaciones = $observacion;
+                array_push($_SESSION["salidas"], $producto);
+            }else{
+                $producto->cantidad = $cantidad;
+                $producto->fechaR = $fecha;
+                //$producto->observaciones = $observacion;
+                array_push($_SESSION["salidas"], $producto);
+            }
         }else{
             header("Location: ../../salida-new.php?status=3");
             exit;

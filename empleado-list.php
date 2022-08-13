@@ -170,9 +170,9 @@
 				<a href="#" class="float-left show-nav-lateral">
 					<i class="fas fa-exchange-alt"></i>
 				</a>
-				<!--<a href="user-update.php">
+				<a href="user-myupdate.php">
 					<i class="fas fa-user-cog"></i>
-				</a>-->
+				</a>
 				<label>
 					<i class="bi bi-person-workspace"></i> <?php echo $_SESSION['usuario'] ?>
 				</label>	

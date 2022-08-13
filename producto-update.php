@@ -150,9 +150,9 @@
                 <a href="#" class="float-left show-nav-lateral">
                     <i class="fas fa-exchange-alt"></i>
                 </a>
-                <!--<a href="user-update.php">
+                <a href="user-myupdate.php">
                     <i class="fas fa-user-cog"></i>
-                </a>-->
+                </a>
                 <label>
 					<i class="bi bi-person-workspace"></i> <?php echo $_SESSION['usuario'] ?>
 				</label>
@@ -297,6 +297,15 @@
 	<!-- Actualizar producto -->
 	<script type="text/javascript">
 		$(document).ready(function(){
+			// Listen for the input event.
+			jQuery("#producto_sminU").on('input', function (evt) {
+				// Allow only numbers.
+				jQuery(this).val(jQuery(this).val().replace(/[^0-9]/g, ''));
+			});
+			jQuery("#producto_smaxU").on('input', function (evt) {
+				// Allow only numbers.
+				jQuery(this).val(jQuery(this).val().replace(/[^0-9]/g, ''));
+			});
 			$('#actualizaProducto').click(function(){
 
 				// obtenemos los valores de los input 
