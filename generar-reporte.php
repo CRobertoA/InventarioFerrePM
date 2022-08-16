@@ -217,9 +217,10 @@
                                 <label for="selectTipoReporte" class="bmd-label-floating">Tipo Reporte</label>
                                 <select class="form-control" name="selectTipoReporte" id="selectTipoReporte" class="mx-auto">
                                     <option value="A" selected="" >Seleccione una opción</option>
-                                    <option value="1">Reporte productos</option>
-                                    <option value="2">Reporte entradas</option>
-                                    <option value="3">Reporte salidas</option>
+									<option value="1">Reporte productos stock minimo</option>
+                                    <option value="2">Reporte productos</option>
+                                    <option value="3">Reporte entradas</option>
+                                    <option value="4">Reporte salidas</option>
                                 </select>
                             </div>
                         </div>
@@ -323,14 +324,18 @@
             $("#divFechaFinR").hide();
             $("#selectTipoReporte").click(function() {
                 if($("#selectTipoReporte").val()==1){
-                    $("#divMarcaR").show();
+                    $("#divMarcaR").hide();
                     $("#divFechaIniR").hide();
                     $("#divFechaFinR").hide();
                 } else if($("#selectTipoReporte").val()==2){
+                    $("#divMarcaR").show();
+                    $("#divFechaIniR").hide();
+                    $("#divFechaFinR").hide();
+                } else if($("#selectTipoReporte").val()==3){
                     $("#divMarcaR").hide();
                     $("#divFechaIniR").show();
                     $("#divFechaFinR").show();
-                } else if($("#selectTipoReporte").val()==3){
+                } else if($("#selectTipoReporte").val()==4){
                     $("#divMarcaR").hide();
                     $("#divFechaIniR").show();
                     $("#divFechaFinR").show();

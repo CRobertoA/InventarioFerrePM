@@ -15,6 +15,48 @@
     $conexion= $c->conexion();
 
     if($tipoReporte == 1){
+        $sql = "SELECT P.codigoproduc, M.nombre, P.nombreproducto, P.modelo, P.descripcion, P.stockminimo, P.stockmaximo, I.stock
+                FROM producto P INNER JOIN marca M ON P.idmarca = M.idmarca 
+                INNER JOIN inventario I ON P.codigoproduc = I.codigoproduc 
+                WHERE I.stock <= P.stockminimo order by substring(P.codigoproduc, 6); ";
+        $resultado = mysqli_query($conexion, $sql);
+        $spreadsheet= new Spreadsheet();
+        $spreadsheet->getProperties()->setCreator("Mi Gran Central Ferretera")->setTitle("Reporte de productos con stock minimo");
+
+        //$spreadsheet->setActiveSheetIndex(0);
+        $hojaActiva = $spreadsheet->getActiveSheet();
+
+        $hojaActiva->setCellValue('A1','CODIGO PRODUCTO');
+        $hojaActiva->setCellValue('B1','MARCA');
+        $hojaActiva->setCellValue('C1','NOMBRE PRODUCTO');
+        $hojaActiva->setCellValue('D1','MODELO');
+        $hojaActiva->setCellValue('E1','DESCRIPCION');
+        $hojaActiva->setCellValue('F1','STOCK MINIMO');
+        $hojaActiva->setCellValue('G1','STOCK MAXIMO');
+        $hojaActiva->setCellValue('H1','STOCK ACTUAL');
+
+        $hojaActiva->getColumnDimension('A')->setWidth(20);
+        $hojaActiva->getColumnDimension('B')->setWidth(20);
+        $hojaActiva->getColumnDimension('C')->setWidth(20);
+        $hojaActiva->getColumnDimension('D')->setWidth(15);
+        $hojaActiva->getColumnDimension('E')->setWidth(30);
+        $hojaActiva->getColumnDimension('F')->setWidth(15);
+        $hojaActiva->getColumnDimension('G')->setWidth(15);
+        $hojaActiva->getColumnDimension('H')->setWidth(15);
+
+        $fila=2;
+        while($rows = $resultado->fetch_assoc()){
+            $hojaActiva->setCellValue('A'.$fila, $rows['codigoproduc']);
+            $hojaActiva->setCellValue('B'.$fila, $rows['nombre']);
+            $hojaActiva->setCellValue('C'.$fila, $rows['nombreproducto']);
+            $hojaActiva->setCellValue('D'.$fila, $rows['modelo']);
+            $hojaActiva->setCellValue('E'.$fila, $rows['descripcion']);
+            $hojaActiva->setCellValue('F'.$fila, $rows['stockminimo']);
+            $hojaActiva->setCellValue('G'.$fila, $rows['stockmaximo']);
+            $hojaActiva->setCellValue('H'.$fila, $rows['stock']);
+            $fila++;
+        }
+    } else if($tipoReporte == 2){
         if($marcaid==0){
             $sql = "SELECT P.codigoproduc, M.nombre, P.nombreproducto, P.modelo, P.descripcion, P.stockminimo, P.stockmaximo
                     FROM producto P INNER JOIN marca M ON P.idmarca = M.idmarca order by substring(P.codigoproduc, 6); ";
@@ -58,7 +100,7 @@
             $hojaActiva->setCellValue('G'.$fila, $rows['stockmaximo']);
             $fila++;
         }
-    } else if($tipoReporte == 2){
+    } else if($tipoReporte == 3){
         $sql = "SELECT E.folio_entrada, E.fecha, U.nombre, E.tipo_entrada, E.folio_compra, D.cantidad, I.codigoproduc, P.nombreproducto 
                 FROM entrada E INNER JOIN detalle_entrada D ON E.folio_entrada = D.folio_entrada
                 INNER JOIN inventario I ON D.idinventario = I.idinventario
@@ -103,7 +145,7 @@
             $hojaActiva->setCellValue('H'.$fila, $rows['nombreproducto']);
             $fila++;
         }
-    } else if($tipoReporte == 3){
+    } else if($tipoReporte == 4){
         $sql = "SELECT S.folio_salida, S.fecha, U.nombre, S.tipo_salida, D.cantidad, I.codigoproduc, P.nombreproducto 
                 FROM salida S INNER JOIN detalle_salida D ON S.folio_salida = D.folio_salida
                 INNER JOIN inventario I ON D.idinventario = I.idinventario

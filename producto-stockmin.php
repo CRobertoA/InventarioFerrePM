@@ -149,20 +149,16 @@
                 </nav>
             </div>
         </section>
+
+		<!-- Contenido de pagina -->
         <section class="full-box page-content">
             <nav class="full-box navbar-info">
                 <a href="#" class="float-left show-nav-lateral">
                     <i class="fas fa-exchange-alt"></i>
                 </a>
-<<<<<<< HEAD
                 <a href="user-myupdate.php">
                     <i class="fas fa-user-cog"></i>
                 </a>
-=======
-                <!--<a href="user-update.php">
-                    <i class="fas fa-user-cog"></i>
-                </a>-->
->>>>>>> 57a965dd35dbcb7557b8cb9106acfcc23c76f6d1
                 <label>
 					<i class="bi bi-person-workspace"></i> <?php echo $_SESSION['usuario'] ?>
 				</label>
@@ -185,7 +181,7 @@
             <div class="container-fluid">
                 <ul class="full-box list-unstyled page-nav-tabs">
                     <li>
-                        <a class="active" href="producto-stockmin.php"><i class="fas fa-clipboard-list fa-fw"></i> &nbsp; LISTA DE PRODUCTOS</a>
+                        <a class="active" href="producto-stockmin.php"><i class="fas fa-clipboard-list fa-fw"></i> &nbsp; LISTA DE PRODUCTOS CON STOCK MINIMO</a>
                     </li>
                 </ul>
             </div>
