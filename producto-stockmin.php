@@ -154,9 +154,15 @@
                 <a href="#" class="float-left show-nav-lateral">
                     <i class="fas fa-exchange-alt"></i>
                 </a>
+<<<<<<< HEAD
                 <a href="user-myupdate.php">
                     <i class="fas fa-user-cog"></i>
                 </a>
+=======
+                <!--<a href="user-update.php">
+                    <i class="fas fa-user-cog"></i>
+                </a>-->
+>>>>>>> 57a965dd35dbcb7557b8cb9106acfcc23c76f6d1
                 <label>
 					<i class="bi bi-person-workspace"></i> <?php echo $_SESSION['usuario'] ?>
 				</label>
