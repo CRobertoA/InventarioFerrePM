@@ -28,6 +28,7 @@
 	
 	<!-- General Styles -->
 	<link rel="stylesheet" href="./css/style.css">
+	<link rel="stylesheet" type="text/css" href="icons/font/bootstrap-icons.css">
 
 	<!-- Alertify -->
 	<link rel="stylesheet" href="alertify/css/alertify.min.css" />
@@ -35,7 +36,13 @@
 
 </head>
 <body>
-
+	<?php 
+		session_start();
+		require_once "clases/Conexion.php";
+												
+		$c= new conectar();
+		$conexion= $c->conexion();
+	?>
 	<div class="login-container">
 		<div class="login-content">
 			<p class="text-center">
@@ -56,8 +63,47 @@
 				</div>
 				<span class="btn-login text-center" id="entrarSistema" >INGRESAR</span>
 			</form>
+			<?php if(!$conexion) {?>
+			<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#ModalRestore"><i class="bi bi-cloud-upload-fill"></i> &nbsp; Restauración</button>
+			<?php } ?>
 		</div>
 	</div>
+
+			<!-- MODAL MARCA -->
+			<div class="modal fade" id="ModalRestore" tabindex="-1" role="dialog" aria-labelledby="ModalRestore" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="ModalRestore">Restauración</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+						<p><i class="bi bi-cloud-upload-fill"></i> &nbsp; Restaurar base de datos</p>
+                            <form action="procesos/restauracion/restore.php" method="POST" enctype="multipart/form-data">
+                                <div class="container-fluid">
+                                    <div class="row">
+                                        <div class="col-12 col-md-10">
+                                            <div class="form-group">
+                                                <label for="sql" >Archivo sql</label>
+                                                <input type="file" class="form-control-file" id="sql" name="sql" placeholder="base de datos que deseas restaurar" required>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            <p class="text-center" style="margin-top: 40px;">
+                                <!-- boton para guardar datos de la marca-->
+								<button type="submit" class="btn btn-raised btn-info btn-sm" id="restore" name="restore"><i class="bi bi-upload"></i> RESTAURAR BASE</button>
+                            </p>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
 	
 	<!--=============================================
@@ -106,6 +152,25 @@
 					}
 				});
 			});
+		});
+
+		$('#restore').click(function(){
+
+			var filepath = document.getElementById("sql").value;
+			var allowedExtensions = /(.sql)$/i;
+
+			if(filepath == ''){
+				alertify.alert("Advertencia", "Debes seleccionar un archivo");
+				return false;
+			}else{
+				if(!allowedExtensions.exec(filepath)){
+					alertify.alert("Advertencia", "Debes seleccionar un archivo con extensión .sql");
+					document.getElementById("sql").value = '';
+					return false;
+				} else{
+					
+				}
+			}
 		});
     </script>
 

@@ -210,7 +210,7 @@
 			
 			<!-- Contenido-->
 			<div class="container-fluid">
-                <form action="clases/reportes.php" method="POST">
+                <form action="clases/reportes.php" method="POST" id="frmrReportes">
                     <div class="row text-center justify-content-center">
                         <div class="col-12 col-md-4" >
                             <div class="form-group">
@@ -319,6 +319,14 @@
      </script>
      <script type="text/javascript">
         $(document).ready(function() {
+			/*$('#generaReporte').click(function(){
+				vacios=validarFormVacio('frmrReportes');
+				if(vacios > 0){
+					alertify.alert("Advertencia", "Debes llenar todos los campos");
+					return false;
+				}
+			});*/
+
             $("#divMarcaR").hide();
             $("#divFechaIniR").hide();
             $("#divFechaFinR").hide();
