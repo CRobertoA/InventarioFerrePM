@@ -359,8 +359,44 @@
 				alertify.error('Cancelo!')
 			}).set('labels', {ok:'Si, salir!', cancel:'No, cancelar'});
 		}
+		function refreshR() {
+            window.location="generar-reporte.php";
+        }
 	</script>
-
+	<!-- Obsiones de alertas -->
+	<?php 
+        if(isset($_GET["status"])){
+            if($_GET["status"] === "1"){
+    ?>
+        <script type="text/javascript">
+            alertify.success("Reporte generado con éxito");
+            setTimeout(refreshR,4000);
+        </script>
+        <?php
+            } else if($_GET["status"] === "2"){
+        ?>
+        <script type="text/javascript">
+            alertify.alert("Advertencia","Debes seleccionar una marca");
+            setTimeout(refreshR,4000);
+        </script>
+        <?php
+            } else if($_GET["status"] === "3"){
+        ?>
+        <script type="text/javascript">
+            alertify.alert("Advertencia","Debes seleccionar las fechas del reporte");
+            setTimeout(refreshR,4000);
+        </script>
+		<?php
+            } else if($_GET["status"] === "4"){
+        ?>
+        <script type="text/javascript">
+            alertify.alert("Advertencia","Debes seleccionar un tipo de reporte");
+            setTimeout(refreshR,4000);
+        </script>
+    <?php
+            } 
+        }
+    ?>
 	
 </body>
 </html>

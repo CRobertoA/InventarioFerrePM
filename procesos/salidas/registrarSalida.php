@@ -4,6 +4,7 @@
 
     //$total = $_POST["total"];
     include_once "../../clases/base_de_datos.php";
+if(!empty($_SESSION["salidas"])){ 
 
     date_default_timezone_set('UTC');
     date_default_timezone_set("America/Mexico_City");
@@ -39,4 +40,7 @@
     unset($_SESSION["salidas"]);
     $_SESSION["salidas"] = [];
     header("Location: ../../salida-new.php?status=1");
+}else{
+    header("Location: ../../salida-new.php?status=5");
+}
 ?>

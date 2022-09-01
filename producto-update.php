@@ -214,25 +214,29 @@
 								<div class="col-12 col-md-6">
 									<div class="form-group">
 										<label for="producto_descripcionU" >Descripción</label>
-										<input type="num" pattern="[a-zA-záéíóúÁÉÍÓÚñÑ0-9()- ]{1,190}" class="form-control" name="producto_descripcionU" id="producto_descripcionU" maxlength="140" value="<?php echo $ver[5] ?>">
+										<input type="text" pattern="[a-zA-záéíóúÁÉÍÓÚñÑ0-9()- ]{1,190}" class="form-control" name="producto_descripcionU" id="producto_descripcionU" maxlength="140" value="<?php echo $ver[5] ?>">
 									</div>
 								</div>
 								<div class="col-12 col-md-6">
 									<div class="form-group">
-										<label for="producto_marcaU" class="bmd-label-floating">Marca</label>
-										<select class="form-control" name="producto_marcaU" id="producto_marcaU" >
+										<!--<select class="form-control" name="producto_marcaU" id="producto_marcaU" >
                                             <?php
 												
 												$c= new conectar();
             									$conexion= $c->conexion();
-												$consulta="SELECT * from marca";
+												$idmarca = $ver[2];
+												$consulta="SELECT nombre from marca where idmarca = '$idmarca'";
 												$ejecutar=mysqli_query($conexion, $consulta);
+												$marcaN=mysqli_fetch_row($ejecutar);
 											?>
 											<option value="A" selected="">Seleccione una marca</option>
-                                            <?php foreach ($ejecutar as $opciones): ?>
-                                                <option value="<?php echo $opciones['idmarca'] ?>"><?php echo $opciones['nombre'] ?></option>
-                                            <?php endforeach ?>
-										</select>
+                                            <?php //foreach ($ejecutar as $opciones): ?>
+                                                <option value="<?php //echo $opciones['idmarca'] ?>"><?php //echo $opciones['nombre'] ?></option>
+                                            <?php //endforeach ?>
+										</select>-->
+										<label for="producto_marcaU">Marca</label>
+										<input type="text" hidden="" id="producto_marcaU" name="producto_marcaU" value="<?php echo $ver[2] ?>">
+										<input type="text" pattern="[a-zA-záéíóúÁÉÍÓÚñÑ0-9()- ]{1,140}" class="form-control" name="producto_Nmarca" id="producto_Nmarca" maxlength="45" readonly="readonly" value="<?php echo $marcaN[0] ?>">
 									</div>
 								</div>
 								<div class="col-12 col-md-6">

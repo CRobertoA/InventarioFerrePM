@@ -37,11 +37,11 @@
 </head>
 <body>
 	<?php 
-		session_start();
+		/*session_start();
 		require_once "clases/Conexion.php";
 												
 		$c= new conectar();
-		$conexion= $c->conexion();
+		$conexion= $c->conexion();*/
 	?>
 	<div class="login-container">
 		<div class="login-content">
@@ -63,13 +63,13 @@
 				</div>
 				<span class="btn-login text-center" id="entrarSistema" >INGRESAR</span>
 			</form>
-			<?php if(!$conexion) {?>
-			<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#ModalRestore"><i class="bi bi-cloud-upload-fill"></i> &nbsp; Restauración</button>
-			<?php } ?>
+			<?php //if(!$conexion) {?>
+			<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#ModalRestore" id="restaurarBase" name="restaurarBase"><i class="bi bi-cloud-upload-fill"></i> &nbsp; Restauración</button>
+			<?php //} ?>
 		</div>
 	</div>
 
-			<!-- MODAL MARCA -->
+			<!-- MODAL RESTAURAR BASE -->
 			<div class="modal fade" id="ModalRestore" tabindex="-1" role="dialog" aria-labelledby="ModalRestore" aria-hidden="true">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
@@ -93,7 +93,7 @@
                                     </div>
                                 </div>
                             <p class="text-center" style="margin-top: 40px;">
-                                <!-- boton para guardar datos de la marca-->
+                                <!-- boton para restaurar base de datos-->
 								<button type="submit" class="btn btn-raised btn-info btn-sm" id="restore" name="restore"><i class="bi bi-upload"></i> RESTAURAR BASE</button>
                             </p>
                             </form>
@@ -131,6 +131,7 @@
 	
 	<script type="text/javascript">
 		$(document).ready(function(){
+			$('#restaurarBase').hide();
 			$('#entrarSistema').click(function(){
 				vacios=validarFormVacio('frmlogin');
 				if(vacios > 0){
@@ -144,10 +145,13 @@
 					data:datos,
 					url:"procesos/reglogin/login.php",
 					success:function(r){
-						if(r==1){
+						if(r==0){
+							alertify.alert("Advertencia","Usuario o contraseña incorrecto");
+						}else if(r==1){
 							window.location="home.php";
 						}else{
-							alertify.alert("Advertencia","Usuario o contraseña incorrecto");
+							alertify.alert("Advertencia","No se encontro base de datos, !RESTAURAR¡");
+							$('#restaurarBase').show();
 						}
 					}
 				});

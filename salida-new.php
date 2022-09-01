@@ -504,6 +504,13 @@
             alertify.alert("Advertencia","El producto seleccionado no existe");
             setTimeout(refreshs,4000);
         </script>
+        <?php
+            } else if($_GET["status"] === "5"){
+        ?>
+        <script type="text/javascript">
+            alertify.alert("Advertencia","No seleccionaste ningun producto");
+            setTimeout(refreshs,4000);
+        </script>
     <?php
             }
         }

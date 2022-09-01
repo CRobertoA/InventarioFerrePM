@@ -199,7 +199,7 @@
 						GROUP BY S.folio_salida ORDER BY S.folio_salida;";
 						$resultU= mysqli_query($conexion, $sql);
 					?>
-					<!-- tabla para listar entradas registrados -->
+					<!-- tabla para listar salidas registrados -->
 					<table class="table table-dark table-sm" id="tablasalida">
 						<thead>
 							<tr class="text-center roboto-medium">
@@ -211,7 +211,7 @@
 							</tr>
 						</thead>
 						<tbody>
-							<!-- consulta rellena datos de entrada -->
+							<!-- consulta rellena datos de salida -->
 							<?php
 								while($ver=mysqli_fetch_row($resultU)):
 							?>
