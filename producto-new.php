@@ -57,7 +57,7 @@
 		$ejecutar=mysqli_query($conexion, $consulta);
 		$nom = mysqli_fetch_row($ejecutar);
 
-		$sql2="SELECT E.nombre, E.apellidos FROM empleado E INNER JOIN usuario U ON E.curp = U.curp  where U.idusuario = $idusu";
+		$sql2="SELECT E.nombre, E.apellidoP FROM empleado E INNER JOIN usuario U ON E.curp = U.curp  where U.idusuario = $idusu";
 		$resultU2= mysqli_query($conexion, $sql2);
 		$vernom = mysqli_fetch_row($resultU2);
 	?>
@@ -232,13 +232,25 @@
 								<div class="col-12 col-md-6">
 									<div class="form-group">
 										<label for="producto_smin" class="bmd-label-floating">Stock minimo</label>
-										<input type="number" min="1" pattern="[0-9]{1,}" class="form-control" name="producto_smin" id="producto_smin" maxlength="190">
+										<input type="text" min="1" pattern="[0-9]{1,}" class="form-control" name="producto_smin" id="producto_smin" maxlength="190">
 									</div>
 								</div>
                                 <div class="col-12 col-md-6">
 									<div class="form-group">
 										<label for="producto_smax" class="bmd-label-floating">Stock maximo</label>
-										<input type="number" min="1" pattern="[0-9]{1,}" class="form-control" name="producto_smax" id="producto_smax" maxlength="190">
+										<input type="text" min="1" pattern="[0-9]{1,}" class="form-control" name="producto_smax" id="producto_smax" maxlength="190">
+									</div>
+								</div>
+								<div class="col-12 col-md-6">
+									<div class="form-group">
+										<label for="precio_com" class="bmd-label-floating">Precio compra</label>
+										<input type="text" min="1" pattern="[0-9.]{1,}" class="form-control" name="precio_com" id="precio_com" maxlength="190">
+									</div>
+								</div>
+                                <div class="col-12 col-md-6">
+									<div class="form-group">
+										<label for="presentacion" class="bmd-label-floating">Presentación</label>
+										<input type="text" min="1" pattern="[a-zA-záéíóúÁÉÍÓÚñÑ0-9()- ]{1,190}" class="form-control" name="presentacion" id="presentacion" maxlength="190">
 									</div>
 								</div>
                                 <div class="col-12 col-md-6">
@@ -337,6 +349,10 @@
 			jQuery("#producto_smax").on('input', function (evt) {
 				// Allow only numbers.
 				jQuery(this).val(jQuery(this).val().replace(/[^0-9]/g, ''));
+			});
+			jQuery("#precio_com").on('input', function (evt) {
+				// Allow only numbers.
+				jQuery(this).val(jQuery(this).val().replace(/[^0-9.]/g, ''));
 			});
 			$('#divMarca').load('tablas/selectMarcas.php');
 			$('#registrop').click(function(){
@@ -459,7 +475,6 @@
 					success:function(r){
 						//alert(r);
 						if(r==1){
-							//limpia el formulario una vez agregado
 							//location.reload();
 							//$('#frmrmarcaM')[0].reset();
 							$('#ModalMarca').modal('hide');

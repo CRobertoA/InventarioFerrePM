@@ -61,7 +61,7 @@
 		$ejecutar=mysqli_query($conexion, $consulta);
 		$nom = mysqli_fetch_row($ejecutar);
 
-		$sql2="SELECT E.nombre, E.apellidos FROM empleado E INNER JOIN usuario U ON E.curp = U.curp  where U.idusuario = $idusu";
+		$sql2="SELECT E.nombre, E.apellidoP FROM empleado E INNER JOIN usuario U ON E.curp = U.curp  where U.idusuario = $idusu";
 		$resultU2= mysqli_query($conexion, $sql2);
 		$vernom = mysqli_fetch_row($resultU2);
 	?>
@@ -191,7 +191,7 @@
            <div class="container-fluid">
 				<div class="table-responsive">
                     <?php
-						$sql="SELECT pro.codigoproduc, pro.nombreproducto, pro.modelo, pro.descripcion, pro.foto, pro.stockminimo, pro.stockmaximo, inv.stock
+						$sql="SELECT pro.codigoproduc, pro.nombreproducto, pro.modelo, pro.descripcion, pro.foto, pro.stockminimo, pro.stockmaximo, inv.stock, pro.preciocompra, pro.presentacion
                                 FROM inventario inv INNER JOIN producto pro ON pro.codigoproduc = inv.codigoproduc order by substring(pro.codigoproduc, 6);";
 						$resultU= mysqli_query($conexion, $sql);
 						$sql2="SELECT M.nombre FROM marca M INNER JOIN producto P ON M.idmarca = P.idmarca order by substring(P.codigoproduc, 6)";
@@ -208,6 +208,8 @@
                                 <th>DESCRIPCIÓN</th>
                                 <th>STOCK MÍNIMO</th>
                                 <th>STOCK MÁXIMO</th>
+                                <th>PRECIO COMPRA</th>
+                                <th>PRESENTACIÓN</th>
                                 <th>IMAGEN</th>
 								<th>EDITAR</th>
 								<th>ELIMINAR</th>
@@ -226,6 +228,8 @@
                                 <td><?php echo $ver[3] ?></td>
                                 <td><?php echo $ver[5] ?></td>
                                 <td><?php echo $ver[6] ?></td>
+                                <td>$ <?php echo $ver[8] ?> MXN</td>
+                                <td><?php echo $ver[9] ?></td>
                                 <td>
                                     <?php 
                                         $imgVer=explode("/", $ver[4]) ; 

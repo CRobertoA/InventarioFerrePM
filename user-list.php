@@ -60,7 +60,7 @@
 		$ejecutar=mysqli_query($conexion, $consulta);
 		$nom = mysqli_fetch_row($ejecutar);
 
-		$sql2="SELECT E.nombre, E.apellidos FROM empleado E INNER JOIN usuario U ON E.curp = U.curp  where U.idusuario = $idusu";
+		$sql2="SELECT E.nombre, E.apellidoP FROM empleado E INNER JOIN usuario U ON E.curp = U.curp  where U.idusuario = $idusu";
 		$resultU2= mysqli_query($conexion, $sql2);
 		$vernom = mysqli_fetch_row($resultU2);
 	?>
@@ -215,7 +215,7 @@
 					<?php
 						$sql="SELECT * FROM usuario";
 						$resultU= mysqli_query($conexion, $sql);
-						$sql2="SELECT E.nombre, E.apellidos FROM empleado E INNER JOIN usuario U ON E.curp = U.curp order by u.idusuario ";
+						$sql2="SELECT E.nombre, E.apellidoP, E.apellidoM FROM empleado E INNER JOIN usuario U ON E.curp = U.curp order by u.idusuario ";
 						$resultU2= mysqli_query($conexion, $sql2);
 					?>
 					<!-- tabla para listar usuarios registrados -->
@@ -239,7 +239,7 @@
 							?>
 							<tr class="text-center" >
 								<td><?php echo $ver[0] ?></td>
-								<th><?php echo $ver2[0]. " " .$ver2[1] ?></th>
+								<th><?php echo $ver2[0]. " " .$ver2[1]. " " .$ver2[2] ?></th>
 								<th><?php echo $ver[2] ?></th>
 								<th><?php echo $ver[4] ?></th>
 								<td>

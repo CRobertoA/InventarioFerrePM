@@ -34,6 +34,8 @@
                     $datos[6]=$_POST['producto_smin'];
                     $datos[7]=$_POST['producto_smax'];
 					$datos[8]=$_POST['generacodigo'];
+					$datos[9]=$_POST['precio_com'];
+					$datos[10]=$_POST['presentacion'];
 					echo $obj->insertaProducto($datos);
 				//}else{
 				//	echo 0;

@@ -60,7 +60,7 @@
 		$ejecutar=mysqli_query($conexion, $consulta);
 		$nom = mysqli_fetch_row($ejecutar);
 
-		$sql2="SELECT E.nombre, E.apellidos FROM empleado E INNER JOIN usuario U ON E.curp = U.curp  where U.idusuario = $idusu";
+		$sql2="SELECT E.nombre, E.apellidoP FROM empleado E INNER JOIN usuario U ON E.curp = U.curp  where U.idusuario = $idusu";
 		$resultU2= mysqli_query($conexion, $sql2);
 		$vernom = mysqli_fetch_row($resultU2);
 	?>
@@ -190,7 +190,7 @@
 			 <div class="container-fluid">
 				<div class="table-responsive">
 					<?php
-						$sql="SELECT S.folio_salida, S.fecha, EM.nombre, EM.apellidos, S.tipo_salida, GROUP_CONCAT(	P.codigoproduc, '..',  P.nombreproducto, '..', D.lote_producto SEPARATOR '__') AS productos 
+						$sql="SELECT S.folio_salida, S.fecha, EM.nombre, EM.apellidoP, S.tipo_salida, GROUP_CONCAT(	P.codigoproduc, '..',  P.nombreproducto, '..', D.lote_producto SEPARATOR '__') AS productos 
 						FROM salida S INNER JOIN detalle_salida D ON S.folio_salida = D.folio_salida
 						INNER JOIN inventario I ON D.idinventario = I.idinventario
 						INNER JOIN producto P ON I.codigoproduc = P.codigoproduc

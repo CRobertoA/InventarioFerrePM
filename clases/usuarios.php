@@ -19,7 +19,7 @@
 			if(mysqli_num_rows($result) > 0){
                 return 2;
             }else{
-				/*$sqlusu="SELECT substring(apellidos, 1, 3), substring(nombre, 1, 3), substring(curp, 1, 3) 
+				/*$sqlusu="SELECT substring(apellidoP, 1, 3), substring(nombre, 1, 3), substring(curp, 1, 3) 
 						FROM empleado WHERE curp = '$datos[0]';";
 				$result2= mysqli_query($conexion, $sqlusu);
 				$usuar = mysqli_fetch_row($result2);

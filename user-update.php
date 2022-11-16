@@ -56,7 +56,7 @@
 		$ejecutar=mysqli_query($conexion, $consulta);
 		$nom = mysqli_fetch_row($ejecutar);
 
-		$sql2="SELECT E.nombre, E.apellidos FROM empleado E INNER JOIN usuario U ON E.curp = U.curp  where U.idusuario = $idusu";
+		$sql2="SELECT E.nombre, E.apellidoP FROM empleado E INNER JOIN usuario U ON E.curp = U.curp  where U.idusuario = $idusu";
 		$resultU2= mysqli_query($conexion, $sql2);
 		$vernom = mysqli_fetch_row($resultU2);
 	?>
@@ -211,7 +211,7 @@
 						$sql="SELECT * FROM usuario where idusuario = '$id'";
 						$resultUU= mysqli_query($conexion, $sql);
 						$ver=mysqli_fetch_row($resultUU);
-						$sql2="SELECT E.nombre, E.apellidos FROM empleado E INNER JOIN usuario U ON E.curp = U.curp where U.idusuario = '$id' ";
+						$sql2="SELECT E.nombre, E.apellidoP, E.apellidoM FROM empleado E INNER JOIN usuario U ON E.curp = U.curp where U.idusuario = '$id' ";
 						$resultUU2= mysqli_query($conexion, $sql2);
 						$ver2=mysqli_fetch_row($resultUU2);
 					?>
@@ -224,7 +224,7 @@
 									<div class="form-group">
 										<input type="text" hidden="" id="idusuarioA" name="idusuarioA" value="<?php echo $ver[0] ?>">
 										<label for="curp_empleadou" >EMPLEADO</label>
-										<input type="text" pattern="[a-zA-ZáéíóúÁÉÍÓÚñÑ ]{1,35}" class="form-control" name="curp_empleadou" id="curp_empleadou" maxlength="35" readonly="readonly" value="<?php echo $ver2[0]. " " .$ver2[1] ?>">
+										<input type="text" pattern="[a-zA-ZáéíóúÁÉÍÓÚñÑ ]{1,35}" class="form-control" name="curp_empleadou" id="curp_empleadou" maxlength="35" readonly="readonly" value="<?php echo $ver2[0]. " " .$ver2[1]. " " .$ver2[2] ?>">
 									</div>
 								</div>
 							</div>

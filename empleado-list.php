@@ -59,7 +59,7 @@
 		$ejecutar=mysqli_query($conexion, $consulta);
 		$nom = mysqli_fetch_row($ejecutar);
 
-		$sql2="SELECT E.nombre, E.apellidos FROM empleado E INNER JOIN usuario U ON E.curp = U.curp  where U.idusuario = $idusu";
+		$sql2="SELECT E.nombre, E.apellidoP FROM empleado E INNER JOIN usuario U ON E.curp = U.curp  where U.idusuario = $idusu";
 		$resultU2= mysqli_query($conexion, $sql2);
 		$vernom = mysqli_fetch_row($resultU2);
 	?>
@@ -212,7 +212,10 @@
 			<div class="container-fluid">
 				<div class="table-responsive">
 					<?php
-						$sql="SELECT * FROM empleado";
+						$sql="SELECT E.curp, E.nombre, E.apellidoP, E.apellidoM, E.estado, E.email, E.telefono, E.callenumero, E.colonia, ES.estado, M.municipio, L.localidad
+							FROM empleado E INNER JOIN t_estado ES ON E.id_estado = ES.id_estado
+							INNER JOIN t_municipio M ON E.id_municipio = M.id_municipio
+							INNER JOIN t_localidad L ON E.id_localidad = L.id_localidad;";
 						$resultE= mysqli_query($conexion, $sql);
 					?>
 					<!--tabla para listar los empleados registrados -->
@@ -222,6 +225,8 @@
 								<th>CURP</th>
 								<th>NOMBRE</th>
 								<th>E-MAIL</th>
+								<th>TELEFONO</th>
+								<th>DIRECCIÓN</th>
 								<th>ESTADO</th>
 								<th>EDITAR</th>
 								<th>ACTUALIZAR</th>
@@ -234,10 +239,12 @@
 							?>
 							<tr class="text-center" >
 								<td><?php echo $ver[0] ?></td>
-								<td><?php echo $ver[1]. " " .$ver[2] ?></td>
-								<td><?php echo $ver[4] ?></td>
+								<td><?php echo $ver[1]. " " .$ver[2]. " " .$ver[3] ?></td>
+								<td><?php echo $ver[5] ?></td>
+								<td><?php echo $ver[6] ?></td>
+								<td><?php echo $ver[7]. ", " .$ver[9]. ", " .$ver[10]. ", " .$ver[11]?></td>
 								<td>
-									<?php if($ver[3] == 1){ ?>
+									<?php if($ver[4] == 1){ ?>
 										<button class="btn btn-success">
 		  									Activo
 										</button>
@@ -256,7 +263,7 @@
 									</a>-->
 								</td>
 								<td>
-									<?php if($ver[3] == 1){ ?>
+									<?php if($ver[4] == 1){ ?>
 										<span class="btn btn-warning" title="Desactivar empleado" onclick="desactivaEmpleado('<?php echo $ver[0]; ?>')">
 		  									<i class="bi bi-emoji-dizzy-fill"></i>
 										</span>

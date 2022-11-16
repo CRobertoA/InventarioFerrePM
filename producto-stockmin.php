@@ -61,7 +61,7 @@
 		$ejecutar=mysqli_query($conexion, $consulta);
 		$nom = mysqli_fetch_row($ejecutar);
 
-		$sql2="SELECT E.nombre, E.apellidos FROM empleado E INNER JOIN usuario U ON E.curp = U.curp  where U.idusuario = $idusu";
+		$sql2="SELECT E.nombre, E.apellidoP FROM empleado E INNER JOIN usuario U ON E.curp = U.curp  where U.idusuario = $idusu";
 		$resultU2= mysqli_query($conexion, $sql2);
 		$vernom = mysqli_fetch_row($resultU2);
 	?>
@@ -190,7 +190,7 @@
            <div class="container-fluid">
 				<div class="table-responsive">
                     <?php
-						$sql="SELECT pro.codigoproduc, pro.nombreproducto, pro.modelo, pro.descripcion, pro.foto, pro.stockminimo, pro.stockmaximo, inv.stock, m.nombre
+						$sql="SELECT pro.codigoproduc, pro.nombreproducto, pro.modelo, pro.descripcion, pro.foto, pro.stockminimo, pro.stockmaximo, inv.stock, m.nombre, pro.preciocompra, pro.presentacion
                                 FROM inventario inv INNER JOIN producto pro ON pro.codigoproduc = inv.codigoproduc 
                                 INNER JOIN marca m ON pro.idmarca = m.idmarca
                                 WHERE inv.stock <= pro.stockminimo order by substring(pro.codigoproduc, 6);";
@@ -207,6 +207,8 @@
                                 <th>DESCRIPCIÓN</th>
                                 <th>STOCK MÍNIMO</th>
                                 <th>STOCK ACTUAL</th>
+								<th>PRECIO COMPRA</th>
+                                <th>PRESENTACIÓN</th>
                                 <th>IMAGEN</th>
 							</tr>
 						</thead>
@@ -223,6 +225,8 @@
                                 <td><?php echo $ver[3] ?></td>
                                 <td><?php echo $ver[5] ?></td>
                                 <td><?php echo $ver[7] ?></td>
+								<td>$ <?php echo $ver[9] ?> MXN</td>
+								<td><?php echo $ver[10] ?></td>
                                 <td>
                                     <?php 
                                         $imgVer=explode("/", $ver[4]) ; 

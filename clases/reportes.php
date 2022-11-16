@@ -19,7 +19,7 @@
         exit;
     } else{
         if($tipoReporte == 1){
-            $sql = "SELECT P.codigoproduc, M.nombre, P.nombreproducto, P.modelo, P.descripcion, P.stockminimo, P.stockmaximo, I.stock
+            $sql = "SELECT P.codigoproduc, M.nombre, P.nombreproducto, P.modelo, P.descripcion, P.stockminimo, P.stockmaximo, I.stock, P.preciocompra, P.presentacion
                     FROM producto P INNER JOIN marca M ON P.idmarca = M.idmarca 
                     INNER JOIN inventario I ON P.codigoproduc = I.codigoproduc 
                     WHERE I.stock <= P.stockminimo order by substring(P.codigoproduc, 6); ";
@@ -38,6 +38,8 @@
             $hojaActiva->setCellValue('F1','STOCK MINIMO');
             $hojaActiva->setCellValue('G1','STOCK MAXIMO');
             $hojaActiva->setCellValue('H1','STOCK ACTUAL');
+            $hojaActiva->setCellValue('I1','PRECIO COMPRA');
+            $hojaActiva->setCellValue('J1','PRESENTACION');
 
             $hojaActiva->getColumnDimension('A')->setWidth(20);
             $hojaActiva->getColumnDimension('B')->setWidth(20);
@@ -47,6 +49,8 @@
             $hojaActiva->getColumnDimension('F')->setWidth(15);
             $hojaActiva->getColumnDimension('G')->setWidth(15);
             $hojaActiva->getColumnDimension('H')->setWidth(15);
+            $hojaActiva->getColumnDimension('I')->setWidth(20);
+            $hojaActiva->getColumnDimension('J')->setWidth(20);
 
             $fila=2;
             while($rows = $resultado->fetch_assoc()){
@@ -58,6 +62,8 @@
                 $hojaActiva->setCellValue('F'.$fila, $rows['stockminimo']);
                 $hojaActiva->setCellValue('G'.$fila, $rows['stockmaximo']);
                 $hojaActiva->setCellValue('H'.$fila, $rows['stock']);
+                $hojaActiva->setCellValue('I'.$fila, $rows['preciocompra']);
+                $hojaActiva->setCellValue('J'.$fila, $rows['presentacion']);
                 $fila++;
             }
             // redirect output to client browser
@@ -73,11 +79,11 @@
                 exit;
             } else{
                 if($marcaid==0){
-                    $sql = "SELECT P.codigoproduc, M.nombre, P.nombreproducto, P.modelo, P.descripcion, P.stockminimo, P.stockmaximo
+                    $sql = "SELECT P.codigoproduc, M.nombre, P.nombreproducto, P.modelo, P.descripcion, P.stockminimo, P.stockmaximo, P.preciocompra, P.presentacion
                             FROM producto P INNER JOIN marca M ON P.idmarca = M.idmarca order by substring(P.codigoproduc, 6); ";
                     $resultado = mysqli_query($conexion, $sql);
                 } else {
-                    $sql = "SELECT P.codigoproduc, M.nombre, P.nombreproducto, P.modelo, P.descripcion, P.stockminimo, P.stockmaximo
+                    $sql = "SELECT P.codigoproduc, M.nombre, P.nombreproducto, P.modelo, P.descripcion, P.stockminimo, P.stockmaximo, P.preciocompra, P.presentacion
                             FROM producto P INNER JOIN marca M ON P.idmarca = M.idmarca WHERE P.idmarca = '$marcaid'
                             order by substring(P.codigoproduc, 6); ";
                     $resultado = mysqli_query($conexion, $sql);
@@ -95,6 +101,8 @@
                 $hojaActiva->setCellValue('E1','DESCRIPCION');
                 $hojaActiva->setCellValue('F1','STOCK MINIMO');
                 $hojaActiva->setCellValue('G1','STOCK MAXIMO');
+                $hojaActiva->setCellValue('H1','PRECIO COMPRA');
+                $hojaActiva->setCellValue('I1','PRESENTACION');
 
                 $hojaActiva->getColumnDimension('A')->setWidth(20);
                 $hojaActiva->getColumnDimension('B')->setWidth(20);
@@ -103,6 +111,8 @@
                 $hojaActiva->getColumnDimension('E')->setWidth(30);
                 $hojaActiva->getColumnDimension('F')->setWidth(15);
                 $hojaActiva->getColumnDimension('G')->setWidth(15);
+                $hojaActiva->getColumnDimension('H')->setWidth(20);
+                $hojaActiva->getColumnDimension('I')->setWidth(20);
 
                 $fila=2;
                 while($rows = $resultado->fetch_assoc()){
@@ -113,6 +123,8 @@
                     $hojaActiva->setCellValue('E'.$fila, $rows['descripcion']);
                     $hojaActiva->setCellValue('F'.$fila, $rows['stockminimo']);
                     $hojaActiva->setCellValue('G'.$fila, $rows['stockmaximo']);
+                    $hojaActiva->setCellValue('H'.$fila, $rows['preciocompra']);
+                    $hojaActiva->setCellValue('I'.$fila, $rows['presentacion']);
                     $fila++;
                 }
                 // redirect output to client browser

@@ -56,7 +56,7 @@
 		$ejecutar=mysqli_query($conexion, $consulta);
 		$nom = mysqli_fetch_row($ejecutar);
 
-		$sql2="SELECT E.nombre, E.apellidos FROM empleado E INNER JOIN usuario U ON E.curp = U.curp  where U.idusuario = $idusu";
+		$sql2="SELECT E.nombre, E.apellidoP FROM empleado E INNER JOIN usuario U ON E.curp = U.curp  where U.idusuario = $idusu";
 		$resultU2= mysqli_query($conexion, $sql2);
 		$vernom = mysqli_fetch_row($resultU2);
 	?>
@@ -226,14 +226,72 @@
 								</div>
 								<div class="col-12 col-md-6">
 									<div class="form-group">
-										<label for="empleado_apellido" class="bmd-label-floating">Apellidos</label>
+										<label for="empleado_apellido" class="bmd-label-floating">Apellido paterno</label>
 										<input type="text" pattern="[a-zA-ZáéíóúÁÉÍÓÚñÑ ]{1,40}" class="form-control" name="empleado_apellido" id="empleado_apellido" maxlength="40">
+									</div>
+								</div>
+								<div class="col-12 col-md-6">
+									<div class="form-group">
+										<label for="empleado_apellidoM" class="bmd-label-floating">Apellido materno</label>
+										<input type="text" pattern="[a-zA-ZáéíóúÁÉÍÓÚñÑ ]{1,40}" class="form-control" name="empleado_apellidoM" id="empleado_apellidoM" maxlength="40">
 									</div>
 								</div>
 								<div class="col-12 col-md-6">
 									<div class="form-group">
 										<label for="empleado_email" class="bmd-label-floating">E-mail</label>
 										<input type="text" pattern="[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ#- ]{1,150}" class="form-control" name="empleado_email" id="empleado_email" maxlength="150">
+									</div>
+								</div>
+								<div class="col-12 col-md-6">
+									<div class="form-group">
+										<label for="empleado_tel" class="bmd-label-floating">Telefono</label>
+										<input type="text" pattern="[0-9]{1,}" class="form-control" name="empleado_tel" id="empleado_tel" maxlength="150">
+									</div>
+								</div>
+							</div>
+						</div>
+						<legend><i class="bi bi-geo-fill"></i> &nbsp; Dirección</legend>
+						<div class="container-fluid">
+							<div class="row">
+								<div class="col-12 col-md-6">
+									<div class="form-group">
+										<label for="empleado_calle" class="bmd-label-floating">Calle y número</label>
+										<input type="text" pattern="[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ#- ]{1,150}" class="form-control" name="empleado_calle" id="empleado_calle" maxlength="100">
+									</div>
+								</div>
+								<div class="col-12 col-md-6">
+									<div class="form-group">
+										<label for="empleado_colonia" class="bmd-label-floating">Colonia</label>
+										<input type="text" pattern="[a-zA-ZáéíóúÁÉÍÓÚñÑ ]{1,40}" class="form-control" name="empleado_colonia" id="empleado_colonia" maxlength="100">
+									</div>
+								</div>
+								<div class="col-12 col-md-6">
+									<div class="form-group">
+										<label for="cbx_estado" class="bmd-label-floating">Estado</label>
+										<select class="form-control" name="cbx_estado" id="cbx_estado" >
+											<?php
+												$consultaE="SELECT * from t_estado";
+												$ejecutar=mysqli_query($conexion, $consultaE);
+											?>
+											<option value="A" selected="" >Seleccione una opción</option>
+											<?php foreach ($ejecutar as $opciones): ?>
+												<option value="<?php echo $opciones['id_estado'] ?>"> <?php echo $opciones['estado'] ?> </option>
+											<?php endforeach ?>
+										</select>
+									</div>
+								</div>
+								<div class="col-12 col-md-6">
+									<div class="form-group">
+										<label for="cbx_municipio" class="bmd-label-floating">Municipio</label>
+										<select class="form-control" name="cbx_municipio" id="cbx_municipio" >
+										</select>
+									</div>
+								</div>
+								<div class="col-12 col-md-6">
+									<div class="form-group">
+										<label for="cbx_localidad" class="bmd-label-floating">Localidad</label>
+										<select class="form-control" name="cbx_localidad" id="cbx_localidad" >
+										</select>
 									</div>
 								</div>
 							</div>
@@ -280,6 +338,10 @@
 	<!-- Funcion para agregar empleado -->
 	<script type="text/javascript">
 		$(document).ready(function(){
+			jQuery("#empleado_tel").on('input', function (evt) {
+				// Allow only numbers.
+				jQuery(this).val(jQuery(this).val().replace(/[^0-9]/g, ''));
+			});
 			$('#registroe').click(function(){
 				// obtenemos los valores de los input
 				var numCaracCURP = (document.getElementById("curpe").value).length; 
@@ -308,7 +370,7 @@
 					alertify.alert("Advertencia", "Ingrese su nombre"); 
 					return false; 
 				}else if(apellido_paterno == ''){ 
-					alertify.alert("Advertencia", "Ingrese sus apellidos"); 
+					alertify.alert("Advertencia", "Ingrese sus apellidoP"); 
 					return false; 
 				}else if(correo == ''){ 
 					alertify.alert("Advertencia", "Ingrese su correo electrónico"); 
@@ -351,6 +413,33 @@
 			}).set('labels', {ok:'Si, salir!', cancel:'No, cancelar'});
 		}
 	</script>
+
+		<script language="javascript">
+			$(document).ready(function(){
+				$("#cbx_estado").change(function () {
+
+					$('#cbx_localidad').find('option').remove().end().append('<option value="whatever"></option>').val('whatever');
+					
+					$("#cbx_estado option:selected").each(function () {
+						id_estado = $(this).val();
+						$.post("includes/getMunicipio.php", { id_estado: id_estado }, function(data){
+							$("#cbx_municipio").html(data);
+						});            
+					});
+				})
+			});
+			
+			$(document).ready(function(){
+				$("#cbx_municipio").change(function () {
+					$("#cbx_municipio option:selected").each(function () {
+						id_municipio = $(this).val();
+						$.post("includes/getLocalidad.php", { id_municipio: id_municipio }, function(data){
+							$("#cbx_localidad").html(data);
+						});            
+					});
+				})
+			});
+		</script>
 
 </body>
 </html>

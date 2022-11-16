@@ -57,7 +57,7 @@
 		$ejecutar=mysqli_query($conexion, $consulta);
 		$nom = mysqli_fetch_row($ejecutar);
 
-		$sql2="SELECT E.nombre, E.apellidos FROM empleado E INNER JOIN usuario U ON E.curp = U.curp  where U.idusuario = $idusu";
+		$sql2="SELECT E.nombre, E.apellidoP FROM empleado E INNER JOIN usuario U ON E.curp = U.curp  where U.idusuario = $idusu";
 		$resultU2= mysqli_query($conexion, $sql2);
 		$vernom = mysqli_fetch_row($resultU2);
 	?>
@@ -251,6 +251,18 @@
 										<input type="text" min="1" pattern="[0-9]{1,}" class="form-control" name="producto_smaxU" id="producto_smaxU" maxlength="190" value="<?php echo $ver[8] ?>">
 									</div>
 								</div>
+								<div class="col-12 col-md-6">
+									<div class="form-group">
+										<label for="precio_comU" class="bmd-label-floating">Precio compra</label>
+										<input type="text" min="1" pattern="[0-9.]{1,}" class="form-control" name="precio_comU" id="precio_comU" maxlength="190" value="<?php echo $ver[9] ?>">
+									</div>
+								</div>
+                                <div class="col-12 col-md-6">
+									<div class="form-group">
+										<label for="presentacionU" class="bmd-label-floating">Presentación</label>
+										<input type="text" min="1" pattern="[a-zA-záéíóúÁÉÍÓÚñÑ0-9()- ]{1,190}" class="form-control" name="presentacionU" id="presentacionU" maxlength="190" value="<?php echo $ver[10] ?>">
+									</div>
+								</div>
                                 <!--<div class="col-12 col-md-6">
 									<div class="form-group">
 										<label for="producto_imgU" class="bmd-label-floating">Imagen del producto</label>
@@ -309,6 +321,10 @@
 			jQuery("#producto_smaxU").on('input', function (evt) {
 				// Allow only numbers.
 				jQuery(this).val(jQuery(this).val().replace(/[^0-9]/g, ''));
+			});
+			jQuery("#precio_comU").on('input', function (evt) {
+				// Allow only numbers.
+				jQuery(this).val(jQuery(this).val().replace(/[^0-9.]/g, ''));
 			});
 			$('#actualizaProducto').click(function(){
 

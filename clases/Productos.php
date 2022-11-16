@@ -38,7 +38,9 @@
 											descripcion,
 											foto,
 											stockminimo,
-											stockmaximo) 
+											stockmaximo,
+											preciocompra,
+											presentacion) 
 								values ('$datos[8]',
 										'$datos[0]',
 										'$datos[1]',
@@ -47,7 +49,9 @@
 										'$datos[4]',
 										'$datos[5]',
 										'$datos[6]',
-										'$datos[7]')";
+										'$datos[7]',
+										'$datos[9]',
+										'$datos[10]')";
 				return mysqli_query($conexion,$sql);
 			}
 		}
@@ -86,7 +90,8 @@
             $c= new conectar();
             $conexion= $c->conexion();
             $sql= "UPDATE producto set idmarca= '$datos[1]', nombreproducto= '$datos[2]', modelo= '$datos[3]',  
-										descripcion= '$datos[4]', stockminimo= '$datos[5]', stockmaximo= '$datos[6]'
+										descripcion= '$datos[4]', stockminimo= '$datos[5]', stockmaximo= '$datos[6]',
+										preciocompra= '$datos[7]', presentacion= '$datos[8]'
                                     where codigoproduc= '$datos[0]'";
             return mysqli_query($conexion,$sql);
         }

@@ -13,10 +13,18 @@
                 $estado= 1;
                 $sql="INSERT into empleado (curp, 
                                             nombre,
-                                            apellidos,
+                                            apellidoP,
+                                            apellidoM,
                                             estado,
-                                            email)
-                                    values ('$datos[0]', '$datos[1]', '$datos[2]', '$estado', '$datos[3]')";
+                                            email,
+                                            telefono,
+                                            callenumero,
+                                            colonia,
+                                            id_estado,
+                                            id_municipio,
+                                            id_localidad)
+                                    values ('$datos[0]', '$datos[1]', '$datos[2]', '$datos[3]', '$estado', '$datos[4]',
+                                            '$datos[5]', '$datos[6]', '$datos[7]', '$datos[8]', '$datos[9]', '$datos[10]')";
 
                 return mysqli_query($conexion,$sql);
             }
@@ -25,7 +33,9 @@
         public function actualizaEmpleado($datos){
             $c= new conectar();
             $conexion= $c->conexion();
-            $sql= "UPDATE empleado set nombre= '$datos[1]', apellidos= '$datos[2]', email= '$datos[3]' 
+            $sql= "UPDATE empleado set nombre= '$datos[1]', apellidoP= '$datos[2]', email= '$datos[3]', telefono= '$datos[4]',
+                                    callenumero= '$datos[5]', colonia= '$datos[6]', id_estado= '$datos[7]', id_municipio= '$datos[8]',
+                                    id_localidad= '$datos[9]'
                                     where curp= '$datos[0]'";
             echo mysqli_query($conexion,$sql);
         }
